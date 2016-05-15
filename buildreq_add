@@ -13,3 +13,6 @@ beignet-dev
 python-dev
 python3-dev
 numpy
+v4l-utils-dev
+doxygen
+ccache
