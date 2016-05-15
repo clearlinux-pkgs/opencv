@@ -4,7 +4,7 @@
 #
 Name     : opencv
 Version  : 3.1.0
-Release  : 1
+Release  : 2
 URL      : https://github.com/Itseez/opencv/archive/3.1.0.tar.gz
 Source0  : https://github.com/Itseez/opencv/archive/3.1.0.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -90,6 +90,10 @@ python components for the opencv package.
 %build
 mkdir clr-build
 pushd clr-build
+export CFLAGS="$CFLAGS -std=gnu++98 "
+export FCFLAGS="$CFLAGS -std=gnu++98 "
+export FFLAGS="$CFLAGS -std=gnu++98 "
+export CXXFLAGS="$CXXFLAGS -std=gnu++98 "
 cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=%{_libdir} -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=OFF -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=OFF -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_AVX2=ON -DENABLE_SSE42=ON  -DENABLE_AVX=ON -DCMAKE_LIBRARY_PATH=/lib64
 make V=1  %{?_smp_mflags}
 popd
@@ -107,7 +111,7 @@ pushd clr-build
 popd
 ## make_install_append content
 mkdir -p %{buildroot}/usr/lib64
-mv %{buildroot}/usr/lib/*so* %{buildroot}/usr/lib64
+mv %{buildroot}/usr/lib/lib*so* %{buildroot}/usr/lib64
 ## make_install_append end
 
 %files
