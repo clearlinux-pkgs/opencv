@@ -102,7 +102,7 @@ popd
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost
-pushd clr-build ; make test ||: ; popd
+#pushd clr-build ; make test ||: ; popd
 
 %install
 rm -rf %{buildroot}
