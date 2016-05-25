@@ -16,3 +16,4 @@ numpy
 v4l-utils-dev
 doxygen
 ccache
+tbb-dev

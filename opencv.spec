@@ -30,6 +30,7 @@ BuildRequires : openblas
 BuildRequires : pkgconfig(libpng)
 BuildRequires : python-dev
 BuildRequires : python3-dev
+BuildRequires : tbb-dev
 BuildRequires : v4l-utils-dev
 BuildRequires : zlib-dev
 
@@ -93,7 +94,7 @@ python components for the opencv package.
 %build
 mkdir clr-build
 pushd clr-build
-cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=%{_libdir} -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=OFF -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=OFF -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_AVX2=ON -DENABLE_SSE42=ON  -DENABLE_AVX=ON -DCMAKE_LIBRARY_PATH=/lib64
+cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=%{_libdir} -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=OFF -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=OFF -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_AVX2=ON -DENABLE_SSE42=ON  -DENABLE_AVX=ON -DCMAKE_LIBRARY_PATH=/lib64 -DWITH_TBB=on -DWITH_OPENMP=ON -DWITH_VA=ON
 make V=1  %{?_smp_mflags}
 popd
 
@@ -101,7 +102,7 @@ popd
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost
-#pushd clr-build ; make test ||: ; popd
+pushd clr-build ; make test ||: ; popd
 
 %install
 rm -rf %{buildroot}
