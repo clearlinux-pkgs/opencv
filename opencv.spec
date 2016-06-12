@@ -4,15 +4,15 @@
 #
 Name     : opencv
 Version  : 3.1.0
-Release  : 6
+Release  : 7
 URL      : https://github.com/Itseez/opencv/archive/3.1.0.tar.gz
 Source0  : https://github.com/Itseez/opencv/archive/3.1.0.tar.gz
 Summary  : Open Source Computer Vision Library
 Group    : Development/Tools
 License  : BSD-3-Clause BSD-3-Clause-Clear JasPer-2.0 LGPL-2.1 Libpng libtiff
 Requires: opencv-bin
-Requires: opencv-python
 Requires: opencv-lib
+Requires: opencv-python
 Requires: opencv-data
 BuildRequires : beignet-dev
 BuildRequires : ccache
@@ -26,6 +26,7 @@ BuildRequires : libva-dev
 BuildRequires : libva-intel-driver
 BuildRequires : mesa-dev
 BuildRequires : numpy
+BuildRequires : ocl-icd-dev
 BuildRequires : openblas
 BuildRequires : pkgconfig(libpng)
 BuildRequires : python-dev
@@ -94,25 +95,15 @@ python components for the opencv package.
 %build
 mkdir clr-build
 pushd clr-build
-cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=%{_libdir} -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=OFF -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=OFF -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_AVX2=ON -DENABLE_SSE42=ON  -DENABLE_AVX=ON -DCMAKE_LIBRARY_PATH=/lib64 -DWITH_TBB=on -DWITH_OPENMP=ON -DWITH_VA=ON
+cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=%{_libdir} -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=OFF -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=OFF -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_AVX2=ON -DENABLE_SSE42=ON  -DENABLE_AVX=ON -DCMAKE_LIBRARY_PATH=/lib64 -DWITH_TBB=on -DWITH_OPENMP=ON -DWITH_VA=ON -DLIB_SUFFIX=64
 make V=1  %{?_smp_mflags}
 popd
-
-%check
-export http_proxy=http://127.0.0.1:9/
-export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost
-#pushd clr-build ; make test ||: ; popd
 
 %install
 rm -rf %{buildroot}
 pushd clr-build
 %make_install
 popd
-## make_install_append content
-mkdir -p %{buildroot}/usr/lib64
-mv %{buildroot}/usr/lib/lib*so* %{buildroot}/usr/lib64
-## make_install_append end
 
 %files
 %defattr(-,root,root,-)
@@ -361,4 +352,4 @@ mv %{buildroot}/usr/lib/lib*so* %{buildroot}/usr/lib64
 
 %files python
 %defattr(-,root,root,-)
-/usr/lib/python*/*
+/usr/lib64/python*/*
