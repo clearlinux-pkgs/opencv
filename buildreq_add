@@ -18,3 +18,4 @@ doxygen
 ccache
 tbb-dev
 ocl-icd-dev
+gstreamer-dev
