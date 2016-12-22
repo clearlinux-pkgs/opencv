@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 3.1.0
-Release  : 10
+Release  : 11
 URL      : https://github.com/Itseez/opencv/archive/3.1.0.tar.gz
 Source0  : https://github.com/Itseez/opencv/archive/3.1.0.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -98,7 +98,7 @@ python components for the opencv package.
 export LANG=C
 mkdir clr-build
 pushd clr-build
-cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=%{_libdir} -DCMAKE_AR=/usr/bin/gcc-ar -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=OFF -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=OFF -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_AVX2=ON -DENABLE_SSE42=ON  -DENABLE_AVX=ON -DCMAKE_LIBRARY_PATH=/lib64 -DWITH_TBB=on -DWITH_OPENMP=ON -DWITH_VA=ON -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1
+cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=%{_libdir} -DCMAKE_AR=/usr/bin/gcc-ar -DLIB_SUFFIX=64 -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=OFF -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=OFF -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_AVX2=ON -DENABLE_SSE42=ON  -DENABLE_AVX=ON -DCMAKE_LIBRARY_PATH=/lib64 -DWITH_TBB=on -DWITH_OPENMP=ON -DWITH_VA=ON -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1
 make VERBOSE=1  %{?_smp_mflags}
 popd
 
@@ -509,12 +509,58 @@ popd
 /usr/include/opencv2/videostab/stabilizer.hpp
 /usr/include/opencv2/videostab/wobble_suppression.hpp
 /usr/lib64/*.a
-/usr/lib64/*.so
-/usr/lib64/pkgconfig/*.pc
+/usr/lib64/libopencv_calib3d.so
+/usr/lib64/libopencv_core.so
+/usr/lib64/libopencv_features2d.so
+/usr/lib64/libopencv_flann.so
+/usr/lib64/libopencv_highgui.so
+/usr/lib64/libopencv_imgcodecs.so
+/usr/lib64/libopencv_imgproc.so
+/usr/lib64/libopencv_ml.so
+/usr/lib64/libopencv_objdetect.so
+/usr/lib64/libopencv_photo.so
+/usr/lib64/libopencv_shape.so
+/usr/lib64/libopencv_stitching.so
+/usr/lib64/libopencv_superres.so
+/usr/lib64/libopencv_video.so
+/usr/lib64/libopencv_videoio.so
+/usr/lib64/libopencv_videostab.so
+/usr/lib64/pkgconfig/opencv.pc
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/*.so.*
+/usr/lib64/libopencv_calib3d.so.3.1
+/usr/lib64/libopencv_calib3d.so.3.1.0
+/usr/lib64/libopencv_core.so.3.1
+/usr/lib64/libopencv_core.so.3.1.0
+/usr/lib64/libopencv_features2d.so.3.1
+/usr/lib64/libopencv_features2d.so.3.1.0
+/usr/lib64/libopencv_flann.so.3.1
+/usr/lib64/libopencv_flann.so.3.1.0
+/usr/lib64/libopencv_highgui.so.3.1
+/usr/lib64/libopencv_highgui.so.3.1.0
+/usr/lib64/libopencv_imgcodecs.so.3.1
+/usr/lib64/libopencv_imgcodecs.so.3.1.0
+/usr/lib64/libopencv_imgproc.so.3.1
+/usr/lib64/libopencv_imgproc.so.3.1.0
+/usr/lib64/libopencv_ml.so.3.1
+/usr/lib64/libopencv_ml.so.3.1.0
+/usr/lib64/libopencv_objdetect.so.3.1
+/usr/lib64/libopencv_objdetect.so.3.1.0
+/usr/lib64/libopencv_photo.so.3.1
+/usr/lib64/libopencv_photo.so.3.1.0
+/usr/lib64/libopencv_shape.so.3.1
+/usr/lib64/libopencv_shape.so.3.1.0
+/usr/lib64/libopencv_stitching.so.3.1
+/usr/lib64/libopencv_stitching.so.3.1.0
+/usr/lib64/libopencv_superres.so.3.1
+/usr/lib64/libopencv_superres.so.3.1.0
+/usr/lib64/libopencv_video.so.3.1
+/usr/lib64/libopencv_video.so.3.1.0
+/usr/lib64/libopencv_videoio.so.3.1
+/usr/lib64/libopencv_videoio.so.3.1.0
+/usr/lib64/libopencv_videostab.so.3.1
+/usr/lib64/libopencv_videostab.so.3.1.0
 
 %files python
 %defattr(-,root,root,-)
