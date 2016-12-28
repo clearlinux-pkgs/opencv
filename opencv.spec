@@ -4,13 +4,13 @@
 #
 %define keepstatic 1
 Name     : opencv
-Version  : 3.1.0
-Release  : 15
-URL      : https://github.com/Itseez/opencv/archive/3.1.0.tar.gz
-Source0  : https://github.com/Itseez/opencv/archive/3.1.0.tar.gz
+Version  : 3.2.0
+Release  : 16
+URL      : https://github.com/Itseez/opencv/archive/3.2.0.tar.gz
+Source0  : https://github.com/Itseez/opencv/archive/3.2.0.tar.gz
 Summary  : Open Source Computer Vision Library
 Group    : Development/Tools
-License  : BSD-3-Clause BSD-3-Clause-Clear JasPer-2.0 LGPL-2.1 Libpng libtiff
+License  : BSD-3-Clause JasPer-2.0 LGPL-2.1 Libpng libtiff
 Requires: opencv-bin
 Requires: opencv-lib
 Requires: opencv-python
@@ -26,10 +26,12 @@ BuildRequires : gtk3-dev
 BuildRequires : libjpeg-turbo-dev
 BuildRequires : libva-dev
 BuildRequires : libva-intel-driver
+BuildRequires : libwebp-dev
 BuildRequires : mesa-dev
 BuildRequires : numpy
 BuildRequires : ocl-icd-dev
 BuildRequires : openblas
+BuildRequires : pkgconfig(gstreamer-video-1.0)
 BuildRequires : pkgconfig(libpng)
 BuildRequires : python-dev
 BuildRequires : python3-dev
@@ -92,7 +94,7 @@ python components for the opencv package.
 
 
 %prep
-%setup -q -n opencv-3.1.0
+%setup -q -n opencv-3.2.0
 
 %build
 export LANG=C
@@ -116,6 +118,8 @@ popd
 /usr/bin/opencv_annotation
 /usr/bin/opencv_createsamples
 /usr/bin/opencv_traincascade
+/usr/bin/opencv_version
+/usr/bin/opencv_visualisation
 
 %files data
 %defattr(-,root,root,-)
@@ -291,6 +295,9 @@ popd
 /usr/share/OpenCV/samples/python/texture_flow.py
 /usr/share/OpenCV/samples/python/texture_flow.pyc
 /usr/share/OpenCV/samples/python/texture_flow.pyo
+/usr/share/OpenCV/samples/python/tst_scene_render.py
+/usr/share/OpenCV/samples/python/tst_scene_render.pyc
+/usr/share/OpenCV/samples/python/tst_scene_render.pyo
 /usr/share/OpenCV/samples/python/turing.py
 /usr/share/OpenCV/samples/python/turing.pyc
 /usr/share/OpenCV/samples/python/turing.pyo
@@ -385,6 +392,7 @@ popd
 /usr/include/opencv2/core/opengl.hpp
 /usr/include/opencv2/core/operations.hpp
 /usr/include/opencv2/core/optim.hpp
+/usr/include/opencv2/core/ovx.hpp
 /usr/include/opencv2/core/persistence.hpp
 /usr/include/opencv2/core/private.cuda.hpp
 /usr/include/opencv2/core/private.hpp
@@ -447,6 +455,8 @@ popd
 /usr/include/opencv2/imgcodecs/ios.h
 /usr/include/opencv2/imgproc.hpp
 /usr/include/opencv2/imgproc/detail/distortion_model.hpp
+/usr/include/opencv2/imgproc/hal/hal.hpp
+/usr/include/opencv2/imgproc/hal/interface.h
 /usr/include/opencv2/imgproc/imgproc.hpp
 /usr/include/opencv2/imgproc/imgproc_c.h
 /usr/include/opencv2/imgproc/types_c.h
@@ -508,7 +518,6 @@ popd
 /usr/include/opencv2/videostab/ring_buffer.hpp
 /usr/include/opencv2/videostab/stabilizer.hpp
 /usr/include/opencv2/videostab/wobble_suppression.hpp
-/usr/lib64/*.a
 /usr/lib64/libopencv_calib3d.so
 /usr/lib64/libopencv_core.so
 /usr/lib64/libopencv_features2d.so
@@ -529,38 +538,38 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/libopencv_calib3d.so.3.1
-/usr/lib64/libopencv_calib3d.so.3.1.0
-/usr/lib64/libopencv_core.so.3.1
-/usr/lib64/libopencv_core.so.3.1.0
-/usr/lib64/libopencv_features2d.so.3.1
-/usr/lib64/libopencv_features2d.so.3.1.0
-/usr/lib64/libopencv_flann.so.3.1
-/usr/lib64/libopencv_flann.so.3.1.0
-/usr/lib64/libopencv_highgui.so.3.1
-/usr/lib64/libopencv_highgui.so.3.1.0
-/usr/lib64/libopencv_imgcodecs.so.3.1
-/usr/lib64/libopencv_imgcodecs.so.3.1.0
-/usr/lib64/libopencv_imgproc.so.3.1
-/usr/lib64/libopencv_imgproc.so.3.1.0
-/usr/lib64/libopencv_ml.so.3.1
-/usr/lib64/libopencv_ml.so.3.1.0
-/usr/lib64/libopencv_objdetect.so.3.1
-/usr/lib64/libopencv_objdetect.so.3.1.0
-/usr/lib64/libopencv_photo.so.3.1
-/usr/lib64/libopencv_photo.so.3.1.0
-/usr/lib64/libopencv_shape.so.3.1
-/usr/lib64/libopencv_shape.so.3.1.0
-/usr/lib64/libopencv_stitching.so.3.1
-/usr/lib64/libopencv_stitching.so.3.1.0
-/usr/lib64/libopencv_superres.so.3.1
-/usr/lib64/libopencv_superres.so.3.1.0
-/usr/lib64/libopencv_video.so.3.1
-/usr/lib64/libopencv_video.so.3.1.0
-/usr/lib64/libopencv_videoio.so.3.1
-/usr/lib64/libopencv_videoio.so.3.1.0
-/usr/lib64/libopencv_videostab.so.3.1
-/usr/lib64/libopencv_videostab.so.3.1.0
+/usr/lib64/libopencv_calib3d.so.3.2
+/usr/lib64/libopencv_calib3d.so.3.2.0
+/usr/lib64/libopencv_core.so.3.2
+/usr/lib64/libopencv_core.so.3.2.0
+/usr/lib64/libopencv_features2d.so.3.2
+/usr/lib64/libopencv_features2d.so.3.2.0
+/usr/lib64/libopencv_flann.so.3.2
+/usr/lib64/libopencv_flann.so.3.2.0
+/usr/lib64/libopencv_highgui.so.3.2
+/usr/lib64/libopencv_highgui.so.3.2.0
+/usr/lib64/libopencv_imgcodecs.so.3.2
+/usr/lib64/libopencv_imgcodecs.so.3.2.0
+/usr/lib64/libopencv_imgproc.so.3.2
+/usr/lib64/libopencv_imgproc.so.3.2.0
+/usr/lib64/libopencv_ml.so.3.2
+/usr/lib64/libopencv_ml.so.3.2.0
+/usr/lib64/libopencv_objdetect.so.3.2
+/usr/lib64/libopencv_objdetect.so.3.2.0
+/usr/lib64/libopencv_photo.so.3.2
+/usr/lib64/libopencv_photo.so.3.2.0
+/usr/lib64/libopencv_shape.so.3.2
+/usr/lib64/libopencv_shape.so.3.2.0
+/usr/lib64/libopencv_stitching.so.3.2
+/usr/lib64/libopencv_stitching.so.3.2.0
+/usr/lib64/libopencv_superres.so.3.2
+/usr/lib64/libopencv_superres.so.3.2.0
+/usr/lib64/libopencv_video.so.3.2
+/usr/lib64/libopencv_video.so.3.2.0
+/usr/lib64/libopencv_videoio.so.3.2
+/usr/lib64/libopencv_videoio.so.3.2.0
+/usr/lib64/libopencv_videostab.so.3.2
+/usr/lib64/libopencv_videostab.so.3.2.0
 
 %files python
 %defattr(-,root,root,-)
