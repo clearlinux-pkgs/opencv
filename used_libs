@@ -17,11 +17,8 @@ libm.so.6
 libopenblas.so.0
 libpng16.so.16
 libpthread.so.0
-libpython3.5m.so.1.0
 librt.so.1
 libstdc++.so.6
 libtbb.so.2
-libv4l1.so.0
-libv4l2.so.0
 libva.so.1
 libz.so.1
