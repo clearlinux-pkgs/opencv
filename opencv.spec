@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 3.3.0
-Release  : 21
+Release  : 22
 URL      : https://github.com/opencv/opencv/archive/3.3.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/3.3.0.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -101,16 +101,37 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1501961236
+export SOURCE_DATE_EPOCH=1501978691
 mkdir clr-build
 pushd clr-build
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
 cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=/usr/lib64 -DCMAKE_AR=/usr/bin/gcc-ar -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=OFF -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=OFF -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON -DCMAKE_LIBRARY_PATH=/lib64 -DWITH_TBB=on -DWITH_OPENMP=ON -DWITH_VA=ON -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1
 make VERBOSE=1  %{?_smp_mflags}
 popd
+mkdir clr-build-avx2
+pushd clr-build-avx2
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
+export CFLAGS="$CFLAGS -march=haswell"
+export CXXFLAGS="$CXXFLAGS -march=haswell"
+cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=/usr/lib/haswell -DCMAKE_AR=/usr/bin/gcc-ar -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=OFF -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=OFF -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON -DCMAKE_LIBRARY_PATH=/lib64 -DWITH_TBB=on -DWITH_OPENMP=ON -DWITH_VA=ON -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1
+make VERBOSE=1  %{?_smp_mflags}  || :
+popd
 
 %install
-export SOURCE_DATE_EPOCH=1501961236
+export SOURCE_DATE_EPOCH=1501978691
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/lib64/haswell/avx512_1
+pushd clr-build-avx2
+%make_install  || :
+mv %{buildroot}/usr/lib64/*so* %{buildroot}/usr/lib64/haswell/ || :
+popd
+rm -f %{buildroot}/usr/bin/*
 pushd clr-build
 %make_install
 popd
@@ -538,6 +559,23 @@ popd
 /usr/include/opencv2/videostab/ring_buffer.hpp
 /usr/include/opencv2/videostab/stabilizer.hpp
 /usr/include/opencv2/videostab/wobble_suppression.hpp
+/usr/lib64/haswell/libopencv_calib3d.so
+/usr/lib64/haswell/libopencv_core.so
+/usr/lib64/haswell/libopencv_dnn.so
+/usr/lib64/haswell/libopencv_features2d.so
+/usr/lib64/haswell/libopencv_flann.so
+/usr/lib64/haswell/libopencv_highgui.so
+/usr/lib64/haswell/libopencv_imgcodecs.so
+/usr/lib64/haswell/libopencv_imgproc.so
+/usr/lib64/haswell/libopencv_ml.so
+/usr/lib64/haswell/libopencv_objdetect.so
+/usr/lib64/haswell/libopencv_photo.so
+/usr/lib64/haswell/libopencv_shape.so
+/usr/lib64/haswell/libopencv_stitching.so
+/usr/lib64/haswell/libopencv_superres.so
+/usr/lib64/haswell/libopencv_video.so
+/usr/lib64/haswell/libopencv_videoio.so
+/usr/lib64/haswell/libopencv_videostab.so
 /usr/lib64/libopencv_calib3d.so
 /usr/lib64/libopencv_core.so
 /usr/lib64/libopencv_dnn.so
@@ -559,6 +597,40 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/haswell/libopencv_calib3d.so.3.3
+/usr/lib64/haswell/libopencv_calib3d.so.3.3.0
+/usr/lib64/haswell/libopencv_core.so.3.3
+/usr/lib64/haswell/libopencv_core.so.3.3.0
+/usr/lib64/haswell/libopencv_dnn.so.3.3
+/usr/lib64/haswell/libopencv_dnn.so.3.3.0
+/usr/lib64/haswell/libopencv_features2d.so.3.3
+/usr/lib64/haswell/libopencv_features2d.so.3.3.0
+/usr/lib64/haswell/libopencv_flann.so.3.3
+/usr/lib64/haswell/libopencv_flann.so.3.3.0
+/usr/lib64/haswell/libopencv_highgui.so.3.3
+/usr/lib64/haswell/libopencv_highgui.so.3.3.0
+/usr/lib64/haswell/libopencv_imgcodecs.so.3.3
+/usr/lib64/haswell/libopencv_imgcodecs.so.3.3.0
+/usr/lib64/haswell/libopencv_imgproc.so.3.3
+/usr/lib64/haswell/libopencv_imgproc.so.3.3.0
+/usr/lib64/haswell/libopencv_ml.so.3.3
+/usr/lib64/haswell/libopencv_ml.so.3.3.0
+/usr/lib64/haswell/libopencv_objdetect.so.3.3
+/usr/lib64/haswell/libopencv_objdetect.so.3.3.0
+/usr/lib64/haswell/libopencv_photo.so.3.3
+/usr/lib64/haswell/libopencv_photo.so.3.3.0
+/usr/lib64/haswell/libopencv_shape.so.3.3
+/usr/lib64/haswell/libopencv_shape.so.3.3.0
+/usr/lib64/haswell/libopencv_stitching.so.3.3
+/usr/lib64/haswell/libopencv_stitching.so.3.3.0
+/usr/lib64/haswell/libopencv_superres.so.3.3
+/usr/lib64/haswell/libopencv_superres.so.3.3.0
+/usr/lib64/haswell/libopencv_video.so.3.3
+/usr/lib64/haswell/libopencv_video.so.3.3.0
+/usr/lib64/haswell/libopencv_videoio.so.3.3
+/usr/lib64/haswell/libopencv_videoio.so.3.3.0
+/usr/lib64/haswell/libopencv_videostab.so.3.3
+/usr/lib64/haswell/libopencv_videostab.so.3.3.0
 /usr/lib64/libopencv_calib3d.so.3.3
 /usr/lib64/libopencv_calib3d.so.3.3.0
 /usr/lib64/libopencv_core.so.3.3
