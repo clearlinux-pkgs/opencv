@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 3.3.0
-Release  : 24
+Release  : 25
 URL      : https://github.com/opencv/opencv/archive/3.3.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/3.3.0.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -38,6 +38,19 @@ BuildRequires : python3-dev
 BuildRequires : tbb-dev
 BuildRequires : v4l-utils-dev
 BuildRequires : zlib-dev
+Patch1: cve-2017-12597.nopatch
+Patch2: cve-2017-12598.nopatch
+Patch3: cve-2017-12599.nopatch
+Patch4: cve-2017-12600.patch
+Patch5: cve-2017-12601.patch
+Patch6: cve-2017-12602.nopatch
+Patch7: cve-2017-12603.nopatch
+Patch8: cve-2017-12604.nopatch
+Patch9: cve-2017-12605.nopatch
+Patch10: cve-2017-12606.nopatch
+Patch11: cve-2017-12862.nopatch
+Patch12: cve-2017-12863.nopatch
+Patch13: cve-2017-12864.nopatch
 
 %description
 A demo of the Java wrapper for OpenCV with two examples:
@@ -95,19 +108,21 @@ python components for the opencv package.
 
 %prep
 %setup -q -n opencv-3.3.0
+%patch4 -p1
+%patch5 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1503604105
+export SOURCE_DATE_EPOCH=1504032373
 mkdir clr-build
 pushd clr-build
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition -fprofile-correction -fprofile-dir=pgo -fprofile-use "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition -fprofile-correction -fprofile-dir=pgo -fprofile-use "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition -fprofile-correction -fprofile-dir=pgo -fprofile-use "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-semantic-interposition -fprofile-correction -fprofile-dir=pgo -fprofile-use "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-semantic-interposition -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong "
 export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=pgo -fprofile-update=atomic "
 export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=pgo -fprofile-update=atomic "
 export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=pgo -fprofile-update=atomic "
@@ -126,10 +141,10 @@ make VERBOSE=1  %{?_smp_mflags}
 popd
 mkdir clr-build-avx2
 pushd clr-build-avx2
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition -fprofile-correction -fprofile-dir=pgo -fprofile-use -march=haswell "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition -fprofile-correction -fprofile-dir=pgo -fprofile-use -march=haswell "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition -fprofile-correction -fprofile-dir=pgo -fprofile-use -march=haswell "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-semantic-interposition -fprofile-correction -fprofile-dir=pgo -fprofile-use -march=haswell "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=haswell "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=haswell "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=haswell "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-semantic-interposition -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=haswell "
 export CFLAGS="$CFLAGS -march=haswell"
 export CXXFLAGS="$CXXFLAGS -march=haswell"
 cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=/usr/lib/haswell -DCMAKE_AR=/usr/bin/gcc-ar -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=OFF -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=OFF -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON -DCMAKE_LIBRARY_PATH=/lib64 -DWITH_TBB=on -DWITH_OPENMP=ON -DWITH_VA=ON -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1
@@ -137,7 +152,7 @@ make VERBOSE=1  %{?_smp_mflags}  || :
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1503604105
+export SOURCE_DATE_EPOCH=1504032373
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/lib64/haswell/avx512_1
 pushd clr-build-avx2
