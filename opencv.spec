@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 3.3.0
-Release  : 25
+Release  : 26
 URL      : https://github.com/opencv/opencv/archive/3.3.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/3.3.0.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -51,6 +51,7 @@ Patch10: cve-2017-12606.nopatch
 Patch11: cve-2017-12862.nopatch
 Patch12: cve-2017-12863.nopatch
 Patch13: cve-2017-12864.nopatch
+Patch14: cve-2017-14136.patch
 
 %description
 A demo of the Java wrapper for OpenCV with two examples:
@@ -110,13 +111,17 @@ python components for the opencv package.
 %setup -q -n opencv-3.3.0
 %patch4 -p1
 %patch5 -p1
+%patch14 -p1
+pushd ..
+cp -a opencv-3.3.0 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1504032373
+export SOURCE_DATE_EPOCH=1504887068
 mkdir clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong "
@@ -152,7 +157,7 @@ make VERBOSE=1  %{?_smp_mflags}  || :
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1504032373
+export SOURCE_DATE_EPOCH=1504887068
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/lib64/haswell/avx512_1
 pushd clr-build-avx2
