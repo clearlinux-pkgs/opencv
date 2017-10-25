@@ -4,10 +4,10 @@
 #
 %define keepstatic 1
 Name     : opencv
-Version  : 3.3.0
-Release  : 28
-URL      : https://github.com/opencv/opencv/archive/3.3.0.tar.gz
-Source0  : https://github.com/opencv/opencv/archive/3.3.0.tar.gz
+Version  : 3.3.1
+Release  : 29
+URL      : https://github.com/opencv/opencv/archive/3.3.1.tar.gz
+Source0  : https://github.com/opencv/opencv/archive/3.3.1.tar.gz
 Summary  : Open Source Computer Vision Library
 Group    : Development/Tools
 License  : BSD-3-Clause BSD-3-Clause-Clear GPL-2.0 JasPer-2.0 LGPL-2.1 Libpng libtiff
@@ -38,20 +38,6 @@ BuildRequires : python3-dev
 BuildRequires : tbb-dev
 BuildRequires : v4l-utils-dev
 BuildRequires : zlib-dev
-Patch1: cve-2017-12597.nopatch
-Patch2: cve-2017-12598.nopatch
-Patch3: cve-2017-12599.nopatch
-Patch4: cve-2017-12600.patch
-Patch5: cve-2017-12601.patch
-Patch6: cve-2017-12602.nopatch
-Patch7: cve-2017-12603.nopatch
-Patch8: cve-2017-12604.nopatch
-Patch9: cve-2017-12605.nopatch
-Patch10: cve-2017-12606.nopatch
-Patch11: cve-2017-12862.nopatch
-Patch12: cve-2017-12863.nopatch
-Patch13: cve-2017-12864.nopatch
-Patch14: cve-2017-14136.patch
 
 %description
 A demo of the Java wrapper for OpenCV with two examples:
@@ -108,12 +94,9 @@ python components for the opencv package.
 
 
 %prep
-%setup -q -n opencv-3.3.0
-%patch4 -p1
-%patch5 -p1
-%patch14 -p1
+%setup -q -n opencv-3.3.1
 pushd ..
-cp -a opencv-3.3.0 buildavx2
+cp -a opencv-3.3.1 buildavx2
 popd
 
 %build
@@ -121,7 +104,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1507590722
+export SOURCE_DATE_EPOCH=1508963585
 mkdir clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong "
@@ -157,7 +140,7 @@ make VERBOSE=1  %{?_smp_mflags}  || :
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1507590722
+export SOURCE_DATE_EPOCH=1508963585
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/lib64/haswell/avx512_1
 pushd clr-build-avx2
@@ -392,6 +375,7 @@ popd
 /usr/include/opencv2/core/hal/intrin_cpp.hpp
 /usr/include/opencv2/core/hal/intrin_neon.hpp
 /usr/include/opencv2/core/hal/intrin_sse.hpp
+/usr/include/opencv2/core/hal/intrin_vsx.hpp
 /usr/include/opencv2/core/ippasync.hpp
 /usr/include/opencv2/core/mat.hpp
 /usr/include/opencv2/core/mat.inl.hpp
@@ -416,6 +400,7 @@ popd
 /usr/include/opencv2/core/utils/trace.hpp
 /usr/include/opencv2/core/va_intel.hpp
 /usr/include/opencv2/core/version.hpp
+/usr/include/opencv2/core/vsx_utils.hpp
 /usr/include/opencv2/core/wimage.hpp
 /usr/include/opencv2/cvconfig.h
 /usr/include/opencv2/dnn.hpp
@@ -576,73 +561,73 @@ popd
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/haswell/libopencv_calib3d.so.3.3
-/usr/lib64/haswell/libopencv_calib3d.so.3.3.0
+/usr/lib64/haswell/libopencv_calib3d.so.3.3.1
 /usr/lib64/haswell/libopencv_core.so.3.3
-/usr/lib64/haswell/libopencv_core.so.3.3.0
+/usr/lib64/haswell/libopencv_core.so.3.3.1
 /usr/lib64/haswell/libopencv_dnn.so.3.3
-/usr/lib64/haswell/libopencv_dnn.so.3.3.0
+/usr/lib64/haswell/libopencv_dnn.so.3.3.1
 /usr/lib64/haswell/libopencv_features2d.so.3.3
-/usr/lib64/haswell/libopencv_features2d.so.3.3.0
+/usr/lib64/haswell/libopencv_features2d.so.3.3.1
 /usr/lib64/haswell/libopencv_flann.so.3.3
-/usr/lib64/haswell/libopencv_flann.so.3.3.0
+/usr/lib64/haswell/libopencv_flann.so.3.3.1
 /usr/lib64/haswell/libopencv_highgui.so.3.3
-/usr/lib64/haswell/libopencv_highgui.so.3.3.0
+/usr/lib64/haswell/libopencv_highgui.so.3.3.1
 /usr/lib64/haswell/libopencv_imgcodecs.so.3.3
-/usr/lib64/haswell/libopencv_imgcodecs.so.3.3.0
+/usr/lib64/haswell/libopencv_imgcodecs.so.3.3.1
 /usr/lib64/haswell/libopencv_imgproc.so.3.3
-/usr/lib64/haswell/libopencv_imgproc.so.3.3.0
+/usr/lib64/haswell/libopencv_imgproc.so.3.3.1
 /usr/lib64/haswell/libopencv_ml.so.3.3
-/usr/lib64/haswell/libopencv_ml.so.3.3.0
+/usr/lib64/haswell/libopencv_ml.so.3.3.1
 /usr/lib64/haswell/libopencv_objdetect.so.3.3
-/usr/lib64/haswell/libopencv_objdetect.so.3.3.0
+/usr/lib64/haswell/libopencv_objdetect.so.3.3.1
 /usr/lib64/haswell/libopencv_photo.so.3.3
-/usr/lib64/haswell/libopencv_photo.so.3.3.0
+/usr/lib64/haswell/libopencv_photo.so.3.3.1
 /usr/lib64/haswell/libopencv_shape.so.3.3
-/usr/lib64/haswell/libopencv_shape.so.3.3.0
+/usr/lib64/haswell/libopencv_shape.so.3.3.1
 /usr/lib64/haswell/libopencv_stitching.so.3.3
-/usr/lib64/haswell/libopencv_stitching.so.3.3.0
+/usr/lib64/haswell/libopencv_stitching.so.3.3.1
 /usr/lib64/haswell/libopencv_superres.so.3.3
-/usr/lib64/haswell/libopencv_superres.so.3.3.0
+/usr/lib64/haswell/libopencv_superres.so.3.3.1
 /usr/lib64/haswell/libopencv_video.so.3.3
-/usr/lib64/haswell/libopencv_video.so.3.3.0
+/usr/lib64/haswell/libopencv_video.so.3.3.1
 /usr/lib64/haswell/libopencv_videoio.so.3.3
-/usr/lib64/haswell/libopencv_videoio.so.3.3.0
+/usr/lib64/haswell/libopencv_videoio.so.3.3.1
 /usr/lib64/haswell/libopencv_videostab.so.3.3
-/usr/lib64/haswell/libopencv_videostab.so.3.3.0
+/usr/lib64/haswell/libopencv_videostab.so.3.3.1
 /usr/lib64/libopencv_calib3d.so.3.3
-/usr/lib64/libopencv_calib3d.so.3.3.0
+/usr/lib64/libopencv_calib3d.so.3.3.1
 /usr/lib64/libopencv_core.so.3.3
-/usr/lib64/libopencv_core.so.3.3.0
+/usr/lib64/libopencv_core.so.3.3.1
 /usr/lib64/libopencv_dnn.so.3.3
-/usr/lib64/libopencv_dnn.so.3.3.0
+/usr/lib64/libopencv_dnn.so.3.3.1
 /usr/lib64/libopencv_features2d.so.3.3
-/usr/lib64/libopencv_features2d.so.3.3.0
+/usr/lib64/libopencv_features2d.so.3.3.1
 /usr/lib64/libopencv_flann.so.3.3
-/usr/lib64/libopencv_flann.so.3.3.0
+/usr/lib64/libopencv_flann.so.3.3.1
 /usr/lib64/libopencv_highgui.so.3.3
-/usr/lib64/libopencv_highgui.so.3.3.0
+/usr/lib64/libopencv_highgui.so.3.3.1
 /usr/lib64/libopencv_imgcodecs.so.3.3
-/usr/lib64/libopencv_imgcodecs.so.3.3.0
+/usr/lib64/libopencv_imgcodecs.so.3.3.1
 /usr/lib64/libopencv_imgproc.so.3.3
-/usr/lib64/libopencv_imgproc.so.3.3.0
+/usr/lib64/libopencv_imgproc.so.3.3.1
 /usr/lib64/libopencv_ml.so.3.3
-/usr/lib64/libopencv_ml.so.3.3.0
+/usr/lib64/libopencv_ml.so.3.3.1
 /usr/lib64/libopencv_objdetect.so.3.3
-/usr/lib64/libopencv_objdetect.so.3.3.0
+/usr/lib64/libopencv_objdetect.so.3.3.1
 /usr/lib64/libopencv_photo.so.3.3
-/usr/lib64/libopencv_photo.so.3.3.0
+/usr/lib64/libopencv_photo.so.3.3.1
 /usr/lib64/libopencv_shape.so.3.3
-/usr/lib64/libopencv_shape.so.3.3.0
+/usr/lib64/libopencv_shape.so.3.3.1
 /usr/lib64/libopencv_stitching.so.3.3
-/usr/lib64/libopencv_stitching.so.3.3.0
+/usr/lib64/libopencv_stitching.so.3.3.1
 /usr/lib64/libopencv_superres.so.3.3
-/usr/lib64/libopencv_superres.so.3.3.0
+/usr/lib64/libopencv_superres.so.3.3.1
 /usr/lib64/libopencv_video.so.3.3
-/usr/lib64/libopencv_video.so.3.3.0
+/usr/lib64/libopencv_video.so.3.3.1
 /usr/lib64/libopencv_videoio.so.3.3
-/usr/lib64/libopencv_videoio.so.3.3.0
+/usr/lib64/libopencv_videoio.so.3.3.1
 /usr/lib64/libopencv_videostab.so.3.3
-/usr/lib64/libopencv_videostab.so.3.3.0
+/usr/lib64/libopencv_videostab.so.3.3.1
 
 %files python
 %defattr(-,root,root,-)
