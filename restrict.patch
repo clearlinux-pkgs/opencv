@@ -1,0 +1,128 @@
+--- opencv-3.3.0/modules/core/src/mathfuncs_core.simd.hpp~	2017-08-03 23:58:23.000000000 +0000
++++ opencv-3.3.0/modules/core/src/mathfuncs_core.simd.hpp	2017-10-29 19:47:54.978114245 +0000
+@@ -201,7 +201,7 @@
+     fastAtan32f(Y, X, angle, len, angleInDegrees);
+ }
+ 
+-void magnitude32f(const float* x, const float* y, float* mag, int len)
++void magnitude32f(const float* __restrict__ x, const float* __restrict__ y, float* __restrict__ mag, int len)
+ {
+     CV_INSTRUMENT_REGION()
+ 
+@@ -226,7 +226,7 @@
+     }
+ }
+ 
+-void magnitude64f(const double* x, const double* y, double* mag, int len)
++void magnitude64f(const double* __restrict__ x, const double* __restrict__ y, double* __restrict__ mag, int len)
+ {
+     CV_INSTRUMENT_REGION()
+ 
+@@ -252,7 +252,7 @@
+ }
+ 
+ 
+-void invSqrt32f(const float* src, float* dst, int len)
++void invSqrt32f(const float* __restrict__ src, float* __restrict__ dst, int len)
+ {
+     CV_INSTRUMENT_REGION()
+ 
+@@ -273,7 +273,7 @@
+ }
+ 
+ 
+-void invSqrt64f(const double* src, double* dst, int len)
++void invSqrt64f(const double* __restrict__ src, double* __restrict__ dst, int len)
+ {
+     CV_INSTRUMENT_REGION()
+ 
+@@ -290,7 +290,7 @@
+ }
+ 
+ 
+-void sqrt32f(const float* src, float* dst, int len)
++void sqrt32f(const float* __restrict__ src, float* __restrict__ dst, int len)
+ {
+     CV_INSTRUMENT_REGION()
+ 
+@@ -311,7 +311,7 @@
+ }
+ 
+ 
+-void sqrt64f(const double* src, double* dst, int len)
++void sqrt64f(const double* __restrict__ src, double* __restrict__ dst, int len)
+ {
+     CV_INSTRUMENT_REGION()
+ 
+@@ -335,7 +335,7 @@
+ // CV_AVX is not used here, because generated code is faster in non-AVX mode.
+ // (tested with disabled IPP on i5-6300U)
+ #if (defined _MSC_VER && _MSC_VER >= 1900)
+-void exp32f(const float *src, float *dst, int n)
++void exp32f(const float * __restrict__ src, float * __restrict__ dst, int n)
+ {
+     CV_INSTRUMENT_REGION()
+ 
+@@ -345,7 +345,7 @@
+     }
+ }
+ 
+-void exp64f(const double *src, double *dst, int n)
++void exp64f(const double * __restrict__ src, double * __restrict__ dst, int n)
+ {
+     CV_INSTRUMENT_REGION()
+ 
+@@ -355,7 +355,7 @@
+     }
+ }
+ 
+-void log32f(const float *src, float *dst, int n)
++void log32f(const float * __restrict__ src, float * __restrict__ dst, int n)
+ {
+     CV_INSTRUMENT_REGION()
+ 
+@@ -364,7 +364,7 @@
+         dst[i] = std::log(src[i]);
+     }
+ }
+-void log64f(const double *src, double *dst, int n)
++void log64f(const double * __restrict__ src, double * __restrict__ dst, int n)
+ {
+     CV_INSTRUMENT_REGION()
+ 
+@@ -476,7 +476,7 @@
+ static const double exp_postscale = 1./(1 << EXPTAB_SCALE);
+ static const double exp_max_val = 3000.*(1 << EXPTAB_SCALE); // log10(DBL_MAX) < 3000
+ 
+-void exp32f( const float *_x, float *y, int n )
++void exp32f( const float * __restrict__ _x, float * __restrict__ y, int n )
+ {
+     CV_INSTRUMENT_REGION()
+ 
+@@ -760,7 +760,7 @@
+     }
+ }
+ 
+-void exp64f( const double *_x, double *y, int n )
++void exp64f( const double * __restrict__ _x, double * __restrict__ y, int n )
+ {
+     CV_INSTRUMENT_REGION()
+ 
+@@ -1206,7 +1206,7 @@
+ #define LOGTAB_TRANSLATE(x,h) (((x) - 1.)*icvLogTab[(h)+1])
+ static const double ln_2 = 0.69314718055994530941723212145818;
+ 
+-void log32f( const float *_x, float *y, int n )
++void log32f( const float * __restrict__ _x, float * __restrict__ y, int n )
+ {
+     CV_INSTRUMENT_REGION()
+ 
+@@ -1352,7 +1352,7 @@
+     }
+ }
+ 
+-void log64f( const double *x, double *y, int n )
++void log64f( const double * __restrict__ x, double * __restrict__ y, int n )
+ {
+     CV_INSTRUMENT_REGION()
+ 
