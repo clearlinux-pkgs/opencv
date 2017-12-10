@@ -5,16 +5,18 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 3.3.1
-Release  : 35
+Release  : 36
 URL      : https://github.com/opencv/opencv/archive/3.3.1.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/3.3.1.tar.gz
 Summary  : Open Source Computer Vision Library
 Group    : Development/Tools
 License  : BSD-3-Clause BSD-3-Clause-Clear GPL-2.0 JasPer-2.0 LGPL-2.1 Libpng libtiff
 Requires: opencv-bin
+Requires: opencv-legacypython
+Requires: opencv-python3
 Requires: opencv-lib
-Requires: opencv-python
 Requires: opencv-data
+Requires: opencv-python
 BuildRequires : beignet-dev
 BuildRequires : ccache
 BuildRequires : cmake
@@ -77,6 +79,15 @@ Provides: opencv-devel
 dev components for the opencv package.
 
 
+%package legacypython
+Summary: legacypython components for the opencv package.
+Group: Default
+Requires: python-core
+
+%description legacypython
+legacypython components for the opencv package.
+
+
 %package lib
 Summary: lib components for the opencv package.
 Group: Libraries
@@ -89,9 +100,20 @@ lib components for the opencv package.
 %package python
 Summary: python components for the opencv package.
 Group: Default
+Requires: opencv-legacypython
+Requires: opencv-python3
 
 %description python
 python components for the opencv package.
+
+
+%package python3
+Summary: python3 components for the opencv package.
+Group: Default
+Requires: python3-core
+
+%description python3
+python3 components for the opencv package.
 
 
 %prep
@@ -106,7 +128,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1512916957
+export SOURCE_DATE_EPOCH=1512917388
 mkdir clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
@@ -129,7 +151,7 @@ make VERBOSE=1  %{?_smp_mflags}  || :
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1512916957
+export SOURCE_DATE_EPOCH=1512917388
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/lib64/haswell/avx512_1
 pushd clr-build-avx2
@@ -140,6 +162,10 @@ rm -f %{buildroot}/usr/bin/*
 pushd clr-build
 %make_install
 popd
+## make_install_append content
+mkdir -p %{buildroot}/usr/lib
+mv %{buildroot}/usr/lib64/python*  %{buildroot}/usr/lib
+## make_install_append end
 
 %files
 %defattr(-,root,root,-)
@@ -547,6 +573,10 @@ popd
 /usr/lib64/libopencv_videostab.so
 /usr/lib64/pkgconfig/opencv.pc
 
+%files legacypython
+%defattr(-,root,root,-)
+/usr/lib/python2*/*
+
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/haswell/libopencv_calib3d.so.3.3
@@ -620,4 +650,7 @@ popd
 
 %files python
 %defattr(-,root,root,-)
-/usr/lib64/python*/*
+
+%files python3
+%defattr(-,root,root,-)
+/usr/lib/python3*/*
