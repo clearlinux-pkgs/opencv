@@ -22,4 +22,5 @@ librt.so.1
 libstdc++.so.6
 libtbb.so.2
 libva.so.2
+libwebp.so.7
 libz.so.1
