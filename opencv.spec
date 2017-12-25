@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 3.4.0
-Release  : 39
+Release  : 40
 URL      : https://github.com/opencv/opencv/archive/3.4.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/3.4.0.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -80,6 +80,14 @@ Provides: opencv-devel
 dev components for the opencv package.
 
 
+%package extras
+Summary: extras components for the opencv package.
+Group: Default
+
+%description extras
+extras components for the opencv package.
+
+
 %package legacypython
 Summary: legacypython components for the opencv package.
 Group: Default
@@ -129,14 +137,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1514216068
+export SOURCE_DATE_EPOCH=1514220600
 mkdir clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
-cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=/usr/lib64 -DCMAKE_AR=/usr/bin/gcc-ar -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=OFF -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=OFF -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON  -DWITH_TBB=on -DWITH_OPENMP=ON -DWITH_VA=O -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1  -DCPU_DISPATCH=AVX,AVX2,AVX512 -DLIB_SUFFIX=
+cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=/usr/lib64 -DCMAKE_AR=/usr/bin/gcc-ar -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=OFF -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=OFF -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON  -DWITH_TBB=on -DWITH_OPENMP=ON -DWITH_VA=O -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1  -DCPU_DISPATCH=AVX,AVX2,AVX512 -DLIB_SUFFIX= -DBUILD_EXAMPLES=ON -DINSTALL_C_EXAMPLES=ON -DINSTALL_PYTHON_EXAMPLES=ON
 make VERBOSE=1  %{?_smp_mflags}
 popd
 mkdir clr-build-avx2
@@ -147,12 +155,12 @@ export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-in
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=haswell "
 export CFLAGS="$CFLAGS -march=haswell"
 export CXXFLAGS="$CXXFLAGS -march=haswell"
-cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=/usr/lib/haswell -DCMAKE_AR=/usr/bin/gcc-ar -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=OFF -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=OFF -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON  -DWITH_TBB=on -DWITH_OPENMP=ON -DWITH_VA=O -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1  -DCPU_DISPATCH=AVX,AVX2,AVX512 -DLIB_SUFFIX=
+cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=/usr/lib/haswell -DCMAKE_AR=/usr/bin/gcc-ar -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=OFF -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=OFF -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON  -DWITH_TBB=on -DWITH_OPENMP=ON -DWITH_VA=O -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1  -DCPU_DISPATCH=AVX,AVX2,AVX512 -DLIB_SUFFIX= -DBUILD_EXAMPLES=ON -DINSTALL_C_EXAMPLES=ON -DINSTALL_PYTHON_EXAMPLES=ON
 make VERBOSE=1  %{?_smp_mflags}  || :
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1514216068
+export SOURCE_DATE_EPOCH=1514220600
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/lib64/haswell/avx512_1
 pushd clr-build-avx2
@@ -178,6 +186,126 @@ popd
 
 %files data
 %defattr(-,root,root,-)
+%exclude /usr/share/OpenCV/samples/cpp/3calibration.cpp
+%exclude /usr/share/OpenCV/samples/cpp/application_trace.cpp
+%exclude /usr/share/OpenCV/samples/cpp/autofocus.cpp
+%exclude /usr/share/OpenCV/samples/cpp/bgfg_segm.cpp
+%exclude /usr/share/OpenCV/samples/cpp/calibration.cpp
+%exclude /usr/share/OpenCV/samples/cpp/camshiftdemo.cpp
+%exclude /usr/share/OpenCV/samples/cpp/cloning_demo.cpp
+%exclude /usr/share/OpenCV/samples/cpp/cloning_gui.cpp
+%exclude /usr/share/OpenCV/samples/cpp/connected_components.cpp
+%exclude /usr/share/OpenCV/samples/cpp/contours2.cpp
+%exclude /usr/share/OpenCV/samples/cpp/convexhull.cpp
+%exclude /usr/share/OpenCV/samples/cpp/cout_mat.cpp
+%exclude /usr/share/OpenCV/samples/cpp/create_mask.cpp
+%exclude /usr/share/OpenCV/samples/cpp/dbt_face_detection.cpp
+%exclude /usr/share/OpenCV/samples/cpp/delaunay2.cpp
+%exclude /usr/share/OpenCV/samples/cpp/demhist.cpp
+%exclude /usr/share/OpenCV/samples/cpp/detect_blob.cpp
+%exclude /usr/share/OpenCV/samples/cpp/detect_mser.cpp
+%exclude /usr/share/OpenCV/samples/cpp/dft.cpp
+%exclude /usr/share/OpenCV/samples/cpp/distrans.cpp
+%exclude /usr/share/OpenCV/samples/cpp/drawing.cpp
+%exclude /usr/share/OpenCV/samples/cpp/edge.cpp
+%exclude /usr/share/OpenCV/samples/cpp/em.cpp
+%exclude /usr/share/OpenCV/samples/cpp/facedetect.cpp
+%exclude /usr/share/OpenCV/samples/cpp/facial_features.cpp
+%exclude /usr/share/OpenCV/samples/cpp/falsecolor.cpp
+%exclude /usr/share/OpenCV/samples/cpp/fback.cpp
+%exclude /usr/share/OpenCV/samples/cpp/ffilldemo.cpp
+%exclude /usr/share/OpenCV/samples/cpp/filestorage.cpp
+%exclude /usr/share/OpenCV/samples/cpp/filestorage_base64.cpp
+%exclude /usr/share/OpenCV/samples/cpp/fitellipse.cpp
+%exclude /usr/share/OpenCV/samples/cpp/grabcut.cpp
+%exclude /usr/share/OpenCV/samples/cpp/image.cpp
+%exclude /usr/share/OpenCV/samples/cpp/image_alignment.cpp
+%exclude /usr/share/OpenCV/samples/cpp/image_sequence.cpp
+%exclude /usr/share/OpenCV/samples/cpp/imagelist_creator.cpp
+%exclude /usr/share/OpenCV/samples/cpp/inpaint.cpp
+%exclude /usr/share/OpenCV/samples/cpp/intelperc_capture.cpp
+%exclude /usr/share/OpenCV/samples/cpp/kalman.cpp
+%exclude /usr/share/OpenCV/samples/cpp/kmeans.cpp
+%exclude /usr/share/OpenCV/samples/cpp/laplace.cpp
+%exclude /usr/share/OpenCV/samples/cpp/letter_recog.cpp
+%exclude /usr/share/OpenCV/samples/cpp/lkdemo.cpp
+%exclude /usr/share/OpenCV/samples/cpp/logistic_regression.cpp
+%exclude /usr/share/OpenCV/samples/cpp/lsd_lines.cpp
+%exclude /usr/share/OpenCV/samples/cpp/mask_tmpl.cpp
+%exclude /usr/share/OpenCV/samples/cpp/matchmethod_orb_akaze_brisk.cpp
+%exclude /usr/share/OpenCV/samples/cpp/minarea.cpp
+%exclude /usr/share/OpenCV/samples/cpp/morphology2.cpp
+%exclude /usr/share/OpenCV/samples/cpp/neural_network.cpp
+%exclude /usr/share/OpenCV/samples/cpp/npr_demo.cpp
+%exclude /usr/share/OpenCV/samples/cpp/opencv_version.cpp
+%exclude /usr/share/OpenCV/samples/cpp/openni_capture.cpp
+%exclude /usr/share/OpenCV/samples/cpp/pca.cpp
+%exclude /usr/share/OpenCV/samples/cpp/peopledetect.cpp
+%exclude /usr/share/OpenCV/samples/cpp/phase_corr.cpp
+%exclude /usr/share/OpenCV/samples/cpp/points_classifier.cpp
+%exclude /usr/share/OpenCV/samples/cpp/polar_transforms.cpp
+%exclude /usr/share/OpenCV/samples/cpp/segment_objects.cpp
+%exclude /usr/share/OpenCV/samples/cpp/select3dobj.cpp
+%exclude /usr/share/OpenCV/samples/cpp/shape_example.cpp
+%exclude /usr/share/OpenCV/samples/cpp/smiledetect.cpp
+%exclude /usr/share/OpenCV/samples/cpp/squares.cpp
+%exclude /usr/share/OpenCV/samples/cpp/starter_imagelist.cpp
+%exclude /usr/share/OpenCV/samples/cpp/stereo_calib.cpp
+%exclude /usr/share/OpenCV/samples/cpp/stereo_match.cpp
+%exclude /usr/share/OpenCV/samples/cpp/stitching.cpp
+%exclude /usr/share/OpenCV/samples/cpp/stitching_detailed.cpp
+%exclude /usr/share/OpenCV/samples/cpp/train_HOG.cpp
+%exclude /usr/share/OpenCV/samples/cpp/train_svmsgd.cpp
+%exclude /usr/share/OpenCV/samples/cpp/travelsalesman.cpp
+%exclude /usr/share/OpenCV/samples/cpp/tree_engine.cpp
+%exclude /usr/share/OpenCV/samples/cpp/tvl1_optical_flow.cpp
+%exclude /usr/share/OpenCV/samples/cpp/videocapture_basic.cpp
+%exclude /usr/share/OpenCV/samples/cpp/videocapture_starter.cpp
+%exclude /usr/share/OpenCV/samples/cpp/videostab.cpp
+%exclude /usr/share/OpenCV/samples/cpp/videowriter_basic.cpp
+%exclude /usr/share/OpenCV/samples/cpp/warpPerspective_demo.cpp
+%exclude /usr/share/OpenCV/samples/cpp/watershed.cpp
+%exclude /usr/share/OpenCV/samples/dnn/caffe_googlenet.cpp
+%exclude /usr/share/OpenCV/samples/dnn/faster_rcnn.cpp
+%exclude /usr/share/OpenCV/samples/dnn/fcn_semsegm.cpp
+%exclude /usr/share/OpenCV/samples/dnn/resnet_ssd_face.cpp
+%exclude /usr/share/OpenCV/samples/dnn/squeezenet_halide.cpp
+%exclude /usr/share/OpenCV/samples/dnn/ssd_mobilenet_object_detection.cpp
+%exclude /usr/share/OpenCV/samples/dnn/ssd_object_detection.cpp
+%exclude /usr/share/OpenCV/samples/dnn/tf_inception.cpp
+%exclude /usr/share/OpenCV/samples/dnn/torch_enet.cpp
+%exclude /usr/share/OpenCV/samples/dnn/yolo_object_detection.cpp
+%exclude /usr/share/OpenCV/samples/gpu/alpha_comp.cpp
+%exclude /usr/share/OpenCV/samples/gpu/bgfg_segm.cpp
+%exclude /usr/share/OpenCV/samples/gpu/cascadeclassifier.cpp
+%exclude /usr/share/OpenCV/samples/gpu/cascadeclassifier_nvidia_api.cpp
+%exclude /usr/share/OpenCV/samples/gpu/driver_api_multi.cpp
+%exclude /usr/share/OpenCV/samples/gpu/driver_api_stereo_multi.cpp
+%exclude /usr/share/OpenCV/samples/gpu/farneback_optical_flow.cpp
+%exclude /usr/share/OpenCV/samples/gpu/generalized_hough.cpp
+%exclude /usr/share/OpenCV/samples/gpu/hog.cpp
+%exclude /usr/share/OpenCV/samples/gpu/houghlines.cpp
+%exclude /usr/share/OpenCV/samples/gpu/morphology.cpp
+%exclude /usr/share/OpenCV/samples/gpu/multi.cpp
+%exclude /usr/share/OpenCV/samples/gpu/opengl.cpp
+%exclude /usr/share/OpenCV/samples/gpu/optical_flow.cpp
+%exclude /usr/share/OpenCV/samples/gpu/opticalflow_nvidia_api.cpp
+%exclude /usr/share/OpenCV/samples/gpu/pyrlk_optical_flow.cpp
+%exclude /usr/share/OpenCV/samples/gpu/stereo_match.cpp
+%exclude /usr/share/OpenCV/samples/gpu/stereo_multi.cpp
+%exclude /usr/share/OpenCV/samples/gpu/super_resolution.cpp
+%exclude /usr/share/OpenCV/samples/gpu/surf_keypoint_matcher.cpp
+%exclude /usr/share/OpenCV/samples/gpu/video_reader.cpp
+%exclude /usr/share/OpenCV/samples/gpu/video_writer.cpp
+%exclude /usr/share/OpenCV/samples/tapi/bgfg_segm.cpp
+%exclude /usr/share/OpenCV/samples/tapi/camshift.cpp
+%exclude /usr/share/OpenCV/samples/tapi/clahe.cpp
+%exclude /usr/share/OpenCV/samples/tapi/hog.cpp
+%exclude /usr/share/OpenCV/samples/tapi/opencl_custom_kernel.cpp
+%exclude /usr/share/OpenCV/samples/tapi/pyrlk_optical_flow.cpp
+%exclude /usr/share/OpenCV/samples/tapi/squares.cpp
+%exclude /usr/share/OpenCV/samples/tapi/tvl1_optical_flow.cpp
+%exclude /usr/share/OpenCV/samples/tapi/ufacedetect.cpp
 /usr/share/OpenCV/OpenCVConfig-version.cmake
 /usr/share/OpenCV/OpenCVConfig.cmake
 /usr/share/OpenCV/OpenCVModules-releasewithdebinfo.cmake
@@ -574,6 +702,129 @@ popd
 /usr/lib64/libopencv_videoio.so
 /usr/lib64/libopencv_videostab.so
 /usr/lib64/pkgconfig/opencv.pc
+
+%files extras
+%defattr(-,root,root,-)
+/usr/share/OpenCV/samples/cpp/3calibration.cpp
+/usr/share/OpenCV/samples/cpp/application_trace.cpp
+/usr/share/OpenCV/samples/cpp/autofocus.cpp
+/usr/share/OpenCV/samples/cpp/bgfg_segm.cpp
+/usr/share/OpenCV/samples/cpp/calibration.cpp
+/usr/share/OpenCV/samples/cpp/camshiftdemo.cpp
+/usr/share/OpenCV/samples/cpp/cloning_demo.cpp
+/usr/share/OpenCV/samples/cpp/cloning_gui.cpp
+/usr/share/OpenCV/samples/cpp/connected_components.cpp
+/usr/share/OpenCV/samples/cpp/contours2.cpp
+/usr/share/OpenCV/samples/cpp/convexhull.cpp
+/usr/share/OpenCV/samples/cpp/cout_mat.cpp
+/usr/share/OpenCV/samples/cpp/create_mask.cpp
+/usr/share/OpenCV/samples/cpp/dbt_face_detection.cpp
+/usr/share/OpenCV/samples/cpp/delaunay2.cpp
+/usr/share/OpenCV/samples/cpp/demhist.cpp
+/usr/share/OpenCV/samples/cpp/detect_blob.cpp
+/usr/share/OpenCV/samples/cpp/detect_mser.cpp
+/usr/share/OpenCV/samples/cpp/dft.cpp
+/usr/share/OpenCV/samples/cpp/distrans.cpp
+/usr/share/OpenCV/samples/cpp/drawing.cpp
+/usr/share/OpenCV/samples/cpp/edge.cpp
+/usr/share/OpenCV/samples/cpp/em.cpp
+/usr/share/OpenCV/samples/cpp/facedetect.cpp
+/usr/share/OpenCV/samples/cpp/facial_features.cpp
+/usr/share/OpenCV/samples/cpp/falsecolor.cpp
+/usr/share/OpenCV/samples/cpp/fback.cpp
+/usr/share/OpenCV/samples/cpp/ffilldemo.cpp
+/usr/share/OpenCV/samples/cpp/filestorage.cpp
+/usr/share/OpenCV/samples/cpp/filestorage_base64.cpp
+/usr/share/OpenCV/samples/cpp/fitellipse.cpp
+/usr/share/OpenCV/samples/cpp/grabcut.cpp
+/usr/share/OpenCV/samples/cpp/image.cpp
+/usr/share/OpenCV/samples/cpp/image_alignment.cpp
+/usr/share/OpenCV/samples/cpp/image_sequence.cpp
+/usr/share/OpenCV/samples/cpp/imagelist_creator.cpp
+/usr/share/OpenCV/samples/cpp/inpaint.cpp
+/usr/share/OpenCV/samples/cpp/intelperc_capture.cpp
+/usr/share/OpenCV/samples/cpp/kalman.cpp
+/usr/share/OpenCV/samples/cpp/kmeans.cpp
+/usr/share/OpenCV/samples/cpp/laplace.cpp
+/usr/share/OpenCV/samples/cpp/letter_recog.cpp
+/usr/share/OpenCV/samples/cpp/lkdemo.cpp
+/usr/share/OpenCV/samples/cpp/logistic_regression.cpp
+/usr/share/OpenCV/samples/cpp/lsd_lines.cpp
+/usr/share/OpenCV/samples/cpp/mask_tmpl.cpp
+/usr/share/OpenCV/samples/cpp/matchmethod_orb_akaze_brisk.cpp
+/usr/share/OpenCV/samples/cpp/minarea.cpp
+/usr/share/OpenCV/samples/cpp/morphology2.cpp
+/usr/share/OpenCV/samples/cpp/neural_network.cpp
+/usr/share/OpenCV/samples/cpp/npr_demo.cpp
+/usr/share/OpenCV/samples/cpp/opencv_version.cpp
+/usr/share/OpenCV/samples/cpp/openni_capture.cpp
+/usr/share/OpenCV/samples/cpp/pca.cpp
+/usr/share/OpenCV/samples/cpp/peopledetect.cpp
+/usr/share/OpenCV/samples/cpp/phase_corr.cpp
+/usr/share/OpenCV/samples/cpp/points_classifier.cpp
+/usr/share/OpenCV/samples/cpp/polar_transforms.cpp
+/usr/share/OpenCV/samples/cpp/segment_objects.cpp
+/usr/share/OpenCV/samples/cpp/select3dobj.cpp
+/usr/share/OpenCV/samples/cpp/shape_example.cpp
+/usr/share/OpenCV/samples/cpp/smiledetect.cpp
+/usr/share/OpenCV/samples/cpp/squares.cpp
+/usr/share/OpenCV/samples/cpp/starter_imagelist.cpp
+/usr/share/OpenCV/samples/cpp/stereo_calib.cpp
+/usr/share/OpenCV/samples/cpp/stereo_match.cpp
+/usr/share/OpenCV/samples/cpp/stitching.cpp
+/usr/share/OpenCV/samples/cpp/stitching_detailed.cpp
+/usr/share/OpenCV/samples/cpp/train_HOG.cpp
+/usr/share/OpenCV/samples/cpp/train_svmsgd.cpp
+/usr/share/OpenCV/samples/cpp/travelsalesman.cpp
+/usr/share/OpenCV/samples/cpp/tree_engine.cpp
+/usr/share/OpenCV/samples/cpp/tvl1_optical_flow.cpp
+/usr/share/OpenCV/samples/cpp/videocapture_basic.cpp
+/usr/share/OpenCV/samples/cpp/videocapture_starter.cpp
+/usr/share/OpenCV/samples/cpp/videostab.cpp
+/usr/share/OpenCV/samples/cpp/videowriter_basic.cpp
+/usr/share/OpenCV/samples/cpp/warpPerspective_demo.cpp
+/usr/share/OpenCV/samples/cpp/watershed.cpp
+/usr/share/OpenCV/samples/dnn/caffe_googlenet.cpp
+/usr/share/OpenCV/samples/dnn/faster_rcnn.cpp
+/usr/share/OpenCV/samples/dnn/fcn_semsegm.cpp
+/usr/share/OpenCV/samples/dnn/resnet_ssd_face.cpp
+/usr/share/OpenCV/samples/dnn/squeezenet_halide.cpp
+/usr/share/OpenCV/samples/dnn/ssd_mobilenet_object_detection.cpp
+/usr/share/OpenCV/samples/dnn/ssd_object_detection.cpp
+/usr/share/OpenCV/samples/dnn/tf_inception.cpp
+/usr/share/OpenCV/samples/dnn/torch_enet.cpp
+/usr/share/OpenCV/samples/dnn/yolo_object_detection.cpp
+/usr/share/OpenCV/samples/gpu/alpha_comp.cpp
+/usr/share/OpenCV/samples/gpu/bgfg_segm.cpp
+/usr/share/OpenCV/samples/gpu/cascadeclassifier.cpp
+/usr/share/OpenCV/samples/gpu/cascadeclassifier_nvidia_api.cpp
+/usr/share/OpenCV/samples/gpu/driver_api_multi.cpp
+/usr/share/OpenCV/samples/gpu/driver_api_stereo_multi.cpp
+/usr/share/OpenCV/samples/gpu/farneback_optical_flow.cpp
+/usr/share/OpenCV/samples/gpu/generalized_hough.cpp
+/usr/share/OpenCV/samples/gpu/hog.cpp
+/usr/share/OpenCV/samples/gpu/houghlines.cpp
+/usr/share/OpenCV/samples/gpu/morphology.cpp
+/usr/share/OpenCV/samples/gpu/multi.cpp
+/usr/share/OpenCV/samples/gpu/opengl.cpp
+/usr/share/OpenCV/samples/gpu/optical_flow.cpp
+/usr/share/OpenCV/samples/gpu/opticalflow_nvidia_api.cpp
+/usr/share/OpenCV/samples/gpu/pyrlk_optical_flow.cpp
+/usr/share/OpenCV/samples/gpu/stereo_match.cpp
+/usr/share/OpenCV/samples/gpu/stereo_multi.cpp
+/usr/share/OpenCV/samples/gpu/super_resolution.cpp
+/usr/share/OpenCV/samples/gpu/surf_keypoint_matcher.cpp
+/usr/share/OpenCV/samples/gpu/video_reader.cpp
+/usr/share/OpenCV/samples/gpu/video_writer.cpp
+/usr/share/OpenCV/samples/tapi/bgfg_segm.cpp
+/usr/share/OpenCV/samples/tapi/camshift.cpp
+/usr/share/OpenCV/samples/tapi/clahe.cpp
+/usr/share/OpenCV/samples/tapi/hog.cpp
+/usr/share/OpenCV/samples/tapi/opencl_custom_kernel.cpp
+/usr/share/OpenCV/samples/tapi/pyrlk_optical_flow.cpp
+/usr/share/OpenCV/samples/tapi/squares.cpp
+/usr/share/OpenCV/samples/tapi/tvl1_optical_flow.cpp
+/usr/share/OpenCV/samples/tapi/ufacedetect.cpp
 
 %files legacypython
 %defattr(-,root,root,-)
