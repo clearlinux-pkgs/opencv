@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 3.4.0
-Release  : 41
+Release  : 42
 URL      : https://github.com/opencv/opencv/archive/3.4.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/3.4.0.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -42,6 +42,7 @@ BuildRequires : tbb-dev
 BuildRequires : v4l-utils-dev
 BuildRequires : zlib-dev
 Patch1: restrict.patch
+Patch2: avx512matmul.patch
 
 %description
 A demo of the Java wrapper for OpenCV with two examples:
@@ -128,6 +129,7 @@ python3 components for the opencv package.
 %prep
 %setup -q -n opencv-3.4.0
 %patch1 -p1
+%patch2 -p1
 pushd ..
 cp -a opencv-3.4.0 buildavx2
 popd
@@ -137,7 +139,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1514221315
+export SOURCE_DATE_EPOCH=1514237708
 mkdir clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
@@ -160,7 +162,7 @@ make VERBOSE=1  %{?_smp_mflags}  || :
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1514221315
+export SOURCE_DATE_EPOCH=1514237708
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/lib64/haswell/avx512_1
 pushd clr-build-avx2
