@@ -1,2 +1,2 @@
-mkdir -p %{buildroot}/usr/lib
-mv %{buildroot}/usr/lib64/python*  %{buildroot}/usr/lib
+#mkdir -p %{buildroot}/usr/lib
+#mv %{buildroot}/usr/lib64/python*  %{buildroot}/usr/lib

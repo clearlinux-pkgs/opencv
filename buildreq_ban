@@ -1,3 +1,5 @@
 # This file contains build requirements that get picked up but are
 # undesirable. One entry per line, no whitespace.
 jasper-dev
+bs4-python
+bs4

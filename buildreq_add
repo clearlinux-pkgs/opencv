@@ -21,3 +21,4 @@ ocl-icd-dev
 gstreamer-dev
 tbb-dev
 libwebp-dev
+beautifulsoup4
