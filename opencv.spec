@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 3.4.0
-Release  : 38
+Release  : 39
 URL      : https://github.com/opencv/opencv/archive/3.4.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/3.4.0.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -15,8 +15,8 @@ Requires: opencv-bin
 Requires: opencv-legacypython
 Requires: opencv-python3
 Requires: opencv-lib
-Requires: opencv-python
 Requires: opencv-data
+Requires: opencv-python
 BuildRequires : beautifulsoup4
 BuildRequires : beignet-dev
 BuildRequires : ccache
@@ -129,14 +129,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1514215092
+export SOURCE_DATE_EPOCH=1514216068
 mkdir clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
-cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=/usr/lib64 -DCMAKE_AR=/usr/bin/gcc-ar -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=OFF -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=OFF -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON -DCMAKE_LIBRARY_PATH=/lib64 -DWITH_TBB=on -DWITH_OPENMP=ON -DWITH_VA=O -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1  -DCPU_DISPATCH=AVX,AVX2,AVX512
+cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=/usr/lib64 -DCMAKE_AR=/usr/bin/gcc-ar -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=OFF -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=OFF -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON  -DWITH_TBB=on -DWITH_OPENMP=ON -DWITH_VA=O -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1  -DCPU_DISPATCH=AVX,AVX2,AVX512 -DLIB_SUFFIX=
 make VERBOSE=1  %{?_smp_mflags}
 popd
 mkdir clr-build-avx2
@@ -147,12 +147,12 @@ export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-in
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=haswell "
 export CFLAGS="$CFLAGS -march=haswell"
 export CXXFLAGS="$CXXFLAGS -march=haswell"
-cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=/usr/lib/haswell -DCMAKE_AR=/usr/bin/gcc-ar -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=OFF -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=OFF -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON -DCMAKE_LIBRARY_PATH=/lib64 -DWITH_TBB=on -DWITH_OPENMP=ON -DWITH_VA=O -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1  -DCPU_DISPATCH=AVX,AVX2,AVX512
+cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=/usr/lib/haswell -DCMAKE_AR=/usr/bin/gcc-ar -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=OFF -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=OFF -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON  -DWITH_TBB=on -DWITH_OPENMP=ON -DWITH_VA=O -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1  -DCPU_DISPATCH=AVX,AVX2,AVX512 -DLIB_SUFFIX=
 make VERBOSE=1  %{?_smp_mflags}  || :
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1514215092
+export SOURCE_DATE_EPOCH=1514216068
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/lib64/haswell/avx512_1
 pushd clr-build-avx2
@@ -166,58 +166,6 @@ popd
 
 %files
 %defattr(-,root,root,-)
-/usr/lib6464/libopencv_calib3d.so
-/usr/lib6464/libopencv_calib3d.so.3.4
-/usr/lib6464/libopencv_calib3d.so.3.4.0
-/usr/lib6464/libopencv_core.so
-/usr/lib6464/libopencv_core.so.3.4
-/usr/lib6464/libopencv_core.so.3.4.0
-/usr/lib6464/libopencv_dnn.so
-/usr/lib6464/libopencv_dnn.so.3.4
-/usr/lib6464/libopencv_dnn.so.3.4.0
-/usr/lib6464/libopencv_features2d.so
-/usr/lib6464/libopencv_features2d.so.3.4
-/usr/lib6464/libopencv_features2d.so.3.4.0
-/usr/lib6464/libopencv_flann.so
-/usr/lib6464/libopencv_flann.so.3.4
-/usr/lib6464/libopencv_flann.so.3.4.0
-/usr/lib6464/libopencv_highgui.so
-/usr/lib6464/libopencv_highgui.so.3.4
-/usr/lib6464/libopencv_highgui.so.3.4.0
-/usr/lib6464/libopencv_imgcodecs.so
-/usr/lib6464/libopencv_imgcodecs.so.3.4
-/usr/lib6464/libopencv_imgcodecs.so.3.4.0
-/usr/lib6464/libopencv_imgproc.so
-/usr/lib6464/libopencv_imgproc.so.3.4
-/usr/lib6464/libopencv_imgproc.so.3.4.0
-/usr/lib6464/libopencv_ml.so
-/usr/lib6464/libopencv_ml.so.3.4
-/usr/lib6464/libopencv_ml.so.3.4.0
-/usr/lib6464/libopencv_objdetect.so
-/usr/lib6464/libopencv_objdetect.so.3.4
-/usr/lib6464/libopencv_objdetect.so.3.4.0
-/usr/lib6464/libopencv_photo.so
-/usr/lib6464/libopencv_photo.so.3.4
-/usr/lib6464/libopencv_photo.so.3.4.0
-/usr/lib6464/libopencv_shape.so
-/usr/lib6464/libopencv_shape.so.3.4
-/usr/lib6464/libopencv_shape.so.3.4.0
-/usr/lib6464/libopencv_stitching.so
-/usr/lib6464/libopencv_stitching.so.3.4
-/usr/lib6464/libopencv_stitching.so.3.4.0
-/usr/lib6464/libopencv_superres.so
-/usr/lib6464/libopencv_superres.so.3.4
-/usr/lib6464/libopencv_superres.so.3.4.0
-/usr/lib6464/libopencv_video.so
-/usr/lib6464/libopencv_video.so.3.4
-/usr/lib6464/libopencv_video.so.3.4.0
-/usr/lib6464/libopencv_videoio.so
-/usr/lib6464/libopencv_videoio.so.3.4
-/usr/lib6464/libopencv_videoio.so.3.4.0
-/usr/lib6464/libopencv_videostab.so
-/usr/lib6464/libopencv_videostab.so.3.4
-/usr/lib6464/libopencv_videostab.so.3.4.0
-/usr/lib6464/pkgconfig/opencv.pc
 
 %files bin
 %defattr(-,root,root,-)
@@ -608,6 +556,23 @@ popd
 /usr/lib64/haswell/libopencv_video.so
 /usr/lib64/haswell/libopencv_videoio.so
 /usr/lib64/haswell/libopencv_videostab.so
+/usr/lib64/libopencv_calib3d.so
+/usr/lib64/libopencv_core.so
+/usr/lib64/libopencv_dnn.so
+/usr/lib64/libopencv_features2d.so
+/usr/lib64/libopencv_flann.so
+/usr/lib64/libopencv_highgui.so
+/usr/lib64/libopencv_imgcodecs.so
+/usr/lib64/libopencv_imgproc.so
+/usr/lib64/libopencv_ml.so
+/usr/lib64/libopencv_objdetect.so
+/usr/lib64/libopencv_photo.so
+/usr/lib64/libopencv_shape.so
+/usr/lib64/libopencv_stitching.so
+/usr/lib64/libopencv_superres.so
+/usr/lib64/libopencv_video.so
+/usr/lib64/libopencv_videoio.so
+/usr/lib64/libopencv_videostab.so
 /usr/lib64/pkgconfig/opencv.pc
 
 %files legacypython
@@ -650,10 +615,43 @@ popd
 /usr/lib64/haswell/libopencv_videoio.so.3.4.0
 /usr/lib64/haswell/libopencv_videostab.so.3.4
 /usr/lib64/haswell/libopencv_videostab.so.3.4.0
+/usr/lib64/libopencv_calib3d.so.3.4
+/usr/lib64/libopencv_calib3d.so.3.4.0
+/usr/lib64/libopencv_core.so.3.4
+/usr/lib64/libopencv_core.so.3.4.0
+/usr/lib64/libopencv_dnn.so.3.4
+/usr/lib64/libopencv_dnn.so.3.4.0
+/usr/lib64/libopencv_features2d.so.3.4
+/usr/lib64/libopencv_features2d.so.3.4.0
+/usr/lib64/libopencv_flann.so.3.4
+/usr/lib64/libopencv_flann.so.3.4.0
+/usr/lib64/libopencv_highgui.so.3.4
+/usr/lib64/libopencv_highgui.so.3.4.0
+/usr/lib64/libopencv_imgcodecs.so.3.4
+/usr/lib64/libopencv_imgcodecs.so.3.4.0
+/usr/lib64/libopencv_imgproc.so.3.4
+/usr/lib64/libopencv_imgproc.so.3.4.0
+/usr/lib64/libopencv_ml.so.3.4
+/usr/lib64/libopencv_ml.so.3.4.0
+/usr/lib64/libopencv_objdetect.so.3.4
+/usr/lib64/libopencv_objdetect.so.3.4.0
+/usr/lib64/libopencv_photo.so.3.4
+/usr/lib64/libopencv_photo.so.3.4.0
+/usr/lib64/libopencv_shape.so.3.4
+/usr/lib64/libopencv_shape.so.3.4.0
+/usr/lib64/libopencv_stitching.so.3.4
+/usr/lib64/libopencv_stitching.so.3.4.0
+/usr/lib64/libopencv_superres.so.3.4
+/usr/lib64/libopencv_superres.so.3.4.0
+/usr/lib64/libopencv_video.so.3.4
+/usr/lib64/libopencv_video.so.3.4.0
+/usr/lib64/libopencv_videoio.so.3.4
+/usr/lib64/libopencv_videoio.so.3.4.0
+/usr/lib64/libopencv_videostab.so.3.4
+/usr/lib64/libopencv_videostab.so.3.4.0
 
 %files python
 %defattr(-,root,root,-)
-/usr/lib64/python*/*
 
 %files python3
 %defattr(-,root,root,-)
