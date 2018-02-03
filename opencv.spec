@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 3.4.0
-Release  : 49
+Release  : 50
 URL      : https://github.com/opencv/opencv/archive/3.4.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/3.4.0.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -143,7 +143,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1517685744
+export SOURCE_DATE_EPOCH=1517687225
 mkdir clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
@@ -177,7 +177,7 @@ make VERBOSE=1  %{?_smp_mflags}  || :
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1517685744
+export SOURCE_DATE_EPOCH=1517687225
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/lib64/haswell/avx512_1
 pushd clr-build-avx2
