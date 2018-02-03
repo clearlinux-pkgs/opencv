@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 3.4.0
-Release  : 48
+Release  : 49
 URL      : https://github.com/opencv/opencv/archive/3.4.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/3.4.0.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -111,7 +111,6 @@ lib components for the opencv package.
 %package python
 Summary: python components for the opencv package.
 Group: Default
-Requires: opencv-legacypython
 Requires: opencv-python3
 
 %description python
@@ -144,7 +143,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1514655056
+export SOURCE_DATE_EPOCH=1517685744
 mkdir clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
@@ -178,7 +177,7 @@ make VERBOSE=1  %{?_smp_mflags}  || :
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1514655056
+export SOURCE_DATE_EPOCH=1517685744
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/lib64/haswell/avx512_1
 pushd clr-build-avx2
@@ -356,118 +355,118 @@ popd
 /usr/share/OpenCV/lbpcascades/lbpcascade_frontalface_improved.xml
 /usr/share/OpenCV/lbpcascades/lbpcascade_profileface.xml
 /usr/share/OpenCV/lbpcascades/lbpcascade_silverware.xml
+/usr/share/OpenCV/samples/python/__pycache__/_coverage.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/_doc.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/asift.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/browse.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/calibrate.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/camera_calibration_show_extrinsics.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/camshift.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/coherence.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/color_histogram.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/common.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/contours.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/deconvolution.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/demo.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/dft.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/digits.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/digits_adjust.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/digits_video.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/distrans.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/edge.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/facedetect.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/feature_homography.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/find_obj.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/fitline.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/floodfill.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/gabor_threads.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/gaussian_mix.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/grabcut.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/hist.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/houghcircles.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/houghlines.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/inpaint.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/kalman.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/kmeans.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/lappyr.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/letter_recog.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/lk_homography.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/lk_track.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/logpolar.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/morphology.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/mosse.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/mouse_and_match.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/mser.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/opencv_version.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/opt_flow.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/peopledetect.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/plane_ar.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/plane_tracker.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/squares.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/stereo_match.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/texture_flow.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/tst_scene_render.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/turing.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/video.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/video_threaded.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/video_v4l2.cpython-36.pyc
+/usr/share/OpenCV/samples/python/__pycache__/watershed.cpython-36.pyc
 /usr/share/OpenCV/samples/python/_coverage.py
-/usr/share/OpenCV/samples/python/_coverage.pyc
 /usr/share/OpenCV/samples/python/_doc.py
-/usr/share/OpenCV/samples/python/_doc.pyc
 /usr/share/OpenCV/samples/python/asift.py
-/usr/share/OpenCV/samples/python/asift.pyc
 /usr/share/OpenCV/samples/python/browse.py
-/usr/share/OpenCV/samples/python/browse.pyc
 /usr/share/OpenCV/samples/python/calibrate.py
-/usr/share/OpenCV/samples/python/calibrate.pyc
 /usr/share/OpenCV/samples/python/camera_calibration_show_extrinsics.py
-/usr/share/OpenCV/samples/python/camera_calibration_show_extrinsics.pyc
 /usr/share/OpenCV/samples/python/camshift.py
-/usr/share/OpenCV/samples/python/camshift.pyc
 /usr/share/OpenCV/samples/python/coherence.py
-/usr/share/OpenCV/samples/python/coherence.pyc
 /usr/share/OpenCV/samples/python/color_histogram.py
-/usr/share/OpenCV/samples/python/color_histogram.pyc
 /usr/share/OpenCV/samples/python/common.py
-/usr/share/OpenCV/samples/python/common.pyc
 /usr/share/OpenCV/samples/python/contours.py
-/usr/share/OpenCV/samples/python/contours.pyc
 /usr/share/OpenCV/samples/python/deconvolution.py
-/usr/share/OpenCV/samples/python/deconvolution.pyc
 /usr/share/OpenCV/samples/python/demo.py
-/usr/share/OpenCV/samples/python/demo.pyc
 /usr/share/OpenCV/samples/python/dft.py
-/usr/share/OpenCV/samples/python/dft.pyc
 /usr/share/OpenCV/samples/python/digits.py
-/usr/share/OpenCV/samples/python/digits.pyc
 /usr/share/OpenCV/samples/python/digits_adjust.py
-/usr/share/OpenCV/samples/python/digits_adjust.pyc
 /usr/share/OpenCV/samples/python/digits_video.py
-/usr/share/OpenCV/samples/python/digits_video.pyc
 /usr/share/OpenCV/samples/python/distrans.py
-/usr/share/OpenCV/samples/python/distrans.pyc
 /usr/share/OpenCV/samples/python/edge.py
-/usr/share/OpenCV/samples/python/edge.pyc
 /usr/share/OpenCV/samples/python/facedetect.py
-/usr/share/OpenCV/samples/python/facedetect.pyc
 /usr/share/OpenCV/samples/python/feature_homography.py
-/usr/share/OpenCV/samples/python/feature_homography.pyc
 /usr/share/OpenCV/samples/python/find_obj.py
-/usr/share/OpenCV/samples/python/find_obj.pyc
 /usr/share/OpenCV/samples/python/fitline.py
-/usr/share/OpenCV/samples/python/fitline.pyc
 /usr/share/OpenCV/samples/python/floodfill.py
-/usr/share/OpenCV/samples/python/floodfill.pyc
 /usr/share/OpenCV/samples/python/gabor_threads.py
-/usr/share/OpenCV/samples/python/gabor_threads.pyc
 /usr/share/OpenCV/samples/python/gaussian_mix.py
-/usr/share/OpenCV/samples/python/gaussian_mix.pyc
 /usr/share/OpenCV/samples/python/grabcut.py
-/usr/share/OpenCV/samples/python/grabcut.pyc
 /usr/share/OpenCV/samples/python/hist.py
-/usr/share/OpenCV/samples/python/hist.pyc
 /usr/share/OpenCV/samples/python/houghcircles.py
-/usr/share/OpenCV/samples/python/houghcircles.pyc
 /usr/share/OpenCV/samples/python/houghlines.py
-/usr/share/OpenCV/samples/python/houghlines.pyc
 /usr/share/OpenCV/samples/python/inpaint.py
-/usr/share/OpenCV/samples/python/inpaint.pyc
 /usr/share/OpenCV/samples/python/kalman.py
-/usr/share/OpenCV/samples/python/kalman.pyc
 /usr/share/OpenCV/samples/python/kmeans.py
-/usr/share/OpenCV/samples/python/kmeans.pyc
 /usr/share/OpenCV/samples/python/lappyr.py
-/usr/share/OpenCV/samples/python/lappyr.pyc
 /usr/share/OpenCV/samples/python/letter_recog.py
-/usr/share/OpenCV/samples/python/letter_recog.pyc
 /usr/share/OpenCV/samples/python/lk_homography.py
-/usr/share/OpenCV/samples/python/lk_homography.pyc
 /usr/share/OpenCV/samples/python/lk_track.py
-/usr/share/OpenCV/samples/python/lk_track.pyc
 /usr/share/OpenCV/samples/python/logpolar.py
-/usr/share/OpenCV/samples/python/logpolar.pyc
 /usr/share/OpenCV/samples/python/morphology.py
-/usr/share/OpenCV/samples/python/morphology.pyc
 /usr/share/OpenCV/samples/python/mosse.py
-/usr/share/OpenCV/samples/python/mosse.pyc
 /usr/share/OpenCV/samples/python/mouse_and_match.py
-/usr/share/OpenCV/samples/python/mouse_and_match.pyc
 /usr/share/OpenCV/samples/python/mser.py
-/usr/share/OpenCV/samples/python/mser.pyc
 /usr/share/OpenCV/samples/python/opencv_version.py
-/usr/share/OpenCV/samples/python/opencv_version.pyc
 /usr/share/OpenCV/samples/python/opt_flow.py
-/usr/share/OpenCV/samples/python/opt_flow.pyc
 /usr/share/OpenCV/samples/python/peopledetect.py
-/usr/share/OpenCV/samples/python/peopledetect.pyc
 /usr/share/OpenCV/samples/python/plane_ar.py
-/usr/share/OpenCV/samples/python/plane_ar.pyc
 /usr/share/OpenCV/samples/python/plane_tracker.py
-/usr/share/OpenCV/samples/python/plane_tracker.pyc
 /usr/share/OpenCV/samples/python/squares.py
-/usr/share/OpenCV/samples/python/squares.pyc
 /usr/share/OpenCV/samples/python/stereo_match.py
-/usr/share/OpenCV/samples/python/stereo_match.pyc
 /usr/share/OpenCV/samples/python/texture_flow.py
-/usr/share/OpenCV/samples/python/texture_flow.pyc
 /usr/share/OpenCV/samples/python/tst_scene_render.py
-/usr/share/OpenCV/samples/python/tst_scene_render.pyc
 /usr/share/OpenCV/samples/python/turing.py
-/usr/share/OpenCV/samples/python/turing.pyc
 /usr/share/OpenCV/samples/python/video.py
-/usr/share/OpenCV/samples/python/video.pyc
 /usr/share/OpenCV/samples/python/video_threaded.py
-/usr/share/OpenCV/samples/python/video_threaded.pyc
 /usr/share/OpenCV/samples/python/video_v4l2.py
-/usr/share/OpenCV/samples/python/video_v4l2.pyc
 /usr/share/OpenCV/samples/python/watershed.py
-/usr/share/OpenCV/samples/python/watershed.pyc
 /usr/share/OpenCV/valgrind.supp
 /usr/share/OpenCV/valgrind_3rdparty.supp
 
