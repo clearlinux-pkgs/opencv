@@ -1,0 +1,35 @@
+From a87f1716b26be1f34c5f74c7b3fc6378d1aad83a Mon Sep 17 00:00:00 2001
+From: Patrick McCarty <patrick.mccarty@intel.com>
+Date: Tue, 15 May 2018 17:26:21 -0700
+Subject: [PATCH 4/4] Do not scan for python2 support
+
+Python 2 support in OpenCV has been disabled for the build, so cmake should
+also not scan for Python 2.
+
+Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
+---
+ cmake/OpenCVDetectPython.cmake | 8 --------
+ 1 file changed, 8 deletions(-)
+
+diff --git a/cmake/OpenCVDetectPython.cmake b/cmake/OpenCVDetectPython.cmake
+index 6dec76f..79b36b8 100644
+--- a/cmake/OpenCVDetectPython.cmake
++++ b/cmake/OpenCVDetectPython.cmake
+@@ -222,14 +222,6 @@ if(NOT ${found})
+ endif()
+ endfunction(find_python)
+ 
+-find_python(2.7 "${MIN_VER_PYTHON2}" PYTHON2_LIBRARY PYTHON2_INCLUDE_DIR
+-    PYTHON2INTERP_FOUND PYTHON2_EXECUTABLE PYTHON2_VERSION_STRING
+-    PYTHON2_VERSION_MAJOR PYTHON2_VERSION_MINOR PYTHON2LIBS_FOUND
+-    PYTHON2LIBS_VERSION_STRING PYTHON2_LIBRARIES PYTHON2_LIBRARY
+-    PYTHON2_DEBUG_LIBRARIES PYTHON2_LIBRARY_DEBUG PYTHON2_INCLUDE_PATH
+-    PYTHON2_INCLUDE_DIR PYTHON2_INCLUDE_DIR2 PYTHON2_PACKAGES_PATH
+-    PYTHON2_NUMPY_INCLUDE_DIRS PYTHON2_NUMPY_VERSION)
+-
+ find_python(3.4 "${MIN_VER_PYTHON3}" PYTHON3_LIBRARY PYTHON3_INCLUDE_DIR
+     PYTHON3INTERP_FOUND PYTHON3_EXECUTABLE PYTHON3_VERSION_STRING
+     PYTHON3_VERSION_MAJOR PYTHON3_VERSION_MINOR PYTHON3LIBS_FOUND
+-- 
+2.17.0
+

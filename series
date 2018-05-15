@@ -15,3 +15,4 @@
 0001-Set-__restrict__.patch
 0002-Add-basic-plumbing-for-AVX512-support.patch
 0003-Provide-a-few-AVX512-optimized-functions-for-the-DNN.patch
+0004-Do-not-scan-for-python2-support.patch
