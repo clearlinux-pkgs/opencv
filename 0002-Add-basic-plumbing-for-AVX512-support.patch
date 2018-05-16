@@ -1,7 +1,7 @@
-From fc8e848a540ebade40f5092bd135c754f7c04c30 Mon Sep 17 00:00:00 2001
+From 335d82dbd42dd7bef80a653ee8cd0025f19426ce Mon Sep 17 00:00:00 2001
 From: Arjan van de Ven <arjan@linux.intel.com>
 Date: Mon, 25 Dec 2017 21:06:52 +0000
-Subject: [PATCH 1/2] Add basic plumbing for AVX512 support
+Subject: [PATCH 2/4] Add basic plumbing for AVX512 support
 
 The opencv infrastructure mostly has the basics for supporting avx512 math functions,
 but it wasn't hooked up (likely due to lack of users)
@@ -11,13 +11,13 @@ and this patch does that
 
 Signed-off-by: Arjan van de Ven <arjan@linux.intel.com>
 ---
- cmake/OpenCVCompilerOptimizations.cmake             |  4 ++--
- modules/core/include/opencv2/core/cv_cpu_dispatch.h |  4 ++++
- modules/core/include/opencv2/core/cv_cpu_helper.h   | 15 +++++++++++++++
+ cmake/OpenCVCompilerOptimizations.cmake           |  4 ++--
+ .../core/include/opencv2/core/cv_cpu_dispatch.h   |  4 ++++
+ modules/core/include/opencv2/core/cv_cpu_helper.h | 15 +++++++++++++++
  3 files changed, 21 insertions(+), 2 deletions(-)
 
 diff --git a/cmake/OpenCVCompilerOptimizations.cmake b/cmake/OpenCVCompilerOptimizations.cmake
-index 0c77f4505..cc57cbdca 100644
+index 0c77f45..cc57cbd 100644
 --- a/cmake/OpenCVCompilerOptimizations.cmake
 +++ b/cmake/OpenCVCompilerOptimizations.cmake
 @@ -26,7 +26,7 @@
@@ -39,7 +39,7 @@ index 0c77f4505..cc57cbdca 100644
    ocv_update(CPU_SSE_TEST_FILE "${OpenCV_SOURCE_DIR}/cmake/checks/cpu_sse.cpp")
    ocv_update(CPU_SSE2_TEST_FILE "${OpenCV_SOURCE_DIR}/cmake/checks/cpu_sse2.cpp")
 diff --git a/modules/core/include/opencv2/core/cv_cpu_dispatch.h b/modules/core/include/opencv2/core/cv_cpu_dispatch.h
-index 5261a4143..75f6ca9c7 100644
+index 5261a41..75f6ca9 100644
 --- a/modules/core/include/opencv2/core/cv_cpu_dispatch.h
 +++ b/modules/core/include/opencv2/core/cv_cpu_dispatch.h
 @@ -82,6 +82,10 @@
@@ -54,7 +54,7 @@ index 5261a4143..75f6ca9c7 100644
  #  define CV_FMA3 1
  #endif
 diff --git a/modules/core/include/opencv2/core/cv_cpu_helper.h b/modules/core/include/opencv2/core/cv_cpu_helper.h
-index 66a473f1e..1c7dbaf85 100644
+index 66a473f..1c7dbaf 100644
 --- a/modules/core/include/opencv2/core/cv_cpu_helper.h
 +++ b/modules/core/include/opencv2/core/cv_cpu_helper.h
 @@ -165,6 +165,21 @@
@@ -80,5 +80,5 @@ index 66a473f1e..1c7dbaf85 100644
  #  define CV_TRY_NEON 1
  #  define CV_CPU_HAS_SUPPORT_NEON 1
 -- 
-2.15.1
+2.17.0
 
