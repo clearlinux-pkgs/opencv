@@ -35,7 +35,7 @@ BuildRequires : ocl-icd-dev
 BuildRequires : openblas
 BuildRequires : pkgconfig(gstreamer-video-1.0)
 BuildRequires : pkgconfig(libpng)
-BuildRequires : python-dev
+
 BuildRequires : python3-dev
 BuildRequires : tbb-dev
 BuildRequires : v4l-utils-dev
