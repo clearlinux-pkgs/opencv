@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 3.4.2
-Release  : 61
+Release  : 62
 URL      : https://github.com/opencv/opencv/archive/3.4.2.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/3.4.2.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -150,14 +150,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1531276760
+export SOURCE_DATE_EPOCH=1531279534
 mkdir clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-%cmake .. -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=ON -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=ON -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON  -DWITH_TBB=ON -DWITH_OPENMP=ON -DWITH_VA=ON -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1  -DCPU_DISPATCH=AVX,AVX2,AVX512_SKX -DLIB_SUFFIX= -DBUILD_EXAMPLES=ON -DINSTALL_C_EXAMPLES=ON -DINSTALL_PYTHON_EXAMPLES=ON -DBUILD_opencv_python2=OFF -DBUILD_opencv_python3=ON
+cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=/usr/lib64 -DCMAKE_AR=/usr/bin/gcc-ar -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=ON -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=ON -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON  -DWITH_TBB=ON -DWITH_OPENMP=ON -DWITH_VA=ON -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1  -DCPU_DISPATCH=AVX,AVX2,AVX512_SKX -DLIB_SUFFIX= -DBUILD_EXAMPLES=ON -DINSTALL_C_EXAMPLES=ON -DINSTALL_PYTHON_EXAMPLES=ON -DBUILD_opencv_python2=OFF -DBUILD_opencv_python3=ON
 make  %{?_smp_mflags}
 popd
 mkdir clr-build-avx2
@@ -168,23 +168,23 @@ export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-in
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
 export CFLAGS="$CFLAGS -march=haswell -m64"
 export CXXFLAGS="$CXXFLAGS -march=haswell -m64"
-%cmake .. -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=ON -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=ON -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON  -DWITH_TBB=ON -DWITH_OPENMP=ON -DWITH_VA=ON -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1  -DCPU_DISPATCH=AVX,AVX2,AVX512_SKX -DLIB_SUFFIX= -DBUILD_EXAMPLES=ON -DINSTALL_C_EXAMPLES=ON -DINSTALL_PYTHON_EXAMPLES=ON -DBUILD_opencv_python2=OFF -DBUILD_opencv_python3=ON
-make VERBOSE=1  %{?_smp_mflags}  || :
+cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=/usr/lib64/haswell -DCMAKE_INSTALL_LIBDIR=/usr/lib64/haswell -DCMAKE_AR=/usr/bin/gcc-ar -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=ON -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=ON -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON  -DWITH_TBB=ON -DWITH_OPENMP=ON -DWITH_VA=ON -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1  -DCPU_DISPATCH=AVX,AVX2,AVX512_SKX -DLIB_SUFFIX= -DBUILD_EXAMPLES=ON -DINSTALL_C_EXAMPLES=ON -DINSTALL_PYTHON_EXAMPLES=ON -DBUILD_opencv_python2=OFF -DBUILD_opencv_python3=ON
+make  %{?_smp_mflags}  || :
 popd
 mkdir clr-build-avx512
 pushd clr-build-avx512
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
-export CFLAGS="$CFLAGS -march=skylake-avx512 -m64 "
-export CXXFLAGS="$CXXFLAGS -march=skylake-avx512 -m64 "
-%cmake .. -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=ON -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=ON -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON  -DWITH_TBB=ON -DWITH_OPENMP=ON -DWITH_VA=ON -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1  -DCPU_DISPATCH=AVX,AVX2,AVX512_SKX -DLIB_SUFFIX= -DBUILD_EXAMPLES=ON -DINSTALL_C_EXAMPLES=ON -DINSTALL_PYTHON_EXAMPLES=ON -DBUILD_opencv_python2=OFF -DBUILD_opencv_python3=ON
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=skylake-avx512 -mprefer-vector-width=512 -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=skylake-avx512 -mprefer-vector-width=512 -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=skylake-avx512 -mprefer-vector-width=512 -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=skylake-avx512 -mprefer-vector-width=512 -mzero-caller-saved-regs=used "
+export CFLAGS="$CFLAGS -march=skylake-avx512 -m64 -mprefer-vector-width=512 "
+export CXXFLAGS="$CXXFLAGS -march=skylake-avx512 -m64 -mprefer-vector-width=512 "
+cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=/usr/lib64/haswell/avx512_1 -DCMAKE_AR=/usr/bin/gcc-ar -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=ON -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=ON -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON  -DWITH_TBB=ON -DWITH_OPENMP=ON -DWITH_VA=ON -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1  -DCPU_DISPATCH=AVX,AVX2,AVX512_SKX -DLIB_SUFFIX= -DBUILD_EXAMPLES=ON -DINSTALL_C_EXAMPLES=ON -DINSTALL_PYTHON_EXAMPLES=ON -DBUILD_opencv_python2=OFF -DBUILD_opencv_python3=ON
 make VERBOSE=1  %{?_smp_mflags}  || :
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1531276760
+export SOURCE_DATE_EPOCH=1531279534
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/opencv
 cp LICENSE %{buildroot}/usr/share/doc/opencv/LICENSE
@@ -202,12 +202,18 @@ cp 3rdparty/ittnotify/src/ittnotify/LICENSE.BSD %{buildroot}/usr/share/doc/openc
 cp 3rdparty/include/opencl/LICENSE.txt %{buildroot}/usr/share/doc/opencv/3rdparty_include_opencl_LICENSE.txt
 cp 3rdparty/ffmpeg/license.txt %{buildroot}/usr/share/doc/opencv/3rdparty_ffmpeg_license.txt
 cp 3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/doc/opencv/3rdparty_cpufeatures_LICENSE
+mkdir -p %{buildroot}/usr/lib64/haswell/avx512_1
 pushd clr-build-avx2
-%make_install_avx2  || :
+%make_install  || :
+mv %{buildroot}/usr/lib64/*so* %{buildroot}/usr/lib64/haswell/ || :
 popd
+rm -f %{buildroot}/usr/bin/*
+mkdir -p %{buildroot}/usr/lib64/haswell/avx512_1
 pushd clr-build-avx512
-%make_install_avx512  || :
+%make_install  || :
+mv %{buildroot}/usr/lib64/*so* %{buildroot}/usr/lib64/haswell/avx512_1 || :
 popd
+rm -f %{buildroot}/usr/bin/*
 pushd clr-build
 %make_install
 popd
@@ -217,18 +223,6 @@ popd
 
 %files bin
 %defattr(-,root,root,-)
-/usr/bin/haswell/avx512_1/opencv_annotation
-/usr/bin/haswell/avx512_1/opencv_createsamples
-/usr/bin/haswell/avx512_1/opencv_interactive-calibration
-/usr/bin/haswell/avx512_1/opencv_traincascade
-/usr/bin/haswell/avx512_1/opencv_version
-/usr/bin/haswell/avx512_1/opencv_visualisation
-/usr/bin/haswell/haswell/avx512_1/opencv_annotation
-/usr/bin/haswell/haswell/avx512_1/opencv_createsamples
-/usr/bin/haswell/haswell/avx512_1/opencv_interactive-calibration
-/usr/bin/haswell/haswell/avx512_1/opencv_traincascade
-/usr/bin/haswell/haswell/avx512_1/opencv_version
-/usr/bin/haswell/haswell/avx512_1/opencv_visualisation
 /usr/bin/opencv_annotation
 /usr/bin/opencv_createsamples
 /usr/bin/opencv_interactive-calibration
@@ -817,6 +811,23 @@ popd
 /usr/include/opencv2/videostab/ring_buffer.hpp
 /usr/include/opencv2/videostab/stabilizer.hpp
 /usr/include/opencv2/videostab/wobble_suppression.hpp
+/usr/lib64/haswell/libopencv_calib3d.so
+/usr/lib64/haswell/libopencv_core.so
+/usr/lib64/haswell/libopencv_dnn.so
+/usr/lib64/haswell/libopencv_features2d.so
+/usr/lib64/haswell/libopencv_flann.so
+/usr/lib64/haswell/libopencv_highgui.so
+/usr/lib64/haswell/libopencv_imgcodecs.so
+/usr/lib64/haswell/libopencv_imgproc.so
+/usr/lib64/haswell/libopencv_ml.so
+/usr/lib64/haswell/libopencv_objdetect.so
+/usr/lib64/haswell/libopencv_photo.so
+/usr/lib64/haswell/libopencv_shape.so
+/usr/lib64/haswell/libopencv_stitching.so
+/usr/lib64/haswell/libopencv_superres.so
+/usr/lib64/haswell/libopencv_video.so
+/usr/lib64/haswell/libopencv_videoio.so
+/usr/lib64/haswell/libopencv_videostab.so
 /usr/lib64/libopencv_calib3d.so
 /usr/lib64/libopencv_core.so
 /usr/lib64/libopencv_dnn.so
@@ -951,11 +962,13 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/haswell/avx512_1/libopencv_calib3d.so
 /usr/lib64/haswell/avx512_1/libopencv_calib3d.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_calib3d.so.3.4.2
 /usr/lib64/haswell/avx512_1/libopencv_core.so
 /usr/lib64/haswell/avx512_1/libopencv_core.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_core.so.3.4.2
+/usr/lib64/haswell/avx512_1/libopencv_dnn.so
 /usr/lib64/haswell/avx512_1/libopencv_dnn.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_dnn.so.3.4.2
 /usr/lib64/haswell/avx512_1/libopencv_features2d.so
@@ -964,15 +977,19 @@ popd
 /usr/lib64/haswell/avx512_1/libopencv_flann.so
 /usr/lib64/haswell/avx512_1/libopencv_flann.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_flann.so.3.4.2
+/usr/lib64/haswell/avx512_1/libopencv_imgcodecs.so
 /usr/lib64/haswell/avx512_1/libopencv_imgcodecs.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_imgcodecs.so.3.4.2
+/usr/lib64/haswell/avx512_1/libopencv_imgproc.so
 /usr/lib64/haswell/avx512_1/libopencv_imgproc.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_imgproc.so.3.4.2
+/usr/lib64/haswell/avx512_1/libopencv_ml.so
 /usr/lib64/haswell/avx512_1/libopencv_ml.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_ml.so.3.4.2
 /usr/lib64/haswell/avx512_1/libopencv_objdetect.so
 /usr/lib64/haswell/avx512_1/libopencv_objdetect.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_objdetect.so.3.4.2
+/usr/lib64/haswell/avx512_1/libopencv_photo.so
 /usr/lib64/haswell/avx512_1/libopencv_photo.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_photo.so.3.4.2
 /usr/lib64/haswell/avx512_1/libopencv_shape.so
@@ -981,56 +998,52 @@ popd
 /usr/lib64/haswell/avx512_1/libopencv_stitching.so
 /usr/lib64/haswell/avx512_1/libopencv_stitching.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_stitching.so.3.4.2
+/usr/lib64/haswell/avx512_1/libopencv_superres.so
 /usr/lib64/haswell/avx512_1/libopencv_superres.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_superres.so.3.4.2
+/usr/lib64/haswell/avx512_1/libopencv_video.so
 /usr/lib64/haswell/avx512_1/libopencv_video.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_video.so.3.4.2
 /usr/lib64/haswell/avx512_1/libopencv_videoio.so
 /usr/lib64/haswell/avx512_1/libopencv_videoio.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_videoio.so.3.4.2
+/usr/lib64/haswell/avx512_1/libopencv_videostab.so
 /usr/lib64/haswell/avx512_1/libopencv_videostab.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_videostab.so.3.4.2
-/usr/lib64/haswell/haswell/avx512_1/libopencv_calib3d.so.3.4
-/usr/lib64/haswell/haswell/avx512_1/libopencv_calib3d.so.3.4.2
-/usr/lib64/haswell/haswell/avx512_1/libopencv_core.so
-/usr/lib64/haswell/haswell/avx512_1/libopencv_core.so.3.4
-/usr/lib64/haswell/haswell/avx512_1/libopencv_core.so.3.4.2
-/usr/lib64/haswell/haswell/avx512_1/libopencv_dnn.so.3.4
-/usr/lib64/haswell/haswell/avx512_1/libopencv_dnn.so.3.4.2
-/usr/lib64/haswell/haswell/avx512_1/libopencv_features2d.so
-/usr/lib64/haswell/haswell/avx512_1/libopencv_features2d.so.3.4
-/usr/lib64/haswell/haswell/avx512_1/libopencv_features2d.so.3.4.2
-/usr/lib64/haswell/haswell/avx512_1/libopencv_flann.so
-/usr/lib64/haswell/haswell/avx512_1/libopencv_flann.so.3.4
-/usr/lib64/haswell/haswell/avx512_1/libopencv_flann.so.3.4.2
-/usr/lib64/haswell/haswell/avx512_1/libopencv_highgui.so.3.4
-/usr/lib64/haswell/haswell/avx512_1/libopencv_highgui.so.3.4.2
-/usr/lib64/haswell/haswell/avx512_1/libopencv_imgcodecs.so.3.4
-/usr/lib64/haswell/haswell/avx512_1/libopencv_imgcodecs.so.3.4.2
-/usr/lib64/haswell/haswell/avx512_1/libopencv_imgproc.so.3.4
-/usr/lib64/haswell/haswell/avx512_1/libopencv_imgproc.so.3.4.2
-/usr/lib64/haswell/haswell/avx512_1/libopencv_ml.so.3.4
-/usr/lib64/haswell/haswell/avx512_1/libopencv_ml.so.3.4.2
-/usr/lib64/haswell/haswell/avx512_1/libopencv_objdetect.so
-/usr/lib64/haswell/haswell/avx512_1/libopencv_objdetect.so.3.4
-/usr/lib64/haswell/haswell/avx512_1/libopencv_objdetect.so.3.4.2
-/usr/lib64/haswell/haswell/avx512_1/libopencv_photo.so.3.4
-/usr/lib64/haswell/haswell/avx512_1/libopencv_photo.so.3.4.2
-/usr/lib64/haswell/haswell/avx512_1/libopencv_shape.so
-/usr/lib64/haswell/haswell/avx512_1/libopencv_shape.so.3.4
-/usr/lib64/haswell/haswell/avx512_1/libopencv_shape.so.3.4.2
-/usr/lib64/haswell/haswell/avx512_1/libopencv_stitching.so
-/usr/lib64/haswell/haswell/avx512_1/libopencv_stitching.so.3.4
-/usr/lib64/haswell/haswell/avx512_1/libopencv_stitching.so.3.4.2
-/usr/lib64/haswell/haswell/avx512_1/libopencv_superres.so.3.4
-/usr/lib64/haswell/haswell/avx512_1/libopencv_superres.so.3.4.2
-/usr/lib64/haswell/haswell/avx512_1/libopencv_video.so.3.4
-/usr/lib64/haswell/haswell/avx512_1/libopencv_video.so.3.4.2
-/usr/lib64/haswell/haswell/avx512_1/libopencv_videoio.so
-/usr/lib64/haswell/haswell/avx512_1/libopencv_videoio.so.3.4
-/usr/lib64/haswell/haswell/avx512_1/libopencv_videoio.so.3.4.2
-/usr/lib64/haswell/haswell/avx512_1/libopencv_videostab.so.3.4
-/usr/lib64/haswell/haswell/avx512_1/libopencv_videostab.so.3.4.2
+/usr/lib64/haswell/libopencv_calib3d.so.3.4
+/usr/lib64/haswell/libopencv_calib3d.so.3.4.2
+/usr/lib64/haswell/libopencv_core.so.3.4
+/usr/lib64/haswell/libopencv_core.so.3.4.2
+/usr/lib64/haswell/libopencv_dnn.so.3.4
+/usr/lib64/haswell/libopencv_dnn.so.3.4.2
+/usr/lib64/haswell/libopencv_features2d.so.3.4
+/usr/lib64/haswell/libopencv_features2d.so.3.4.2
+/usr/lib64/haswell/libopencv_flann.so.3.4
+/usr/lib64/haswell/libopencv_flann.so.3.4.2
+/usr/lib64/haswell/libopencv_highgui.so.3.4
+/usr/lib64/haswell/libopencv_highgui.so.3.4.2
+/usr/lib64/haswell/libopencv_imgcodecs.so.3.4
+/usr/lib64/haswell/libopencv_imgcodecs.so.3.4.2
+/usr/lib64/haswell/libopencv_imgproc.so.3.4
+/usr/lib64/haswell/libopencv_imgproc.so.3.4.2
+/usr/lib64/haswell/libopencv_ml.so.3.4
+/usr/lib64/haswell/libopencv_ml.so.3.4.2
+/usr/lib64/haswell/libopencv_objdetect.so.3.4
+/usr/lib64/haswell/libopencv_objdetect.so.3.4.2
+/usr/lib64/haswell/libopencv_photo.so.3.4
+/usr/lib64/haswell/libopencv_photo.so.3.4.2
+/usr/lib64/haswell/libopencv_shape.so.3.4
+/usr/lib64/haswell/libopencv_shape.so.3.4.2
+/usr/lib64/haswell/libopencv_stitching.so.3.4
+/usr/lib64/haswell/libopencv_stitching.so.3.4.2
+/usr/lib64/haswell/libopencv_superres.so.3.4
+/usr/lib64/haswell/libopencv_superres.so.3.4.2
+/usr/lib64/haswell/libopencv_video.so.3.4
+/usr/lib64/haswell/libopencv_video.so.3.4.2
+/usr/lib64/haswell/libopencv_videoio.so.3.4
+/usr/lib64/haswell/libopencv_videoio.so.3.4.2
+/usr/lib64/haswell/libopencv_videostab.so.3.4
+/usr/lib64/haswell/libopencv_videostab.so.3.4.2
 /usr/lib64/libopencv_calib3d.so.3.4
 /usr/lib64/libopencv_calib3d.so.3.4.2
 /usr/lib64/libopencv_core.so.3.4
