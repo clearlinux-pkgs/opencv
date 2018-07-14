@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 3.4.2
-Release  : 63
+Release  : 64
 URL      : https://github.com/opencv/opencv/archive/3.4.2.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/3.4.2.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -26,6 +26,7 @@ BuildRequires : eigen-dev
 BuildRequires : glib-dev
 BuildRequires : gstreamer-dev
 BuildRequires : gtk3-dev
+BuildRequires : libgphoto2-dev
 BuildRequires : libjpeg-turbo-dev
 BuildRequires : libva-dev
 BuildRequires : libva-intel-driver
@@ -34,6 +35,8 @@ BuildRequires : mesa-dev
 BuildRequires : numpy
 BuildRequires : ocl-icd-dev
 BuildRequires : openblas
+BuildRequires : openjdk
+BuildRequires : openjdk-dev
 BuildRequires : pkgconfig(gstreamer-video-1.0)
 BuildRequires : pkgconfig(libpng)
 BuildRequires : python-dev
@@ -152,7 +155,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1531580674
+export SOURCE_DATE_EPOCH=1531584053
 mkdir clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -186,7 +189,7 @@ make VERBOSE=1  %{?_smp_mflags}  || :
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1531580674
+export SOURCE_DATE_EPOCH=1531584053
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/opencv
 cp LICENSE %{buildroot}/usr/share/doc/opencv/LICENSE

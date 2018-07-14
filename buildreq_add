@@ -22,3 +22,6 @@ gstreamer-dev
 tbb-dev
 libwebp-dev
 beautifulsoup4
+openjdk-dev
+openjdk
+libgphoto2-dev
