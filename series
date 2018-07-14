@@ -14,3 +14,4 @@
 #cve-2017-14136.patch
 0001-Set-__restrict__.patch
 0004-Do-not-scan-for-python2-support.patch
+avx512-fastConv.patch
