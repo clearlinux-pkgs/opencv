@@ -1,0 +1,6 @@
+bin/opencv_perf_core ||:
+bin/opencv_perf_imgproc ||:
+bin/opencv_perf_dnn ||:
+bin/opencv_perf_stitching ||:
+bin/opencv_perf_features2d ||:
+bin/opencv_perf_superres ||:

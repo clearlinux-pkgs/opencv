@@ -1,0 +1,89 @@
+diff --git a/modules/imgproc/src/filter.cpp b/modules/imgproc/src/filter.cpp
+index 23c560736..ff76203a4 100644
+--- a/modules/imgproc/src/filter.cpp
++++ b/modules/imgproc/src/filter.cpp
+@@ -45,6 +45,7 @@
+ #include "opencl_kernels_imgproc.hpp"
+ #include "hal_replacement.hpp"
+ #include "filter.hpp"
++#include <immintrin.h>
+ 
+ 
+ /****************************************************************************************\
+@@ -1045,11 +1046,31 @@ struct SymmColumnSmallVec_32s16s
+         short* dst = (short*)_dst;
+         __m128 df4 = _mm_set1_ps(delta);
+         __m128i d4 = _mm_cvtps_epi32(df4);
+-
++#ifdef __AVX__
++        __m256 df8 = _mm256_set1_ps(delta);
++        __m256i d8 = _mm256_cvtps_epi32(df8);
++#endif
+         if( symmetrical )
+         {
+             if( ky[0] == 2 && ky[1] == 1 )
+             {
++#ifdef __AVX__
++                for( ; i <= width - 16; i += 16 )
++                {
++                    __m256i s0, s1, s2, s3, s4, s5;
++                    s0 = _mm256_load_si256((__m256i*)(S0 + i));
++                    s1 = _mm256_load_si256((__m256i*)(S0 + i + 8));
++                    s2 = _mm256_load_si256((__m256i*)(S1 + i));
++                    s3 = _mm256_load_si256((__m256i*)(S1 + i + 8));
++                    s4 = _mm256_load_si256((__m256i*)(S2 + i));
++                    s5 = _mm256_load_si256((__m256i*)(S2 + i + 8));
++                    s0 = _mm256_add_epi32(s0, _mm256_add_epi32(s4, _mm256_add_epi32(s2, s2)));
++                    s1 = _mm256_add_epi32(s1, _mm256_add_epi32(s5, _mm256_add_epi32(s3, s3)));
++                    s0 = _mm256_add_epi32(s0, d8);
++                    s1 = _mm256_add_epi32(s1, d8);
++                    _mm256_storeu_si256((__m256i*)(dst + i), _mm256_packs_epi32(s0, s1));
++                }
++#endif
+                 for( ; i <= width - 8; i += 8 )
+                 {
+                     __m128i s0, s1, s2, s3, s4, s5;
+@@ -1068,6 +1089,23 @@ struct SymmColumnSmallVec_32s16s
+             }
+             else if( ky[0] == -2 && ky[1] == 1 )
+             {
++#ifdef __AVX__
++                for( ; i <= width - 16; i += 16 )
++                {
++                    __m256i s0, s1, s2, s3, s4, s5;
++                    s0 = _mm256_load_si256((__m256i*)(S0 + i));
++                    s1 = _mm256_load_si256((__m256i*)(S0 + i + 8));
++                    s2 = _mm256_load_si256((__m256i*)(S1 + i));
++                    s3 = _mm256_load_si256((__m256i*)(S1 + i + 8));
++                    s4 = _mm256_load_si256((__m256i*)(S2 + i));
++                    s5 = _mm256_load_si256((__m256i*)(S2 + i + 8));
++                    s0 = _mm256_add_epi32(s0, _mm256_sub_epi32(s4, _mm256_add_epi32(s2, s2)));
++                    s1 = _mm256_add_epi32(s1, _mm256_sub_epi32(s5, _mm256_add_epi32(s3, s3)));
++                    s0 = _mm256_add_epi32(s0, d8);
++                    s1 = _mm256_add_epi32(s1, d8);
++                    _mm256_storeu_si256((__m256i*)(dst + i), _mm256_packs_epi32(s0, s1));
++                }
++#endif
+                 for( ; i <= width - 8; i += 8 )
+                 {
+                     __m128i s0, s1, s2, s3, s4, s5;
+@@ -1112,6 +1150,19 @@ struct SymmColumnSmallVec_32s16s
+             {
+                 if( ky[1] < 0 )
+                     std::swap(S0, S2);
++#ifdef __AVX__
++                for( ; i <= width - 16; i += 16 )
++                {
++                    __m256i s0, s1, s2, s3;
++                    s0 = _mm256_load_si256((__m256i*)(S2 + i));
++                    s1 = _mm256_load_si256((__m256i*)(S2 + i + 8));
++                    s2 = _mm256_load_si256((__m256i*)(S0 + i));
++                    s3 = _mm256_load_si256((__m256i*)(S0 + i + 8));
++                    s0 = _mm256_add_epi32(_mm256_sub_epi32(s0, s2), d8);
++                    s1 = _mm256_add_epi32(_mm256_sub_epi32(s1, s3), d8);
++                    _mm256_storeu_si256((__m256i*)(dst + i), _mm256_packs_epi32(s0, s1));
++                }
++#endif
+                 for( ; i <= width - 8; i += 8 )
+                 {
+                     __m128i s0, s1, s2, s3;

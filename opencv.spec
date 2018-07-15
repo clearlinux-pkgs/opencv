@@ -16,6 +16,7 @@ Requires: opencv-python3
 Requires: opencv-lib
 Requires: opencv-data
 Requires: opencv-license
+Requires: opencv-python
 BuildRequires : beautifulsoup4
 BuildRequires : beignet-dev
 BuildRequires : ccache
@@ -45,8 +46,6 @@ BuildRequires : v4l-utils-dev
 BuildRequires : zlib-dev
 Patch1: 0001-Set-__restrict__.patch
 Patch2: 0004-Do-not-scan-for-python2-support.patch
-Patch3: avx512-fastConv.patch
-Patch4: imgproc-avx2.patch
 
 %description
 A demo of the Java wrapper for OpenCV with two examples:
@@ -142,8 +141,6 @@ python3 components for the opencv package.
 %setup -q -n opencv-3.4.2
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
 pushd ..
 cp -a opencv-3.4.2 buildavx2
 popd
@@ -156,7 +153,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1531669063
+export SOURCE_DATE_EPOCH=1531695212
 mkdir clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -216,7 +213,7 @@ make VERBOSE=1  %{?_smp_mflags}  || :
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1531669063
+export SOURCE_DATE_EPOCH=1531695212
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/opencv
 cp LICENSE %{buildroot}/usr/share/doc/opencv/LICENSE
