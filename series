@@ -15,3 +15,4 @@
 0001-Set-__restrict__.patch
 0004-Do-not-scan-for-python2-support.patch
 avx512-fastConv.patch
+imgproc-avx2.patch

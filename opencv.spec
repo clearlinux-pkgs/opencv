@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 3.4.2
-Release  : 65
+Release  : 66
 URL      : https://github.com/opencv/opencv/archive/3.4.2.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/3.4.2.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -16,7 +16,6 @@ Requires: opencv-python3
 Requires: opencv-lib
 Requires: opencv-data
 Requires: opencv-license
-Requires: opencv-python
 BuildRequires : beautifulsoup4
 BuildRequires : beignet-dev
 BuildRequires : ccache
@@ -47,6 +46,7 @@ BuildRequires : zlib-dev
 Patch1: 0001-Set-__restrict__.patch
 Patch2: 0004-Do-not-scan-for-python2-support.patch
 Patch3: avx512-fastConv.patch
+Patch4: imgproc-avx2.patch
 
 %description
 A demo of the Java wrapper for OpenCV with two examples:
@@ -143,6 +143,7 @@ python3 components for the opencv package.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 pushd ..
 cp -a opencv-3.4.2 buildavx2
 popd
@@ -155,7 +156,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1531605803
+export SOURCE_DATE_EPOCH=1531669063
 mkdir clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -170,7 +171,7 @@ export CFLAGS_USE="$CFLAGS -fprofile-use -fprofile-dir=pgo -fprofile-correction 
 export FCFLAGS_USE="$FCFLAGS -fprofile-use -fprofile-dir=pgo -fprofile-correction "
 export FFLAGS_USE="$FFLAGS -fprofile-use -fprofile-dir=pgo -fprofile-correction "
 export CXXFLAGS_USE="$CXXFLAGS -fprofile-use -fprofile-dir=pgo -fprofile-correction "
-cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=/usr/lib64 -DCMAKE_AR=/usr/bin/gcc-ar -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=ON -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=ON -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON  -DWITH_TBB=ON -DWITH_OPENMP=ON -DWITH_VA=ON -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1  -DCPU_DISPATCH=AVX,AVX2,AVX512_SKX -DLIB_SUFFIX= -DBUILD_EXAMPLES=ON -DINSTALL_C_EXAMPLES=ON -DINSTALL_PYTHON_EXAMPLES=ON -DBUILD_opencv_python2=OFF -DBUILD_opencv_python3=ON -DBUILD_JAVA=ON
+%cmake .. -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=ON -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=ON -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON  -DWITH_TBB=ON -DWITH_OPENMP=ON -DWITH_VA=ON -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1  -DCPU_DISPATCH=AVX,AVX2,AVX512_SKX -DLIB_SUFFIX= -DBUILD_EXAMPLES=ON -DINSTALL_C_EXAMPLES=ON -DINSTALL_PYTHON_EXAMPLES=ON -DBUILD_opencv_python2=OFF -DBUILD_opencv_python3=ON -DBUILD_JAVA=ON
 CFLAGS="${CFLAGS_GENERATE}" CXXFLAGS="${CXXFLAGS_GENERATE}" FFLAGS="${FFLAGS_GENERATE}" FCFLAGS="${FCFLAGS_GENERATE}"
 make  %{?_smp_mflags}
 bin/opencv_perf_core ||:
@@ -191,15 +192,15 @@ export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-in
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
 export CFLAGS="$CFLAGS -march=haswell -m64"
 export CXXFLAGS="$CXXFLAGS -march=haswell -m64"
-cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=/usr/lib64/haswell -DCMAKE_INSTALL_LIBDIR=/usr/lib64/haswell -DCMAKE_AR=/usr/bin/gcc-ar -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=ON -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=ON -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON  -DWITH_TBB=ON -DWITH_OPENMP=ON -DWITH_VA=ON -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1  -DCPU_DISPATCH=AVX,AVX2,AVX512_SKX -DLIB_SUFFIX= -DBUILD_EXAMPLES=ON -DINSTALL_C_EXAMPLES=ON -DINSTALL_PYTHON_EXAMPLES=ON -DBUILD_opencv_python2=OFF -DBUILD_opencv_python3=ON -DBUILD_JAVA=ON
-make  %{?_smp_mflags}  || :
+%cmake .. -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=ON -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=ON -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON  -DWITH_TBB=ON -DWITH_OPENMP=ON -DWITH_VA=ON -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1  -DCPU_DISPATCH=AVX,AVX2,AVX512_SKX -DLIB_SUFFIX= -DBUILD_EXAMPLES=ON -DINSTALL_C_EXAMPLES=ON -DINSTALL_PYTHON_EXAMPLES=ON -DBUILD_opencv_python2=OFF -DBUILD_opencv_python3=ON -DBUILD_JAVA=ON
+make VERBOSE=1  %{?_smp_mflags}  || :
 popd
 mkdir clr-build-avx512
 pushd clr-build-avx512
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 -mprefer-vector-width=512 -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 -mprefer-vector-width=512 -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 -mprefer-vector-width=512 -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 -mprefer-vector-width=512 -mzero-caller-saved-regs=used "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
 export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=pgo -fprofile-update=atomic "
 export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=pgo -fprofile-update=atomic "
 export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=pgo -fprofile-update=atomic "
@@ -208,14 +209,14 @@ export CFLAGS_USE="$CFLAGS -fprofile-use -fprofile-dir=pgo -fprofile-correction 
 export FCFLAGS_USE="$FCFLAGS -fprofile-use -fprofile-dir=pgo -fprofile-correction "
 export FFLAGS_USE="$FFLAGS -fprofile-use -fprofile-dir=pgo -fprofile-correction "
 export CXXFLAGS_USE="$CXXFLAGS -fprofile-use -fprofile-dir=pgo -fprofile-correction "
-export CFLAGS="$CFLAGS -march=skylake-avx512 -m64 -mprefer-vector-width=512 "
-export CXXFLAGS="$CXXFLAGS -march=skylake-avx512 -m64 -mprefer-vector-width=512 "
-cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=/usr/lib64/haswell/avx512_1 -DCMAKE_AR=/usr/bin/gcc-ar -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=ON -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=ON -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON  -DWITH_TBB=ON -DWITH_OPENMP=ON -DWITH_VA=ON -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1  -DCPU_DISPATCH=AVX,AVX2,AVX512_SKX -DLIB_SUFFIX= -DBUILD_EXAMPLES=ON -DINSTALL_C_EXAMPLES=ON -DINSTALL_PYTHON_EXAMPLES=ON -DBUILD_opencv_python2=OFF -DBUILD_opencv_python3=ON -DBUILD_JAVA=ON
+export CFLAGS="$CFLAGS -march=skylake-avx512 -m64 "
+export CXXFLAGS="$CXXFLAGS -march=skylake-avx512 -m64 "
+%cmake .. -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_GSTREAMER=ON -DWITH_IPP=OFF -DWITH_JASPER=OFF -DWITH_WEBP=ON -DWITH_OPENEXR=OFF -DWITH_TIFF=OFF -DENABLE_SSE42=ON  -DWITH_TBB=ON -DWITH_OPENMP=ON -DWITH_VA=ON -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo -DWITH_GSTREAMER=1 -DINSTALL_PYTHON_EXAMPLES=1  -DCPU_DISPATCH=AVX,AVX2,AVX512_SKX -DLIB_SUFFIX= -DBUILD_EXAMPLES=ON -DINSTALL_C_EXAMPLES=ON -DINSTALL_PYTHON_EXAMPLES=ON -DBUILD_opencv_python2=OFF -DBUILD_opencv_python3=ON -DBUILD_JAVA=ON
 make VERBOSE=1  %{?_smp_mflags}  || :
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1531605803
+export SOURCE_DATE_EPOCH=1531669063
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/opencv
 cp LICENSE %{buildroot}/usr/share/doc/opencv/LICENSE
@@ -233,18 +234,12 @@ cp 3rdparty/ittnotify/src/ittnotify/LICENSE.BSD %{buildroot}/usr/share/doc/openc
 cp 3rdparty/include/opencl/LICENSE.txt %{buildroot}/usr/share/doc/opencv/3rdparty_include_opencl_LICENSE.txt
 cp 3rdparty/ffmpeg/license.txt %{buildroot}/usr/share/doc/opencv/3rdparty_ffmpeg_license.txt
 cp 3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/doc/opencv/3rdparty_cpufeatures_LICENSE
-mkdir -p %{buildroot}/usr/lib64/haswell/avx512_1
-pushd clr-build-avx2
-%make_install  || :
-mv %{buildroot}/usr/lib64/*so* %{buildroot}/usr/lib64/haswell/ || :
-popd
-rm -f %{buildroot}/usr/bin/*
-mkdir -p %{buildroot}/usr/lib64/haswell/avx512_1
 pushd clr-build-avx512
-%make_install  || :
-mv %{buildroot}/usr/lib64/*so* %{buildroot}/usr/lib64/haswell/avx512_1 || :
+%make_install_avx512  || :
 popd
-rm -f %{buildroot}/usr/bin/*
+pushd clr-build-avx2
+%make_install_avx2  || :
+popd
 pushd clr-build
 %make_install
 popd
@@ -254,6 +249,18 @@ popd
 
 %files bin
 %defattr(-,root,root,-)
+/usr/bin/haswell/avx512_1/opencv_annotation
+/usr/bin/haswell/avx512_1/opencv_createsamples
+/usr/bin/haswell/avx512_1/opencv_interactive-calibration
+/usr/bin/haswell/avx512_1/opencv_traincascade
+/usr/bin/haswell/avx512_1/opencv_version
+/usr/bin/haswell/avx512_1/opencv_visualisation
+/usr/bin/haswell/opencv_annotation
+/usr/bin/haswell/opencv_createsamples
+/usr/bin/haswell/opencv_interactive-calibration
+/usr/bin/haswell/opencv_traincascade
+/usr/bin/haswell/opencv_version
+/usr/bin/haswell/opencv_visualisation
 /usr/bin/opencv_annotation
 /usr/bin/opencv_createsamples
 /usr/bin/opencv_interactive-calibration
