@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 3.4.3
-Release  : 71
+Release  : 72
 URL      : https://github.com/opencv/opencv/archive/3.4.3.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/3.4.3.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -61,6 +61,14 @@ A demo of the Java wrapper for OpenCV with two examples:
 The examples are coded in Scala and Java.
 Anyone familiar with Java should be able to read the Scala examples.
 Please feel free to contribute code examples in Scala or Java, or any JVM language.
+
+%package abi
+Summary: abi components for the opencv package.
+Group: Default
+
+%description abi
+abi components for the opencv package.
+
 
 %package bin
 Summary: bin components for the opencv package.
@@ -160,7 +168,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1540443446
+export SOURCE_DATE_EPOCH=1541634305
 mkdir -p clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -220,7 +228,7 @@ make  %{?_smp_mflags} VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1540443446
+export SOURCE_DATE_EPOCH=1541634305
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
 cp 3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/3rdparty_cpufeatures_LICENSE
@@ -250,6 +258,43 @@ popd
 
 %files
 %defattr(-,root,root,-)
+
+%files abi
+%defattr(-,root,root,-)
+/usr/share/abi/libopencv_calib3d.so.3.4.3.abi
+/usr/share/abi/libopencv_calib3d.so.3.4.abi
+/usr/share/abi/libopencv_core.so.3.4.3.abi
+/usr/share/abi/libopencv_core.so.3.4.abi
+/usr/share/abi/libopencv_dnn.so.3.4.3.abi
+/usr/share/abi/libopencv_dnn.so.3.4.abi
+/usr/share/abi/libopencv_features2d.so.3.4.3.abi
+/usr/share/abi/libopencv_features2d.so.3.4.abi
+/usr/share/abi/libopencv_flann.so.3.4.3.abi
+/usr/share/abi/libopencv_flann.so.3.4.abi
+/usr/share/abi/libopencv_highgui.so.3.4.3.abi
+/usr/share/abi/libopencv_highgui.so.3.4.abi
+/usr/share/abi/libopencv_imgcodecs.so.3.4.3.abi
+/usr/share/abi/libopencv_imgcodecs.so.3.4.abi
+/usr/share/abi/libopencv_imgproc.so.3.4.3.abi
+/usr/share/abi/libopencv_imgproc.so.3.4.abi
+/usr/share/abi/libopencv_ml.so.3.4.3.abi
+/usr/share/abi/libopencv_ml.so.3.4.abi
+/usr/share/abi/libopencv_objdetect.so.3.4.3.abi
+/usr/share/abi/libopencv_objdetect.so.3.4.abi
+/usr/share/abi/libopencv_photo.so.3.4.3.abi
+/usr/share/abi/libopencv_photo.so.3.4.abi
+/usr/share/abi/libopencv_shape.so.3.4.3.abi
+/usr/share/abi/libopencv_shape.so.3.4.abi
+/usr/share/abi/libopencv_stitching.so.3.4.3.abi
+/usr/share/abi/libopencv_stitching.so.3.4.abi
+/usr/share/abi/libopencv_superres.so.3.4.3.abi
+/usr/share/abi/libopencv_superres.so.3.4.abi
+/usr/share/abi/libopencv_video.so.3.4.3.abi
+/usr/share/abi/libopencv_video.so.3.4.abi
+/usr/share/abi/libopencv_videoio.so.3.4.3.abi
+/usr/share/abi/libopencv_videoio.so.3.4.abi
+/usr/share/abi/libopencv_videostab.so.3.4.3.abi
+/usr/share/abi/libopencv_videostab.so.3.4.abi
 
 %files bin
 %defattr(-,root,root,-)
@@ -855,6 +900,23 @@ popd
 /usr/include/opencv2/videostab/ring_buffer.hpp
 /usr/include/opencv2/videostab/stabilizer.hpp
 /usr/include/opencv2/videostab/wobble_suppression.hpp
+/usr/lib64/haswell/avx512_1/libopencv_calib3d.so
+/usr/lib64/haswell/avx512_1/libopencv_core.so
+/usr/lib64/haswell/avx512_1/libopencv_dnn.so
+/usr/lib64/haswell/avx512_1/libopencv_features2d.so
+/usr/lib64/haswell/avx512_1/libopencv_flann.so
+/usr/lib64/haswell/avx512_1/libopencv_highgui.so
+/usr/lib64/haswell/avx512_1/libopencv_imgcodecs.so
+/usr/lib64/haswell/avx512_1/libopencv_imgproc.so
+/usr/lib64/haswell/avx512_1/libopencv_ml.so
+/usr/lib64/haswell/avx512_1/libopencv_objdetect.so
+/usr/lib64/haswell/avx512_1/libopencv_photo.so
+/usr/lib64/haswell/avx512_1/libopencv_shape.so
+/usr/lib64/haswell/avx512_1/libopencv_stitching.so
+/usr/lib64/haswell/avx512_1/libopencv_superres.so
+/usr/lib64/haswell/avx512_1/libopencv_video.so
+/usr/lib64/haswell/avx512_1/libopencv_videoio.so
+/usr/lib64/haswell/avx512_1/libopencv_videostab.so
 /usr/lib64/haswell/libopencv_calib3d.so
 /usr/lib64/haswell/libopencv_core.so
 /usr/lib64/haswell/libopencv_dnn.so
@@ -1006,55 +1068,38 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/haswell/avx512_1/libopencv_calib3d.so
 /usr/lib64/haswell/avx512_1/libopencv_calib3d.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_calib3d.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_core.so
 /usr/lib64/haswell/avx512_1/libopencv_core.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_core.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_dnn.so
 /usr/lib64/haswell/avx512_1/libopencv_dnn.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_dnn.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_features2d.so
 /usr/lib64/haswell/avx512_1/libopencv_features2d.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_features2d.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_flann.so
 /usr/lib64/haswell/avx512_1/libopencv_flann.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_flann.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_highgui.so
 /usr/lib64/haswell/avx512_1/libopencv_highgui.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_highgui.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_imgcodecs.so
 /usr/lib64/haswell/avx512_1/libopencv_imgcodecs.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_imgcodecs.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_imgproc.so
 /usr/lib64/haswell/avx512_1/libopencv_imgproc.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_imgproc.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_ml.so
 /usr/lib64/haswell/avx512_1/libopencv_ml.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_ml.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_objdetect.so
 /usr/lib64/haswell/avx512_1/libopencv_objdetect.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_objdetect.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_photo.so
 /usr/lib64/haswell/avx512_1/libopencv_photo.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_photo.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_shape.so
 /usr/lib64/haswell/avx512_1/libopencv_shape.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_shape.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_stitching.so
 /usr/lib64/haswell/avx512_1/libopencv_stitching.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_stitching.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_superres.so
 /usr/lib64/haswell/avx512_1/libopencv_superres.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_superres.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_video.so
 /usr/lib64/haswell/avx512_1/libopencv_video.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_video.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_videoio.so
 /usr/lib64/haswell/avx512_1/libopencv_videoio.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_videoio.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_videostab.so
 /usr/lib64/haswell/avx512_1/libopencv_videostab.so.3.4
 /usr/lib64/haswell/avx512_1/libopencv_videostab.so.3.4.3
 /usr/lib64/haswell/libopencv_calib3d.so.3.4
