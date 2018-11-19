@@ -12,5 +12,5 @@
 #cve-2017-12863.nopatch
 #cve-2017-12864.nopatch
 #cve-2017-14136.patch
-0001-Set-__restrict__.patch
+#0001-Set-__restrict__.patch
 #0004-Do-not-scan-for-python2-support.patch

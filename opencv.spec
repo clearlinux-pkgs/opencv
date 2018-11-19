@@ -4,10 +4,10 @@
 #
 %define keepstatic 1
 Name     : opencv
-Version  : 3.4.3
-Release  : 72
-URL      : https://github.com/opencv/opencv/archive/3.4.3.tar.gz
-Source0  : https://github.com/opencv/opencv/archive/3.4.3.tar.gz
+Version  : 4.0.0
+Release  : 73
+URL      : https://github.com/opencv/opencv/archive/4.0.0.tar.gz
+Source0  : https://github.com/opencv/opencv/archive/4.0.0.tar.gz
 Summary  : Open Source Computer Vision Library
 Group    : Development/Tools
 License  : Apache-2.0 BSD-3-Clause BSD-3-Clause-Clear GPL-2.0 IJG JasPer-2.0 LGPL-2.1 Libpng MIT libtiff
@@ -15,11 +15,10 @@ Requires: opencv-bin = %{version}-%{release}
 Requires: opencv-data = %{version}-%{release}
 Requires: opencv-lib = %{version}-%{release}
 Requires: opencv-license = %{version}-%{release}
-Requires: opencv-python = %{version}-%{release}
-Requires: opencv-python3 = %{version}-%{release}
 BuildRequires : beautifulsoup4
 BuildRequires : beignet-dev
 BuildRequires : buildreq-cmake
+BuildRequires : buildreq-distutils3
 BuildRequires : ccache
 BuildRequires : cmake
 BuildRequires : doxygen
@@ -52,7 +51,6 @@ BuildRequires : python3-dev
 BuildRequires : tbb-dev
 BuildRequires : v4l-utils-dev
 BuildRequires : zlib-dev
-Patch1: 0001-Set-__restrict__.patch
 
 %description
 A demo of the Java wrapper for OpenCV with two examples:
@@ -61,14 +59,6 @@ A demo of the Java wrapper for OpenCV with two examples:
 The examples are coded in Scala and Java.
 Anyone familiar with Java should be able to read the Scala examples.
 Please feel free to contribute code examples in Scala or Java, or any JVM language.
-
-%package abi
-Summary: abi components for the opencv package.
-Group: Default
-
-%description abi
-abi components for the opencv package.
-
 
 %package bin
 Summary: bin components for the opencv package.
@@ -100,23 +90,6 @@ Provides: opencv-devel = %{version}-%{release}
 dev components for the opencv package.
 
 
-%package extras
-Summary: extras components for the opencv package.
-Group: Default
-
-%description extras
-extras components for the opencv package.
-
-
-%package legacypython
-Summary: legacypython components for the opencv package.
-Group: Default
-Requires: python-core
-
-%description legacypython
-legacypython components for the opencv package.
-
-
 %package lib
 Summary: lib components for the opencv package.
 Group: Libraries
@@ -135,32 +108,13 @@ Group: Default
 license components for the opencv package.
 
 
-%package python
-Summary: python components for the opencv package.
-Group: Default
-Requires: opencv-python3 = %{version}-%{release}
-
-%description python
-python components for the opencv package.
-
-
-%package python3
-Summary: python3 components for the opencv package.
-Group: Default
-Requires: python3-core
-
-%description python3
-python3 components for the opencv package.
-
-
 %prep
-%setup -q -n opencv-3.4.3
-%patch1 -p1
+%setup -q -n opencv-4.0.0
 pushd ..
-cp -a opencv-3.4.3 buildavx2
+cp -a opencv-4.0.0 buildavx2
 popd
 pushd ..
-cp -a opencv-3.4.3 buildavx512
+cp -a opencv-4.0.0 buildavx512
 popd
 
 %build
@@ -168,7 +122,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1541634305
+export SOURCE_DATE_EPOCH=1542667671
 mkdir -p clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -228,7 +182,7 @@ make  %{?_smp_mflags} VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1541634305
+export SOURCE_DATE_EPOCH=1542667671
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
 cp 3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/3rdparty_cpufeatures_LICENSE
@@ -258,648 +212,562 @@ popd
 
 %files
 %defattr(-,root,root,-)
-
-%files abi
-%defattr(-,root,root,-)
-/usr/share/abi/libopencv_calib3d.so.3.4.3.abi
-/usr/share/abi/libopencv_calib3d.so.3.4.abi
-/usr/share/abi/libopencv_core.so.3.4.3.abi
-/usr/share/abi/libopencv_core.so.3.4.abi
-/usr/share/abi/libopencv_dnn.so.3.4.3.abi
-/usr/share/abi/libopencv_dnn.so.3.4.abi
-/usr/share/abi/libopencv_features2d.so.3.4.3.abi
-/usr/share/abi/libopencv_features2d.so.3.4.abi
-/usr/share/abi/libopencv_flann.so.3.4.3.abi
-/usr/share/abi/libopencv_flann.so.3.4.abi
-/usr/share/abi/libopencv_highgui.so.3.4.3.abi
-/usr/share/abi/libopencv_highgui.so.3.4.abi
-/usr/share/abi/libopencv_imgcodecs.so.3.4.3.abi
-/usr/share/abi/libopencv_imgcodecs.so.3.4.abi
-/usr/share/abi/libopencv_imgproc.so.3.4.3.abi
-/usr/share/abi/libopencv_imgproc.so.3.4.abi
-/usr/share/abi/libopencv_ml.so.3.4.3.abi
-/usr/share/abi/libopencv_ml.so.3.4.abi
-/usr/share/abi/libopencv_objdetect.so.3.4.3.abi
-/usr/share/abi/libopencv_objdetect.so.3.4.abi
-/usr/share/abi/libopencv_photo.so.3.4.3.abi
-/usr/share/abi/libopencv_photo.so.3.4.abi
-/usr/share/abi/libopencv_shape.so.3.4.3.abi
-/usr/share/abi/libopencv_shape.so.3.4.abi
-/usr/share/abi/libopencv_stitching.so.3.4.3.abi
-/usr/share/abi/libopencv_stitching.so.3.4.abi
-/usr/share/abi/libopencv_superres.so.3.4.3.abi
-/usr/share/abi/libopencv_superres.so.3.4.abi
-/usr/share/abi/libopencv_video.so.3.4.3.abi
-/usr/share/abi/libopencv_video.so.3.4.abi
-/usr/share/abi/libopencv_videoio.so.3.4.3.abi
-/usr/share/abi/libopencv_videoio.so.3.4.abi
-/usr/share/abi/libopencv_videostab.so.3.4.3.abi
-/usr/share/abi/libopencv_videostab.so.3.4.abi
+/usr/python/cv2/__init__.py
+/usr/python/cv2/config-2.7.py
+/usr/python/cv2/config-3.7.py
+/usr/python/cv2/config.py
+/usr/python/cv2/load_config_py2.py
+/usr/python/cv2/load_config_py3.py
+/usr/python/cv2/python-2.7/cv2.so
+/usr/python/cv2/python-3.7/cv2.cpython-37m-x86_64-linux-gnu.so
+/usr/python/setup.py
 
 %files bin
 %defattr(-,root,root,-)
 /usr/bin/haswell/avx512_1/opencv_annotation
-/usr/bin/haswell/avx512_1/opencv_createsamples
 /usr/bin/haswell/avx512_1/opencv_interactive-calibration
-/usr/bin/haswell/avx512_1/opencv_traincascade
 /usr/bin/haswell/avx512_1/opencv_version
 /usr/bin/haswell/avx512_1/opencv_visualisation
 /usr/bin/haswell/opencv_annotation
-/usr/bin/haswell/opencv_createsamples
 /usr/bin/haswell/opencv_interactive-calibration
-/usr/bin/haswell/opencv_traincascade
 /usr/bin/haswell/opencv_version
 /usr/bin/haswell/opencv_visualisation
 /usr/bin/opencv_annotation
-/usr/bin/opencv_createsamples
 /usr/bin/opencv_interactive-calibration
-/usr/bin/opencv_traincascade
 /usr/bin/opencv_version
 /usr/bin/opencv_visualisation
+/usr/bin/setup_vars_opencv4.sh
 
 %files data
 %defattr(-,root,root,-)
-%exclude /usr/share/OpenCV/samples/cpp/3calibration.cpp
-%exclude /usr/share/OpenCV/samples/cpp/application_trace.cpp
-%exclude /usr/share/OpenCV/samples/cpp/autofocus.cpp
-%exclude /usr/share/OpenCV/samples/cpp/bgfg_segm.cpp
-%exclude /usr/share/OpenCV/samples/cpp/calibration.cpp
-%exclude /usr/share/OpenCV/samples/cpp/camshiftdemo.cpp
-%exclude /usr/share/OpenCV/samples/cpp/cloning_demo.cpp
-%exclude /usr/share/OpenCV/samples/cpp/cloning_gui.cpp
-%exclude /usr/share/OpenCV/samples/cpp/connected_components.cpp
-%exclude /usr/share/OpenCV/samples/cpp/contours2.cpp
-%exclude /usr/share/OpenCV/samples/cpp/convexhull.cpp
-%exclude /usr/share/OpenCV/samples/cpp/cout_mat.cpp
-%exclude /usr/share/OpenCV/samples/cpp/create_mask.cpp
-%exclude /usr/share/OpenCV/samples/cpp/dbt_face_detection.cpp
-%exclude /usr/share/OpenCV/samples/cpp/delaunay2.cpp
-%exclude /usr/share/OpenCV/samples/cpp/demhist.cpp
-%exclude /usr/share/OpenCV/samples/cpp/detect_blob.cpp
-%exclude /usr/share/OpenCV/samples/cpp/detect_mser.cpp
-%exclude /usr/share/OpenCV/samples/cpp/dft.cpp
-%exclude /usr/share/OpenCV/samples/cpp/distrans.cpp
-%exclude /usr/share/OpenCV/samples/cpp/drawing.cpp
-%exclude /usr/share/OpenCV/samples/cpp/edge.cpp
-%exclude /usr/share/OpenCV/samples/cpp/em.cpp
-%exclude /usr/share/OpenCV/samples/cpp/facedetect.cpp
-%exclude /usr/share/OpenCV/samples/cpp/facial_features.cpp
-%exclude /usr/share/OpenCV/samples/cpp/falsecolor.cpp
-%exclude /usr/share/OpenCV/samples/cpp/fback.cpp
-%exclude /usr/share/OpenCV/samples/cpp/ffilldemo.cpp
-%exclude /usr/share/OpenCV/samples/cpp/filestorage.cpp
-%exclude /usr/share/OpenCV/samples/cpp/fitellipse.cpp
-%exclude /usr/share/OpenCV/samples/cpp/grabcut.cpp
-%exclude /usr/share/OpenCV/samples/cpp/image.cpp
-%exclude /usr/share/OpenCV/samples/cpp/image_alignment.cpp
-%exclude /usr/share/OpenCV/samples/cpp/image_sequence.cpp
-%exclude /usr/share/OpenCV/samples/cpp/imagelist_creator.cpp
-%exclude /usr/share/OpenCV/samples/cpp/inpaint.cpp
-%exclude /usr/share/OpenCV/samples/cpp/intelperc_capture.cpp
-%exclude /usr/share/OpenCV/samples/cpp/kalman.cpp
-%exclude /usr/share/OpenCV/samples/cpp/kmeans.cpp
-%exclude /usr/share/OpenCV/samples/cpp/laplace.cpp
-%exclude /usr/share/OpenCV/samples/cpp/letter_recog.cpp
-%exclude /usr/share/OpenCV/samples/cpp/lkdemo.cpp
-%exclude /usr/share/OpenCV/samples/cpp/logistic_regression.cpp
-%exclude /usr/share/OpenCV/samples/cpp/lsd_lines.cpp
-%exclude /usr/share/OpenCV/samples/cpp/mask_tmpl.cpp
-%exclude /usr/share/OpenCV/samples/cpp/matchmethod_orb_akaze_brisk.cpp
-%exclude /usr/share/OpenCV/samples/cpp/minarea.cpp
-%exclude /usr/share/OpenCV/samples/cpp/morphology2.cpp
-%exclude /usr/share/OpenCV/samples/cpp/neural_network.cpp
-%exclude /usr/share/OpenCV/samples/cpp/npr_demo.cpp
-%exclude /usr/share/OpenCV/samples/cpp/opencv_version.cpp
-%exclude /usr/share/OpenCV/samples/cpp/openni_capture.cpp
-%exclude /usr/share/OpenCV/samples/cpp/pca.cpp
-%exclude /usr/share/OpenCV/samples/cpp/peopledetect.cpp
-%exclude /usr/share/OpenCV/samples/cpp/phase_corr.cpp
-%exclude /usr/share/OpenCV/samples/cpp/points_classifier.cpp
-%exclude /usr/share/OpenCV/samples/cpp/polar_transforms.cpp
-%exclude /usr/share/OpenCV/samples/cpp/segment_objects.cpp
-%exclude /usr/share/OpenCV/samples/cpp/select3dobj.cpp
-%exclude /usr/share/OpenCV/samples/cpp/shape_example.cpp
-%exclude /usr/share/OpenCV/samples/cpp/smiledetect.cpp
-%exclude /usr/share/OpenCV/samples/cpp/squares.cpp
-%exclude /usr/share/OpenCV/samples/cpp/starter_imagelist.cpp
-%exclude /usr/share/OpenCV/samples/cpp/stereo_calib.cpp
-%exclude /usr/share/OpenCV/samples/cpp/stereo_match.cpp
-%exclude /usr/share/OpenCV/samples/cpp/stitching.cpp
-%exclude /usr/share/OpenCV/samples/cpp/stitching_detailed.cpp
-%exclude /usr/share/OpenCV/samples/cpp/train_HOG.cpp
-%exclude /usr/share/OpenCV/samples/cpp/train_svmsgd.cpp
-%exclude /usr/share/OpenCV/samples/cpp/travelsalesman.cpp
-%exclude /usr/share/OpenCV/samples/cpp/tree_engine.cpp
-%exclude /usr/share/OpenCV/samples/cpp/tvl1_optical_flow.cpp
-%exclude /usr/share/OpenCV/samples/cpp/videocapture_basic.cpp
-%exclude /usr/share/OpenCV/samples/cpp/videocapture_starter.cpp
-%exclude /usr/share/OpenCV/samples/cpp/videostab.cpp
-%exclude /usr/share/OpenCV/samples/cpp/videowriter_basic.cpp
-%exclude /usr/share/OpenCV/samples/cpp/warpPerspective_demo.cpp
-%exclude /usr/share/OpenCV/samples/cpp/watershed.cpp
-%exclude /usr/share/OpenCV/samples/gpu/alpha_comp.cpp
-%exclude /usr/share/OpenCV/samples/gpu/bgfg_segm.cpp
-%exclude /usr/share/OpenCV/samples/gpu/cascadeclassifier.cpp
-%exclude /usr/share/OpenCV/samples/gpu/cascadeclassifier_nvidia_api.cpp
-%exclude /usr/share/OpenCV/samples/gpu/farneback_optical_flow.cpp
-%exclude /usr/share/OpenCV/samples/gpu/generalized_hough.cpp
-%exclude /usr/share/OpenCV/samples/gpu/hog.cpp
-%exclude /usr/share/OpenCV/samples/gpu/houghlines.cpp
-%exclude /usr/share/OpenCV/samples/gpu/morphology.cpp
-%exclude /usr/share/OpenCV/samples/gpu/multi.cpp
-%exclude /usr/share/OpenCV/samples/gpu/opengl.cpp
-%exclude /usr/share/OpenCV/samples/gpu/optical_flow.cpp
-%exclude /usr/share/OpenCV/samples/gpu/opticalflow_nvidia_api.cpp
-%exclude /usr/share/OpenCV/samples/gpu/pyrlk_optical_flow.cpp
-%exclude /usr/share/OpenCV/samples/gpu/stereo_match.cpp
-%exclude /usr/share/OpenCV/samples/gpu/stereo_multi.cpp
-%exclude /usr/share/OpenCV/samples/gpu/super_resolution.cpp
-%exclude /usr/share/OpenCV/samples/gpu/surf_keypoint_matcher.cpp
-%exclude /usr/share/OpenCV/samples/gpu/video_reader.cpp
-%exclude /usr/share/OpenCV/samples/gpu/video_writer.cpp
-%exclude /usr/share/OpenCV/samples/tapi/bgfg_segm.cpp
-%exclude /usr/share/OpenCV/samples/tapi/camshift.cpp
-%exclude /usr/share/OpenCV/samples/tapi/clahe.cpp
-%exclude /usr/share/OpenCV/samples/tapi/hog.cpp
-%exclude /usr/share/OpenCV/samples/tapi/opencl_custom_kernel.cpp
-%exclude /usr/share/OpenCV/samples/tapi/pyrlk_optical_flow.cpp
-%exclude /usr/share/OpenCV/samples/tapi/squares.cpp
-%exclude /usr/share/OpenCV/samples/tapi/ufacedetect.cpp
-/usr/share/OpenCV/OpenCVConfig-version.cmake
-/usr/share/OpenCV/OpenCVConfig.cmake
-/usr/share/OpenCV/OpenCVModules-releasewithdebinfo.cmake
-/usr/share/OpenCV/OpenCVModules.cmake
-/usr/share/OpenCV/haarcascades/haarcascade_eye.xml
-/usr/share/OpenCV/haarcascades/haarcascade_eye_tree_eyeglasses.xml
-/usr/share/OpenCV/haarcascades/haarcascade_frontalcatface.xml
-/usr/share/OpenCV/haarcascades/haarcascade_frontalcatface_extended.xml
-/usr/share/OpenCV/haarcascades/haarcascade_frontalface_alt.xml
-/usr/share/OpenCV/haarcascades/haarcascade_frontalface_alt2.xml
-/usr/share/OpenCV/haarcascades/haarcascade_frontalface_alt_tree.xml
-/usr/share/OpenCV/haarcascades/haarcascade_frontalface_default.xml
-/usr/share/OpenCV/haarcascades/haarcascade_fullbody.xml
-/usr/share/OpenCV/haarcascades/haarcascade_lefteye_2splits.xml
-/usr/share/OpenCV/haarcascades/haarcascade_licence_plate_rus_16stages.xml
-/usr/share/OpenCV/haarcascades/haarcascade_lowerbody.xml
-/usr/share/OpenCV/haarcascades/haarcascade_profileface.xml
-/usr/share/OpenCV/haarcascades/haarcascade_righteye_2splits.xml
-/usr/share/OpenCV/haarcascades/haarcascade_russian_plate_number.xml
-/usr/share/OpenCV/haarcascades/haarcascade_smile.xml
-/usr/share/OpenCV/haarcascades/haarcascade_upperbody.xml
-/usr/share/OpenCV/lbpcascades/lbpcascade_frontalcatface.xml
-/usr/share/OpenCV/lbpcascades/lbpcascade_frontalface.xml
-/usr/share/OpenCV/lbpcascades/lbpcascade_frontalface_improved.xml
-/usr/share/OpenCV/lbpcascades/lbpcascade_profileface.xml
-/usr/share/OpenCV/lbpcascades/lbpcascade_silverware.xml
-/usr/share/OpenCV/licenses/SoftFloat-COPYING.txt
-/usr/share/OpenCV/licenses/ittnotify-LICENSE.BSD
-/usr/share/OpenCV/licenses/ittnotify-LICENSE.GPL
-/usr/share/OpenCV/licenses/opencl-headers-LICENSE.txt
-/usr/share/OpenCV/licenses/protobuf-LICENSE
-/usr/share/OpenCV/licenses/protobuf-README.md
-/usr/share/OpenCV/samples/CMakeLists.txt
-/usr/share/OpenCV/samples/cpp/CMakeLists.txt
-/usr/share/OpenCV/samples/cpp/gstreamer_pipeline.cpp
-/usr/share/OpenCV/samples/cpp/videocapture_camera.cpp
-/usr/share/OpenCV/samples/data/Blender_Suzanne1.jpg
-/usr/share/OpenCV/samples/data/Blender_Suzanne2.jpg
-/usr/share/OpenCV/samples/data/H1to3p.xml
-/usr/share/OpenCV/samples/data/HappyFish.jpg
-/usr/share/OpenCV/samples/data/LinuxLogo.jpg
-/usr/share/OpenCV/samples/data/Megamind.avi
-/usr/share/OpenCV/samples/data/Megamind_bugy.avi
-/usr/share/OpenCV/samples/data/WindowsLogo.jpg
-/usr/share/OpenCV/samples/data/aero1.jpg
-/usr/share/OpenCV/samples/data/aero3.jpg
-/usr/share/OpenCV/samples/data/aloeGT.png
-/usr/share/OpenCV/samples/data/aloeL.jpg
-/usr/share/OpenCV/samples/data/aloeR.jpg
-/usr/share/OpenCV/samples/data/apple.jpg
-/usr/share/OpenCV/samples/data/baboon.jpg
-/usr/share/OpenCV/samples/data/basketball1.png
-/usr/share/OpenCV/samples/data/basketball2.png
-/usr/share/OpenCV/samples/data/blox.jpg
-/usr/share/OpenCV/samples/data/board.jpg
-/usr/share/OpenCV/samples/data/box.png
-/usr/share/OpenCV/samples/data/box_in_scene.png
-/usr/share/OpenCV/samples/data/building.jpg
-/usr/share/OpenCV/samples/data/butterfly.jpg
-/usr/share/OpenCV/samples/data/cards.png
-/usr/share/OpenCV/samples/data/chessboard.png
-/usr/share/OpenCV/samples/data/chicky_512.png
-/usr/share/OpenCV/samples/data/data01.xml
-/usr/share/OpenCV/samples/data/detect_blob.png
-/usr/share/OpenCV/samples/data/digits.png
-/usr/share/OpenCV/samples/data/dnn/classification_classes_ILSVRC2012.txt
-/usr/share/OpenCV/samples/data/dnn/enet-classes.txt
-/usr/share/OpenCV/samples/data/dnn/object_detection_classes_coco.txt
-/usr/share/OpenCV/samples/data/dnn/object_detection_classes_pascal_voc.txt
-/usr/share/OpenCV/samples/data/dnn/object_detection_classes_yolov3.txt
-/usr/share/OpenCV/samples/data/ellipses.jpg
-/usr/share/OpenCV/samples/data/fruits.jpg
-/usr/share/OpenCV/samples/data/gradient.png
-/usr/share/OpenCV/samples/data/graf1.png
-/usr/share/OpenCV/samples/data/graf3.png
-/usr/share/OpenCV/samples/data/home.jpg
-/usr/share/OpenCV/samples/data/imageTextN.png
-/usr/share/OpenCV/samples/data/imageTextR.png
-/usr/share/OpenCV/samples/data/intrinsics.yml
-/usr/share/OpenCV/samples/data/left.jpg
-/usr/share/OpenCV/samples/data/left01.jpg
-/usr/share/OpenCV/samples/data/left02.jpg
-/usr/share/OpenCV/samples/data/left03.jpg
-/usr/share/OpenCV/samples/data/left04.jpg
-/usr/share/OpenCV/samples/data/left05.jpg
-/usr/share/OpenCV/samples/data/left06.jpg
-/usr/share/OpenCV/samples/data/left07.jpg
-/usr/share/OpenCV/samples/data/left08.jpg
-/usr/share/OpenCV/samples/data/left09.jpg
-/usr/share/OpenCV/samples/data/left11.jpg
-/usr/share/OpenCV/samples/data/left12.jpg
-/usr/share/OpenCV/samples/data/left13.jpg
-/usr/share/OpenCV/samples/data/left14.jpg
-/usr/share/OpenCV/samples/data/left_intrinsics.yml
-/usr/share/OpenCV/samples/data/lena.jpg
-/usr/share/OpenCV/samples/data/lena_tmpl.jpg
-/usr/share/OpenCV/samples/data/letter-recognition.data
-/usr/share/OpenCV/samples/data/licenseplate_motion.jpg
-/usr/share/OpenCV/samples/data/mask.png
-/usr/share/OpenCV/samples/data/messi5.jpg
-/usr/share/OpenCV/samples/data/ml.png
-/usr/share/OpenCV/samples/data/notes.png
-/usr/share/OpenCV/samples/data/opencv-logo-white.png
-/usr/share/OpenCV/samples/data/opencv-logo.png
-/usr/share/OpenCV/samples/data/orange.jpg
-/usr/share/OpenCV/samples/data/pca_test1.jpg
-/usr/share/OpenCV/samples/data/pic1.png
-/usr/share/OpenCV/samples/data/pic2.png
-/usr/share/OpenCV/samples/data/pic3.png
-/usr/share/OpenCV/samples/data/pic4.png
-/usr/share/OpenCV/samples/data/pic5.png
-/usr/share/OpenCV/samples/data/pic6.png
-/usr/share/OpenCV/samples/data/right.jpg
-/usr/share/OpenCV/samples/data/right01.jpg
-/usr/share/OpenCV/samples/data/right02.jpg
-/usr/share/OpenCV/samples/data/right03.jpg
-/usr/share/OpenCV/samples/data/right04.jpg
-/usr/share/OpenCV/samples/data/right05.jpg
-/usr/share/OpenCV/samples/data/right06.jpg
-/usr/share/OpenCV/samples/data/right07.jpg
-/usr/share/OpenCV/samples/data/right08.jpg
-/usr/share/OpenCV/samples/data/right09.jpg
-/usr/share/OpenCV/samples/data/right11.jpg
-/usr/share/OpenCV/samples/data/right12.jpg
-/usr/share/OpenCV/samples/data/right13.jpg
-/usr/share/OpenCV/samples/data/right14.jpg
-/usr/share/OpenCV/samples/data/rubberwhale1.png
-/usr/share/OpenCV/samples/data/rubberwhale2.png
-/usr/share/OpenCV/samples/data/shape_sample/1.png
-/usr/share/OpenCV/samples/data/shape_sample/10.png
-/usr/share/OpenCV/samples/data/shape_sample/11.png
-/usr/share/OpenCV/samples/data/shape_sample/12.png
-/usr/share/OpenCV/samples/data/shape_sample/13.png
-/usr/share/OpenCV/samples/data/shape_sample/14.png
-/usr/share/OpenCV/samples/data/shape_sample/15.png
-/usr/share/OpenCV/samples/data/shape_sample/16.png
-/usr/share/OpenCV/samples/data/shape_sample/17.png
-/usr/share/OpenCV/samples/data/shape_sample/18.png
-/usr/share/OpenCV/samples/data/shape_sample/19.png
-/usr/share/OpenCV/samples/data/shape_sample/2.png
-/usr/share/OpenCV/samples/data/shape_sample/20.png
-/usr/share/OpenCV/samples/data/shape_sample/3.png
-/usr/share/OpenCV/samples/data/shape_sample/4.png
-/usr/share/OpenCV/samples/data/shape_sample/5.png
-/usr/share/OpenCV/samples/data/shape_sample/6.png
-/usr/share/OpenCV/samples/data/shape_sample/7.png
-/usr/share/OpenCV/samples/data/shape_sample/8.png
-/usr/share/OpenCV/samples/data/shape_sample/9.png
-/usr/share/OpenCV/samples/data/smarties.png
-/usr/share/OpenCV/samples/data/starry_night.jpg
-/usr/share/OpenCV/samples/data/stereo_calib.xml
-/usr/share/OpenCV/samples/data/stuff.jpg
-/usr/share/OpenCV/samples/data/sudoku.png
-/usr/share/OpenCV/samples/data/templ.png
-/usr/share/OpenCV/samples/data/text_defocus.jpg
-/usr/share/OpenCV/samples/data/text_motion.jpg
-/usr/share/OpenCV/samples/data/tmpl.png
-/usr/share/OpenCV/samples/data/tree.avi
-/usr/share/OpenCV/samples/data/vtest.avi
-/usr/share/OpenCV/samples/dnn/CMakeLists.txt
-/usr/share/OpenCV/samples/dnn/classification.cpp
-/usr/share/OpenCV/samples/dnn/colorization.cpp
-/usr/share/OpenCV/samples/dnn/custom_layers.hpp
-/usr/share/OpenCV/samples/dnn/object_detection.cpp
-/usr/share/OpenCV/samples/dnn/openpose.cpp
-/usr/share/OpenCV/samples/dnn/segmentation.cpp
-/usr/share/OpenCV/samples/dnn/text_detection.cpp
-/usr/share/OpenCV/samples/gpu/CMakeLists.txt
-/usr/share/OpenCV/samples/opencl/CMakeLists.txt
-/usr/share/OpenCV/samples/opencl/display.cpp.inc
-/usr/share/OpenCV/samples/opencl/opencl-opencv-interop.cpp
-/usr/share/OpenCV/samples/opencl/va_intel_interop.cpp
-/usr/share/OpenCV/samples/python/_coverage.py
-/usr/share/OpenCV/samples/python/_doc.py
-/usr/share/OpenCV/samples/python/asift.py
-/usr/share/OpenCV/samples/python/browse.py
-/usr/share/OpenCV/samples/python/calibrate.py
-/usr/share/OpenCV/samples/python/camera_calibration_show_extrinsics.py
-/usr/share/OpenCV/samples/python/camshift.py
-/usr/share/OpenCV/samples/python/coherence.py
-/usr/share/OpenCV/samples/python/color_histogram.py
-/usr/share/OpenCV/samples/python/common.py
-/usr/share/OpenCV/samples/python/contours.py
-/usr/share/OpenCV/samples/python/deconvolution.py
-/usr/share/OpenCV/samples/python/demo.py
-/usr/share/OpenCV/samples/python/dft.py
-/usr/share/OpenCV/samples/python/digits.py
-/usr/share/OpenCV/samples/python/digits_adjust.py
-/usr/share/OpenCV/samples/python/digits_video.py
-/usr/share/OpenCV/samples/python/distrans.py
-/usr/share/OpenCV/samples/python/edge.py
-/usr/share/OpenCV/samples/python/facedetect.py
-/usr/share/OpenCV/samples/python/feature_homography.py
-/usr/share/OpenCV/samples/python/find_obj.py
-/usr/share/OpenCV/samples/python/fitline.py
-/usr/share/OpenCV/samples/python/floodfill.py
-/usr/share/OpenCV/samples/python/gabor_threads.py
-/usr/share/OpenCV/samples/python/gaussian_mix.py
-/usr/share/OpenCV/samples/python/grabcut.py
-/usr/share/OpenCV/samples/python/hist.py
-/usr/share/OpenCV/samples/python/houghcircles.py
-/usr/share/OpenCV/samples/python/houghlines.py
-/usr/share/OpenCV/samples/python/inpaint.py
-/usr/share/OpenCV/samples/python/kalman.py
-/usr/share/OpenCV/samples/python/kmeans.py
-/usr/share/OpenCV/samples/python/lappyr.py
-/usr/share/OpenCV/samples/python/letter_recog.py
-/usr/share/OpenCV/samples/python/lk_homography.py
-/usr/share/OpenCV/samples/python/lk_track.py
-/usr/share/OpenCV/samples/python/logpolar.py
-/usr/share/OpenCV/samples/python/morphology.py
-/usr/share/OpenCV/samples/python/mosse.py
-/usr/share/OpenCV/samples/python/mouse_and_match.py
-/usr/share/OpenCV/samples/python/mser.py
-/usr/share/OpenCV/samples/python/opencv_version.py
-/usr/share/OpenCV/samples/python/opt_flow.py
-/usr/share/OpenCV/samples/python/peopledetect.py
-/usr/share/OpenCV/samples/python/plane_ar.py
-/usr/share/OpenCV/samples/python/plane_tracker.py
-/usr/share/OpenCV/samples/python/squares.py
-/usr/share/OpenCV/samples/python/stereo_match.py
-/usr/share/OpenCV/samples/python/texture_flow.py
-/usr/share/OpenCV/samples/python/tst_scene_render.py
-/usr/share/OpenCV/samples/python/turing.py
-/usr/share/OpenCV/samples/python/video.py
-/usr/share/OpenCV/samples/python/video_threaded.py
-/usr/share/OpenCV/samples/python/video_v4l2.py
-/usr/share/OpenCV/samples/python/watershed.py
-/usr/share/OpenCV/samples/tapi/CMakeLists.txt
-/usr/share/OpenCV/samples/tapi/dense_optical_flow.cpp
-/usr/share/OpenCV/valgrind.supp
-/usr/share/OpenCV/valgrind_3rdparty.supp
+/usr/share/licenses/opencv4/SoftFloat-COPYING.txt
+/usr/share/licenses/opencv4/ittnotify-LICENSE.BSD
+/usr/share/licenses/opencv4/ittnotify-LICENSE.GPL
+/usr/share/licenses/opencv4/opencl-headers-LICENSE.txt
+/usr/share/licenses/opencv4/protobuf-LICENSE
+/usr/share/licenses/opencv4/protobuf-README.md
+/usr/share/licenses/opencv4/quirc-LICENSE
+/usr/share/opencv4/haarcascades/haarcascade_eye.xml
+/usr/share/opencv4/haarcascades/haarcascade_eye_tree_eyeglasses.xml
+/usr/share/opencv4/haarcascades/haarcascade_frontalcatface.xml
+/usr/share/opencv4/haarcascades/haarcascade_frontalcatface_extended.xml
+/usr/share/opencv4/haarcascades/haarcascade_frontalface_alt.xml
+/usr/share/opencv4/haarcascades/haarcascade_frontalface_alt2.xml
+/usr/share/opencv4/haarcascades/haarcascade_frontalface_alt_tree.xml
+/usr/share/opencv4/haarcascades/haarcascade_frontalface_default.xml
+/usr/share/opencv4/haarcascades/haarcascade_fullbody.xml
+/usr/share/opencv4/haarcascades/haarcascade_lefteye_2splits.xml
+/usr/share/opencv4/haarcascades/haarcascade_licence_plate_rus_16stages.xml
+/usr/share/opencv4/haarcascades/haarcascade_lowerbody.xml
+/usr/share/opencv4/haarcascades/haarcascade_profileface.xml
+/usr/share/opencv4/haarcascades/haarcascade_righteye_2splits.xml
+/usr/share/opencv4/haarcascades/haarcascade_russian_plate_number.xml
+/usr/share/opencv4/haarcascades/haarcascade_smile.xml
+/usr/share/opencv4/haarcascades/haarcascade_upperbody.xml
+/usr/share/opencv4/lbpcascades/lbpcascade_frontalcatface.xml
+/usr/share/opencv4/lbpcascades/lbpcascade_frontalface.xml
+/usr/share/opencv4/lbpcascades/lbpcascade_frontalface_improved.xml
+/usr/share/opencv4/lbpcascades/lbpcascade_profileface.xml
+/usr/share/opencv4/lbpcascades/lbpcascade_silverware.xml
+/usr/share/opencv4/samples/CMakeLists.txt
+/usr/share/opencv4/samples/cpp/3calibration.cpp
+/usr/share/opencv4/samples/cpp/CMakeLists.txt
+/usr/share/opencv4/samples/cpp/application_trace.cpp
+/usr/share/opencv4/samples/cpp/bgfg_segm.cpp
+/usr/share/opencv4/samples/cpp/calibration.cpp
+/usr/share/opencv4/samples/cpp/camshiftdemo.cpp
+/usr/share/opencv4/samples/cpp/cloning_demo.cpp
+/usr/share/opencv4/samples/cpp/cloning_gui.cpp
+/usr/share/opencv4/samples/cpp/connected_components.cpp
+/usr/share/opencv4/samples/cpp/contours2.cpp
+/usr/share/opencv4/samples/cpp/convexhull.cpp
+/usr/share/opencv4/samples/cpp/cout_mat.cpp
+/usr/share/opencv4/samples/cpp/create_mask.cpp
+/usr/share/opencv4/samples/cpp/dbt_face_detection.cpp
+/usr/share/opencv4/samples/cpp/delaunay2.cpp
+/usr/share/opencv4/samples/cpp/demhist.cpp
+/usr/share/opencv4/samples/cpp/detect_blob.cpp
+/usr/share/opencv4/samples/cpp/detect_mser.cpp
+/usr/share/opencv4/samples/cpp/dft.cpp
+/usr/share/opencv4/samples/cpp/dis_opticalflow.cpp
+/usr/share/opencv4/samples/cpp/distrans.cpp
+/usr/share/opencv4/samples/cpp/drawing.cpp
+/usr/share/opencv4/samples/cpp/edge.cpp
+/usr/share/opencv4/samples/cpp/ela.cpp
+/usr/share/opencv4/samples/cpp/em.cpp
+/usr/share/opencv4/samples/cpp/facedetect.cpp
+/usr/share/opencv4/samples/cpp/facial_features.cpp
+/usr/share/opencv4/samples/cpp/falsecolor.cpp
+/usr/share/opencv4/samples/cpp/fback.cpp
+/usr/share/opencv4/samples/cpp/ffilldemo.cpp
+/usr/share/opencv4/samples/cpp/filestorage.cpp
+/usr/share/opencv4/samples/cpp/fitellipse.cpp
+/usr/share/opencv4/samples/cpp/grabcut.cpp
+/usr/share/opencv4/samples/cpp/image_alignment.cpp
+/usr/share/opencv4/samples/cpp/imagelist_creator.cpp
+/usr/share/opencv4/samples/cpp/imagelist_reader.cpp
+/usr/share/opencv4/samples/cpp/inpaint.cpp
+/usr/share/opencv4/samples/cpp/kalman.cpp
+/usr/share/opencv4/samples/cpp/kmeans.cpp
+/usr/share/opencv4/samples/cpp/laplace.cpp
+/usr/share/opencv4/samples/cpp/letter_recog.cpp
+/usr/share/opencv4/samples/cpp/lkdemo.cpp
+/usr/share/opencv4/samples/cpp/logistic_regression.cpp
+/usr/share/opencv4/samples/cpp/lsd_lines.cpp
+/usr/share/opencv4/samples/cpp/mask_tmpl.cpp
+/usr/share/opencv4/samples/cpp/matchmethod_orb_akaze_brisk.cpp
+/usr/share/opencv4/samples/cpp/minarea.cpp
+/usr/share/opencv4/samples/cpp/morphology2.cpp
+/usr/share/opencv4/samples/cpp/neural_network.cpp
+/usr/share/opencv4/samples/cpp/npr_demo.cpp
+/usr/share/opencv4/samples/cpp/opencv_version.cpp
+/usr/share/opencv4/samples/cpp/pca.cpp
+/usr/share/opencv4/samples/cpp/peopledetect.cpp
+/usr/share/opencv4/samples/cpp/phase_corr.cpp
+/usr/share/opencv4/samples/cpp/points_classifier.cpp
+/usr/share/opencv4/samples/cpp/polar_transforms.cpp
+/usr/share/opencv4/samples/cpp/qrcode.cpp
+/usr/share/opencv4/samples/cpp/segment_objects.cpp
+/usr/share/opencv4/samples/cpp/select3dobj.cpp
+/usr/share/opencv4/samples/cpp/smiledetect.cpp
+/usr/share/opencv4/samples/cpp/squares.cpp
+/usr/share/opencv4/samples/cpp/stereo_calib.cpp
+/usr/share/opencv4/samples/cpp/stereo_match.cpp
+/usr/share/opencv4/samples/cpp/stitching.cpp
+/usr/share/opencv4/samples/cpp/stitching_detailed.cpp
+/usr/share/opencv4/samples/cpp/train_HOG.cpp
+/usr/share/opencv4/samples/cpp/train_svmsgd.cpp
+/usr/share/opencv4/samples/cpp/travelsalesman.cpp
+/usr/share/opencv4/samples/cpp/tree_engine.cpp
+/usr/share/opencv4/samples/cpp/videocapture_basic.cpp
+/usr/share/opencv4/samples/cpp/videocapture_camera.cpp
+/usr/share/opencv4/samples/cpp/videocapture_gphoto2_autofocus.cpp
+/usr/share/opencv4/samples/cpp/videocapture_gstreamer_pipeline.cpp
+/usr/share/opencv4/samples/cpp/videocapture_image_sequence.cpp
+/usr/share/opencv4/samples/cpp/videocapture_intelperc.cpp
+/usr/share/opencv4/samples/cpp/videocapture_openni.cpp
+/usr/share/opencv4/samples/cpp/videocapture_starter.cpp
+/usr/share/opencv4/samples/cpp/videowriter_basic.cpp
+/usr/share/opencv4/samples/cpp/warpPerspective_demo.cpp
+/usr/share/opencv4/samples/cpp/watershed.cpp
+/usr/share/opencv4/samples/data/Blender_Suzanne1.jpg
+/usr/share/opencv4/samples/data/Blender_Suzanne2.jpg
+/usr/share/opencv4/samples/data/H1to3p.xml
+/usr/share/opencv4/samples/data/HappyFish.jpg
+/usr/share/opencv4/samples/data/LinuxLogo.jpg
+/usr/share/opencv4/samples/data/Megamind.avi
+/usr/share/opencv4/samples/data/Megamind_bugy.avi
+/usr/share/opencv4/samples/data/WindowsLogo.jpg
+/usr/share/opencv4/samples/data/aero1.jpg
+/usr/share/opencv4/samples/data/aero3.jpg
+/usr/share/opencv4/samples/data/aloeGT.png
+/usr/share/opencv4/samples/data/aloeL.jpg
+/usr/share/opencv4/samples/data/aloeR.jpg
+/usr/share/opencv4/samples/data/apple.jpg
+/usr/share/opencv4/samples/data/baboon.jpg
+/usr/share/opencv4/samples/data/basketball1.png
+/usr/share/opencv4/samples/data/basketball2.png
+/usr/share/opencv4/samples/data/blox.jpg
+/usr/share/opencv4/samples/data/board.jpg
+/usr/share/opencv4/samples/data/box.png
+/usr/share/opencv4/samples/data/box_in_scene.png
+/usr/share/opencv4/samples/data/building.jpg
+/usr/share/opencv4/samples/data/butterfly.jpg
+/usr/share/opencv4/samples/data/calibration.yml
+/usr/share/opencv4/samples/data/cards.png
+/usr/share/opencv4/samples/data/chessboard.png
+/usr/share/opencv4/samples/data/chicky_512.png
+/usr/share/opencv4/samples/data/data01.xml
+/usr/share/opencv4/samples/data/detect_blob.png
+/usr/share/opencv4/samples/data/digits.png
+/usr/share/opencv4/samples/data/dnn/classification_classes_ILSVRC2012.txt
+/usr/share/opencv4/samples/data/dnn/enet-classes.txt
+/usr/share/opencv4/samples/data/dnn/object_detection_classes_coco.txt
+/usr/share/opencv4/samples/data/dnn/object_detection_classes_pascal_voc.txt
+/usr/share/opencv4/samples/data/dnn/object_detection_classes_yolov3.txt
+/usr/share/opencv4/samples/data/ela_modified.jpg
+/usr/share/opencv4/samples/data/ela_original.jpg
+/usr/share/opencv4/samples/data/ellipses.jpg
+/usr/share/opencv4/samples/data/fruits.jpg
+/usr/share/opencv4/samples/data/gradient.png
+/usr/share/opencv4/samples/data/graf1.png
+/usr/share/opencv4/samples/data/graf3.png
+/usr/share/opencv4/samples/data/home.jpg
+/usr/share/opencv4/samples/data/imageTextN.png
+/usr/share/opencv4/samples/data/imageTextR.png
+/usr/share/opencv4/samples/data/intrinsics.yml
+/usr/share/opencv4/samples/data/left.jpg
+/usr/share/opencv4/samples/data/left01.jpg
+/usr/share/opencv4/samples/data/left02.jpg
+/usr/share/opencv4/samples/data/left03.jpg
+/usr/share/opencv4/samples/data/left04.jpg
+/usr/share/opencv4/samples/data/left05.jpg
+/usr/share/opencv4/samples/data/left06.jpg
+/usr/share/opencv4/samples/data/left07.jpg
+/usr/share/opencv4/samples/data/left08.jpg
+/usr/share/opencv4/samples/data/left09.jpg
+/usr/share/opencv4/samples/data/left11.jpg
+/usr/share/opencv4/samples/data/left12.jpg
+/usr/share/opencv4/samples/data/left13.jpg
+/usr/share/opencv4/samples/data/left14.jpg
+/usr/share/opencv4/samples/data/left_intrinsics.yml
+/usr/share/opencv4/samples/data/lena.jpg
+/usr/share/opencv4/samples/data/lena_tmpl.jpg
+/usr/share/opencv4/samples/data/letter-recognition.data
+/usr/share/opencv4/samples/data/licenseplate_motion.jpg
+/usr/share/opencv4/samples/data/mask.png
+/usr/share/opencv4/samples/data/messi5.jpg
+/usr/share/opencv4/samples/data/ml.png
+/usr/share/opencv4/samples/data/notes.png
+/usr/share/opencv4/samples/data/opencv-logo-white.png
+/usr/share/opencv4/samples/data/opencv-logo.png
+/usr/share/opencv4/samples/data/orange.jpg
+/usr/share/opencv4/samples/data/pca_test1.jpg
+/usr/share/opencv4/samples/data/pic1.png
+/usr/share/opencv4/samples/data/pic2.png
+/usr/share/opencv4/samples/data/pic3.png
+/usr/share/opencv4/samples/data/pic4.png
+/usr/share/opencv4/samples/data/pic5.png
+/usr/share/opencv4/samples/data/pic6.png
+/usr/share/opencv4/samples/data/right.jpg
+/usr/share/opencv4/samples/data/right01.jpg
+/usr/share/opencv4/samples/data/right02.jpg
+/usr/share/opencv4/samples/data/right03.jpg
+/usr/share/opencv4/samples/data/right04.jpg
+/usr/share/opencv4/samples/data/right05.jpg
+/usr/share/opencv4/samples/data/right06.jpg
+/usr/share/opencv4/samples/data/right07.jpg
+/usr/share/opencv4/samples/data/right08.jpg
+/usr/share/opencv4/samples/data/right09.jpg
+/usr/share/opencv4/samples/data/right11.jpg
+/usr/share/opencv4/samples/data/right12.jpg
+/usr/share/opencv4/samples/data/right13.jpg
+/usr/share/opencv4/samples/data/right14.jpg
+/usr/share/opencv4/samples/data/rubberwhale1.png
+/usr/share/opencv4/samples/data/rubberwhale2.png
+/usr/share/opencv4/samples/data/smarties.png
+/usr/share/opencv4/samples/data/starry_night.jpg
+/usr/share/opencv4/samples/data/stereo_calib.xml
+/usr/share/opencv4/samples/data/stuff.jpg
+/usr/share/opencv4/samples/data/sudoku.png
+/usr/share/opencv4/samples/data/templ.png
+/usr/share/opencv4/samples/data/text_defocus.jpg
+/usr/share/opencv4/samples/data/text_motion.jpg
+/usr/share/opencv4/samples/data/tmpl.png
+/usr/share/opencv4/samples/data/tree.avi
+/usr/share/opencv4/samples/data/vtest.avi
+/usr/share/opencv4/samples/dnn/CMakeLists.txt
+/usr/share/opencv4/samples/dnn/classification.cpp
+/usr/share/opencv4/samples/dnn/colorization.cpp
+/usr/share/opencv4/samples/dnn/common.hpp
+/usr/share/opencv4/samples/dnn/custom_layers.hpp
+/usr/share/opencv4/samples/dnn/object_detection.cpp
+/usr/share/opencv4/samples/dnn/openpose.cpp
+/usr/share/opencv4/samples/dnn/segmentation.cpp
+/usr/share/opencv4/samples/dnn/text_detection.cpp
+/usr/share/opencv4/samples/gpu/CMakeLists.txt
+/usr/share/opencv4/samples/gpu/alpha_comp.cpp
+/usr/share/opencv4/samples/gpu/bgfg_segm.cpp
+/usr/share/opencv4/samples/gpu/cascadeclassifier.cpp
+/usr/share/opencv4/samples/gpu/farneback_optical_flow.cpp
+/usr/share/opencv4/samples/gpu/generalized_hough.cpp
+/usr/share/opencv4/samples/gpu/hog.cpp
+/usr/share/opencv4/samples/gpu/houghlines.cpp
+/usr/share/opencv4/samples/gpu/morphology.cpp
+/usr/share/opencv4/samples/gpu/multi.cpp
+/usr/share/opencv4/samples/gpu/optical_flow.cpp
+/usr/share/opencv4/samples/gpu/pyrlk_optical_flow.cpp
+/usr/share/opencv4/samples/gpu/stereo_match.cpp
+/usr/share/opencv4/samples/gpu/stereo_multi.cpp
+/usr/share/opencv4/samples/gpu/super_resolution.cpp
+/usr/share/opencv4/samples/gpu/surf_keypoint_matcher.cpp
+/usr/share/opencv4/samples/gpu/video_reader.cpp
+/usr/share/opencv4/samples/gpu/video_writer.cpp
+/usr/share/opencv4/samples/opencl/CMakeLists.txt
+/usr/share/opencv4/samples/opencl/display.cpp.inc
+/usr/share/opencv4/samples/opencl/opencl-opencv-interop.cpp
+/usr/share/opencv4/samples/opencl/va_intel_interop.cpp
+/usr/share/opencv4/samples/python/_coverage.py
+/usr/share/opencv4/samples/python/_doc.py
+/usr/share/opencv4/samples/python/asift.py
+/usr/share/opencv4/samples/python/browse.py
+/usr/share/opencv4/samples/python/calibrate.py
+/usr/share/opencv4/samples/python/camera_calibration_show_extrinsics.py
+/usr/share/opencv4/samples/python/camshift.py
+/usr/share/opencv4/samples/python/coherence.py
+/usr/share/opencv4/samples/python/color_histogram.py
+/usr/share/opencv4/samples/python/common.py
+/usr/share/opencv4/samples/python/contours.py
+/usr/share/opencv4/samples/python/deconvolution.py
+/usr/share/opencv4/samples/python/demo.py
+/usr/share/opencv4/samples/python/dft.py
+/usr/share/opencv4/samples/python/digits.py
+/usr/share/opencv4/samples/python/digits_adjust.py
+/usr/share/opencv4/samples/python/digits_video.py
+/usr/share/opencv4/samples/python/dis_opt_flow.py
+/usr/share/opencv4/samples/python/distrans.py
+/usr/share/opencv4/samples/python/edge.py
+/usr/share/opencv4/samples/python/facedetect.py
+/usr/share/opencv4/samples/python/feature_homography.py
+/usr/share/opencv4/samples/python/find_obj.py
+/usr/share/opencv4/samples/python/fitline.py
+/usr/share/opencv4/samples/python/floodfill.py
+/usr/share/opencv4/samples/python/gabor_threads.py
+/usr/share/opencv4/samples/python/gaussian_mix.py
+/usr/share/opencv4/samples/python/grabcut.py
+/usr/share/opencv4/samples/python/hist.py
+/usr/share/opencv4/samples/python/houghcircles.py
+/usr/share/opencv4/samples/python/houghlines.py
+/usr/share/opencv4/samples/python/inpaint.py
+/usr/share/opencv4/samples/python/kalman.py
+/usr/share/opencv4/samples/python/kmeans.py
+/usr/share/opencv4/samples/python/lappyr.py
+/usr/share/opencv4/samples/python/letter_recog.py
+/usr/share/opencv4/samples/python/lk_homography.py
+/usr/share/opencv4/samples/python/lk_track.py
+/usr/share/opencv4/samples/python/logpolar.py
+/usr/share/opencv4/samples/python/morphology.py
+/usr/share/opencv4/samples/python/mosse.py
+/usr/share/opencv4/samples/python/mouse_and_match.py
+/usr/share/opencv4/samples/python/mser.py
+/usr/share/opencv4/samples/python/opencv_version.py
+/usr/share/opencv4/samples/python/opt_flow.py
+/usr/share/opencv4/samples/python/peopledetect.py
+/usr/share/opencv4/samples/python/plane_ar.py
+/usr/share/opencv4/samples/python/plane_tracker.py
+/usr/share/opencv4/samples/python/squares.py
+/usr/share/opencv4/samples/python/stereo_match.py
+/usr/share/opencv4/samples/python/stitching.py
+/usr/share/opencv4/samples/python/texture_flow.py
+/usr/share/opencv4/samples/python/tst_scene_render.py
+/usr/share/opencv4/samples/python/turing.py
+/usr/share/opencv4/samples/python/video.py
+/usr/share/opencv4/samples/python/video_threaded.py
+/usr/share/opencv4/samples/python/video_v4l2.py
+/usr/share/opencv4/samples/python/watershed.py
+/usr/share/opencv4/samples/tapi/CMakeLists.txt
+/usr/share/opencv4/samples/tapi/bgfg_segm.cpp
+/usr/share/opencv4/samples/tapi/camshift.cpp
+/usr/share/opencv4/samples/tapi/clahe.cpp
+/usr/share/opencv4/samples/tapi/dense_optical_flow.cpp
+/usr/share/opencv4/samples/tapi/hog.cpp
+/usr/share/opencv4/samples/tapi/opencl_custom_kernel.cpp
+/usr/share/opencv4/samples/tapi/pyrlk_optical_flow.cpp
+/usr/share/opencv4/samples/tapi/squares.cpp
+/usr/share/opencv4/samples/tapi/ufacedetect.cpp
+/usr/share/opencv4/valgrind.supp
+/usr/share/opencv4/valgrind_3rdparty.supp
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/opencv/cv.h
-/usr/include/opencv/cv.hpp
-/usr/include/opencv/cvaux.h
-/usr/include/opencv/cvaux.hpp
-/usr/include/opencv/cvwimage.h
-/usr/include/opencv/cxcore.h
-/usr/include/opencv/cxcore.hpp
-/usr/include/opencv/cxeigen.hpp
-/usr/include/opencv/cxmisc.h
-/usr/include/opencv/highgui.h
-/usr/include/opencv/ml.h
-/usr/include/opencv2/calib3d.hpp
-/usr/include/opencv2/calib3d/calib3d.hpp
-/usr/include/opencv2/calib3d/calib3d_c.h
-/usr/include/opencv2/core.hpp
-/usr/include/opencv2/core/affine.hpp
-/usr/include/opencv2/core/base.hpp
-/usr/include/opencv2/core/bufferpool.hpp
-/usr/include/opencv2/core/check.hpp
-/usr/include/opencv2/core/core.hpp
-/usr/include/opencv2/core/core_c.h
-/usr/include/opencv2/core/cuda.hpp
-/usr/include/opencv2/core/cuda.inl.hpp
-/usr/include/opencv2/core/cuda/block.hpp
-/usr/include/opencv2/core/cuda/border_interpolate.hpp
-/usr/include/opencv2/core/cuda/color.hpp
-/usr/include/opencv2/core/cuda/common.hpp
-/usr/include/opencv2/core/cuda/datamov_utils.hpp
-/usr/include/opencv2/core/cuda/detail/color_detail.hpp
-/usr/include/opencv2/core/cuda/detail/reduce.hpp
-/usr/include/opencv2/core/cuda/detail/reduce_key_val.hpp
-/usr/include/opencv2/core/cuda/detail/transform_detail.hpp
-/usr/include/opencv2/core/cuda/detail/type_traits_detail.hpp
-/usr/include/opencv2/core/cuda/detail/vec_distance_detail.hpp
-/usr/include/opencv2/core/cuda/dynamic_smem.hpp
-/usr/include/opencv2/core/cuda/emulation.hpp
-/usr/include/opencv2/core/cuda/filters.hpp
-/usr/include/opencv2/core/cuda/funcattrib.hpp
-/usr/include/opencv2/core/cuda/functional.hpp
-/usr/include/opencv2/core/cuda/limits.hpp
-/usr/include/opencv2/core/cuda/reduce.hpp
-/usr/include/opencv2/core/cuda/saturate_cast.hpp
-/usr/include/opencv2/core/cuda/scan.hpp
-/usr/include/opencv2/core/cuda/simd_functions.hpp
-/usr/include/opencv2/core/cuda/transform.hpp
-/usr/include/opencv2/core/cuda/type_traits.hpp
-/usr/include/opencv2/core/cuda/utility.hpp
-/usr/include/opencv2/core/cuda/vec_distance.hpp
-/usr/include/opencv2/core/cuda/vec_math.hpp
-/usr/include/opencv2/core/cuda/vec_traits.hpp
-/usr/include/opencv2/core/cuda/warp.hpp
-/usr/include/opencv2/core/cuda/warp_reduce.hpp
-/usr/include/opencv2/core/cuda/warp_shuffle.hpp
-/usr/include/opencv2/core/cuda_stream_accessor.hpp
-/usr/include/opencv2/core/cuda_types.hpp
-/usr/include/opencv2/core/cv_cpu_dispatch.h
-/usr/include/opencv2/core/cv_cpu_helper.h
-/usr/include/opencv2/core/cvdef.h
-/usr/include/opencv2/core/cvstd.hpp
-/usr/include/opencv2/core/cvstd.inl.hpp
-/usr/include/opencv2/core/directx.hpp
-/usr/include/opencv2/core/eigen.hpp
-/usr/include/opencv2/core/fast_math.hpp
-/usr/include/opencv2/core/hal/hal.hpp
-/usr/include/opencv2/core/hal/interface.h
-/usr/include/opencv2/core/hal/intrin.hpp
-/usr/include/opencv2/core/hal/intrin_avx.hpp
-/usr/include/opencv2/core/hal/intrin_cpp.hpp
-/usr/include/opencv2/core/hal/intrin_neon.hpp
-/usr/include/opencv2/core/hal/intrin_sse.hpp
-/usr/include/opencv2/core/hal/intrin_vsx.hpp
-/usr/include/opencv2/core/ippasync.hpp
-/usr/include/opencv2/core/mat.hpp
-/usr/include/opencv2/core/mat.inl.hpp
-/usr/include/opencv2/core/matx.hpp
-/usr/include/opencv2/core/neon_utils.hpp
-/usr/include/opencv2/core/ocl.hpp
-/usr/include/opencv2/core/ocl_genbase.hpp
-/usr/include/opencv2/core/opencl/ocl_defs.hpp
-/usr/include/opencv2/core/opencl/opencl_info.hpp
-/usr/include/opencv2/core/opencl/opencl_svm.hpp
-/usr/include/opencv2/core/opencl/runtime/autogenerated/opencl_clamdblas.hpp
-/usr/include/opencv2/core/opencl/runtime/autogenerated/opencl_clamdfft.hpp
-/usr/include/opencv2/core/opencl/runtime/autogenerated/opencl_core.hpp
-/usr/include/opencv2/core/opencl/runtime/autogenerated/opencl_core_wrappers.hpp
-/usr/include/opencv2/core/opencl/runtime/autogenerated/opencl_gl.hpp
-/usr/include/opencv2/core/opencl/runtime/autogenerated/opencl_gl_wrappers.hpp
-/usr/include/opencv2/core/opencl/runtime/opencl_clamdblas.hpp
-/usr/include/opencv2/core/opencl/runtime/opencl_clamdfft.hpp
-/usr/include/opencv2/core/opencl/runtime/opencl_core.hpp
-/usr/include/opencv2/core/opencl/runtime/opencl_core_wrappers.hpp
-/usr/include/opencv2/core/opencl/runtime/opencl_gl.hpp
-/usr/include/opencv2/core/opencl/runtime/opencl_gl_wrappers.hpp
-/usr/include/opencv2/core/opencl/runtime/opencl_svm_20.hpp
-/usr/include/opencv2/core/opencl/runtime/opencl_svm_definitions.hpp
-/usr/include/opencv2/core/opencl/runtime/opencl_svm_hsa_extension.hpp
-/usr/include/opencv2/core/opengl.hpp
-/usr/include/opencv2/core/operations.hpp
-/usr/include/opencv2/core/optim.hpp
-/usr/include/opencv2/core/ovx.hpp
-/usr/include/opencv2/core/persistence.hpp
-/usr/include/opencv2/core/ptr.inl.hpp
-/usr/include/opencv2/core/saturate.hpp
-/usr/include/opencv2/core/softfloat.hpp
-/usr/include/opencv2/core/sse_utils.hpp
-/usr/include/opencv2/core/traits.hpp
-/usr/include/opencv2/core/types.hpp
-/usr/include/opencv2/core/types_c.h
-/usr/include/opencv2/core/utility.hpp
-/usr/include/opencv2/core/utils/filesystem.hpp
-/usr/include/opencv2/core/utils/logger.defines.hpp
-/usr/include/opencv2/core/utils/logger.hpp
-/usr/include/opencv2/core/utils/trace.hpp
-/usr/include/opencv2/core/va_intel.hpp
-/usr/include/opencv2/core/version.hpp
-/usr/include/opencv2/core/vsx_utils.hpp
-/usr/include/opencv2/core/wimage.hpp
-/usr/include/opencv2/cvconfig.h
-/usr/include/opencv2/dnn.hpp
-/usr/include/opencv2/dnn/all_layers.hpp
-/usr/include/opencv2/dnn/dict.hpp
-/usr/include/opencv2/dnn/dnn.hpp
-/usr/include/opencv2/dnn/dnn.inl.hpp
-/usr/include/opencv2/dnn/layer.details.hpp
-/usr/include/opencv2/dnn/layer.hpp
-/usr/include/opencv2/dnn/shape_utils.hpp
-/usr/include/opencv2/features2d.hpp
-/usr/include/opencv2/features2d/features2d.hpp
-/usr/include/opencv2/features2d/hal/interface.h
-/usr/include/opencv2/flann.hpp
-/usr/include/opencv2/flann/all_indices.h
-/usr/include/opencv2/flann/allocator.h
-/usr/include/opencv2/flann/any.h
-/usr/include/opencv2/flann/autotuned_index.h
-/usr/include/opencv2/flann/composite_index.h
-/usr/include/opencv2/flann/config.h
-/usr/include/opencv2/flann/defines.h
-/usr/include/opencv2/flann/dist.h
-/usr/include/opencv2/flann/dummy.h
-/usr/include/opencv2/flann/dynamic_bitset.h
-/usr/include/opencv2/flann/flann.hpp
-/usr/include/opencv2/flann/flann_base.hpp
-/usr/include/opencv2/flann/general.h
-/usr/include/opencv2/flann/ground_truth.h
-/usr/include/opencv2/flann/hdf5.h
-/usr/include/opencv2/flann/heap.h
-/usr/include/opencv2/flann/hierarchical_clustering_index.h
-/usr/include/opencv2/flann/index_testing.h
-/usr/include/opencv2/flann/kdtree_index.h
-/usr/include/opencv2/flann/kdtree_single_index.h
-/usr/include/opencv2/flann/kmeans_index.h
-/usr/include/opencv2/flann/linear_index.h
-/usr/include/opencv2/flann/logger.h
-/usr/include/opencv2/flann/lsh_index.h
-/usr/include/opencv2/flann/lsh_table.h
-/usr/include/opencv2/flann/matrix.h
-/usr/include/opencv2/flann/miniflann.hpp
-/usr/include/opencv2/flann/nn_index.h
-/usr/include/opencv2/flann/object_factory.h
-/usr/include/opencv2/flann/params.h
-/usr/include/opencv2/flann/random.h
-/usr/include/opencv2/flann/result_set.h
-/usr/include/opencv2/flann/sampling.h
-/usr/include/opencv2/flann/saving.h
-/usr/include/opencv2/flann/simplex_downhill.h
-/usr/include/opencv2/flann/timer.h
-/usr/include/opencv2/highgui.hpp
-/usr/include/opencv2/highgui/highgui.hpp
-/usr/include/opencv2/highgui/highgui_c.h
-/usr/include/opencv2/imgcodecs.hpp
-/usr/include/opencv2/imgcodecs/imgcodecs.hpp
-/usr/include/opencv2/imgcodecs/imgcodecs_c.h
-/usr/include/opencv2/imgcodecs/ios.h
-/usr/include/opencv2/imgproc.hpp
-/usr/include/opencv2/imgproc/detail/distortion_model.hpp
-/usr/include/opencv2/imgproc/hal/hal.hpp
-/usr/include/opencv2/imgproc/hal/interface.h
-/usr/include/opencv2/imgproc/imgproc.hpp
-/usr/include/opencv2/imgproc/imgproc_c.h
-/usr/include/opencv2/imgproc/types_c.h
-/usr/include/opencv2/ml.hpp
-/usr/include/opencv2/ml/ml.hpp
-/usr/include/opencv2/ml/ml.inl.hpp
-/usr/include/opencv2/objdetect.hpp
-/usr/include/opencv2/objdetect/detection_based_tracker.hpp
-/usr/include/opencv2/objdetect/objdetect.hpp
-/usr/include/opencv2/objdetect/objdetect_c.h
-/usr/include/opencv2/opencv.hpp
-/usr/include/opencv2/opencv_modules.hpp
-/usr/include/opencv2/photo.hpp
-/usr/include/opencv2/photo/cuda.hpp
-/usr/include/opencv2/photo/photo.hpp
-/usr/include/opencv2/photo/photo_c.h
-/usr/include/opencv2/shape.hpp
-/usr/include/opencv2/shape/emdL1.hpp
-/usr/include/opencv2/shape/hist_cost.hpp
-/usr/include/opencv2/shape/shape.hpp
-/usr/include/opencv2/shape/shape_distance.hpp
-/usr/include/opencv2/shape/shape_transformer.hpp
-/usr/include/opencv2/stitching.hpp
-/usr/include/opencv2/stitching/detail/autocalib.hpp
-/usr/include/opencv2/stitching/detail/blenders.hpp
-/usr/include/opencv2/stitching/detail/camera.hpp
-/usr/include/opencv2/stitching/detail/exposure_compensate.hpp
-/usr/include/opencv2/stitching/detail/matchers.hpp
-/usr/include/opencv2/stitching/detail/motion_estimators.hpp
-/usr/include/opencv2/stitching/detail/seam_finders.hpp
-/usr/include/opencv2/stitching/detail/timelapsers.hpp
-/usr/include/opencv2/stitching/detail/util.hpp
-/usr/include/opencv2/stitching/detail/util_inl.hpp
-/usr/include/opencv2/stitching/detail/warpers.hpp
-/usr/include/opencv2/stitching/detail/warpers_inl.hpp
-/usr/include/opencv2/stitching/warpers.hpp
-/usr/include/opencv2/superres.hpp
-/usr/include/opencv2/superres/optical_flow.hpp
-/usr/include/opencv2/video.hpp
-/usr/include/opencv2/video/background_segm.hpp
-/usr/include/opencv2/video/tracking.hpp
-/usr/include/opencv2/video/tracking_c.h
-/usr/include/opencv2/video/video.hpp
-/usr/include/opencv2/videoio.hpp
-/usr/include/opencv2/videoio/cap_ios.h
-/usr/include/opencv2/videoio/registry.hpp
-/usr/include/opencv2/videoio/videoio.hpp
-/usr/include/opencv2/videoio/videoio_c.h
-/usr/include/opencv2/videostab.hpp
-/usr/include/opencv2/videostab/deblurring.hpp
-/usr/include/opencv2/videostab/fast_marching.hpp
-/usr/include/opencv2/videostab/fast_marching_inl.hpp
-/usr/include/opencv2/videostab/frame_source.hpp
-/usr/include/opencv2/videostab/global_motion.hpp
-/usr/include/opencv2/videostab/inpainting.hpp
-/usr/include/opencv2/videostab/log.hpp
-/usr/include/opencv2/videostab/motion_core.hpp
-/usr/include/opencv2/videostab/motion_stabilizing.hpp
-/usr/include/opencv2/videostab/optical_flow.hpp
-/usr/include/opencv2/videostab/outlier_rejection.hpp
-/usr/include/opencv2/videostab/ring_buffer.hpp
-/usr/include/opencv2/videostab/stabilizer.hpp
-/usr/include/opencv2/videostab/wobble_suppression.hpp
+/usr/include/opencv4/opencv2/calib3d.hpp
+/usr/include/opencv4/opencv2/calib3d/calib3d.hpp
+/usr/include/opencv4/opencv2/calib3d/calib3d_c.h
+/usr/include/opencv4/opencv2/core.hpp
+/usr/include/opencv4/opencv2/core/affine.hpp
+/usr/include/opencv4/opencv2/core/base.hpp
+/usr/include/opencv4/opencv2/core/bindings_utils.hpp
+/usr/include/opencv4/opencv2/core/bufferpool.hpp
+/usr/include/opencv4/opencv2/core/check.hpp
+/usr/include/opencv4/opencv2/core/core.hpp
+/usr/include/opencv4/opencv2/core/core_c.h
+/usr/include/opencv4/opencv2/core/cuda.hpp
+/usr/include/opencv4/opencv2/core/cuda.inl.hpp
+/usr/include/opencv4/opencv2/core/cuda/block.hpp
+/usr/include/opencv4/opencv2/core/cuda/border_interpolate.hpp
+/usr/include/opencv4/opencv2/core/cuda/color.hpp
+/usr/include/opencv4/opencv2/core/cuda/common.hpp
+/usr/include/opencv4/opencv2/core/cuda/datamov_utils.hpp
+/usr/include/opencv4/opencv2/core/cuda/detail/color_detail.hpp
+/usr/include/opencv4/opencv2/core/cuda/detail/reduce.hpp
+/usr/include/opencv4/opencv2/core/cuda/detail/reduce_key_val.hpp
+/usr/include/opencv4/opencv2/core/cuda/detail/transform_detail.hpp
+/usr/include/opencv4/opencv2/core/cuda/detail/type_traits_detail.hpp
+/usr/include/opencv4/opencv2/core/cuda/detail/vec_distance_detail.hpp
+/usr/include/opencv4/opencv2/core/cuda/dynamic_smem.hpp
+/usr/include/opencv4/opencv2/core/cuda/emulation.hpp
+/usr/include/opencv4/opencv2/core/cuda/filters.hpp
+/usr/include/opencv4/opencv2/core/cuda/funcattrib.hpp
+/usr/include/opencv4/opencv2/core/cuda/functional.hpp
+/usr/include/opencv4/opencv2/core/cuda/limits.hpp
+/usr/include/opencv4/opencv2/core/cuda/reduce.hpp
+/usr/include/opencv4/opencv2/core/cuda/saturate_cast.hpp
+/usr/include/opencv4/opencv2/core/cuda/scan.hpp
+/usr/include/opencv4/opencv2/core/cuda/simd_functions.hpp
+/usr/include/opencv4/opencv2/core/cuda/transform.hpp
+/usr/include/opencv4/opencv2/core/cuda/type_traits.hpp
+/usr/include/opencv4/opencv2/core/cuda/utility.hpp
+/usr/include/opencv4/opencv2/core/cuda/vec_distance.hpp
+/usr/include/opencv4/opencv2/core/cuda/vec_math.hpp
+/usr/include/opencv4/opencv2/core/cuda/vec_traits.hpp
+/usr/include/opencv4/opencv2/core/cuda/warp.hpp
+/usr/include/opencv4/opencv2/core/cuda/warp_reduce.hpp
+/usr/include/opencv4/opencv2/core/cuda/warp_shuffle.hpp
+/usr/include/opencv4/opencv2/core/cuda_stream_accessor.hpp
+/usr/include/opencv4/opencv2/core/cuda_types.hpp
+/usr/include/opencv4/opencv2/core/cv_cpu_dispatch.h
+/usr/include/opencv4/opencv2/core/cv_cpu_helper.h
+/usr/include/opencv4/opencv2/core/cvdef.h
+/usr/include/opencv4/opencv2/core/cvstd.hpp
+/usr/include/opencv4/opencv2/core/cvstd.inl.hpp
+/usr/include/opencv4/opencv2/core/cvstd_wrapper.hpp
+/usr/include/opencv4/opencv2/core/directx.hpp
+/usr/include/opencv4/opencv2/core/eigen.hpp
+/usr/include/opencv4/opencv2/core/fast_math.hpp
+/usr/include/opencv4/opencv2/core/hal/hal.hpp
+/usr/include/opencv4/opencv2/core/hal/interface.h
+/usr/include/opencv4/opencv2/core/hal/intrin.hpp
+/usr/include/opencv4/opencv2/core/hal/intrin_avx.hpp
+/usr/include/opencv4/opencv2/core/hal/intrin_cpp.hpp
+/usr/include/opencv4/opencv2/core/hal/intrin_forward.hpp
+/usr/include/opencv4/opencv2/core/hal/intrin_neon.hpp
+/usr/include/opencv4/opencv2/core/hal/intrin_sse.hpp
+/usr/include/opencv4/opencv2/core/hal/intrin_sse_em.hpp
+/usr/include/opencv4/opencv2/core/hal/intrin_vsx.hpp
+/usr/include/opencv4/opencv2/core/mat.hpp
+/usr/include/opencv4/opencv2/core/mat.inl.hpp
+/usr/include/opencv4/opencv2/core/matx.hpp
+/usr/include/opencv4/opencv2/core/neon_utils.hpp
+/usr/include/opencv4/opencv2/core/ocl.hpp
+/usr/include/opencv4/opencv2/core/ocl_genbase.hpp
+/usr/include/opencv4/opencv2/core/opencl/ocl_defs.hpp
+/usr/include/opencv4/opencv2/core/opencl/opencl_info.hpp
+/usr/include/opencv4/opencv2/core/opencl/opencl_svm.hpp
+/usr/include/opencv4/opencv2/core/opencl/runtime/autogenerated/opencl_clamdblas.hpp
+/usr/include/opencv4/opencv2/core/opencl/runtime/autogenerated/opencl_clamdfft.hpp
+/usr/include/opencv4/opencv2/core/opencl/runtime/autogenerated/opencl_core.hpp
+/usr/include/opencv4/opencv2/core/opencl/runtime/autogenerated/opencl_core_wrappers.hpp
+/usr/include/opencv4/opencv2/core/opencl/runtime/autogenerated/opencl_gl.hpp
+/usr/include/opencv4/opencv2/core/opencl/runtime/autogenerated/opencl_gl_wrappers.hpp
+/usr/include/opencv4/opencv2/core/opencl/runtime/opencl_clamdblas.hpp
+/usr/include/opencv4/opencv2/core/opencl/runtime/opencl_clamdfft.hpp
+/usr/include/opencv4/opencv2/core/opencl/runtime/opencl_core.hpp
+/usr/include/opencv4/opencv2/core/opencl/runtime/opencl_core_wrappers.hpp
+/usr/include/opencv4/opencv2/core/opencl/runtime/opencl_gl.hpp
+/usr/include/opencv4/opencv2/core/opencl/runtime/opencl_gl_wrappers.hpp
+/usr/include/opencv4/opencv2/core/opencl/runtime/opencl_svm_20.hpp
+/usr/include/opencv4/opencv2/core/opencl/runtime/opencl_svm_definitions.hpp
+/usr/include/opencv4/opencv2/core/opencl/runtime/opencl_svm_hsa_extension.hpp
+/usr/include/opencv4/opencv2/core/opengl.hpp
+/usr/include/opencv4/opencv2/core/operations.hpp
+/usr/include/opencv4/opencv2/core/optim.hpp
+/usr/include/opencv4/opencv2/core/ovx.hpp
+/usr/include/opencv4/opencv2/core/persistence.hpp
+/usr/include/opencv4/opencv2/core/saturate.hpp
+/usr/include/opencv4/opencv2/core/softfloat.hpp
+/usr/include/opencv4/opencv2/core/sse_utils.hpp
+/usr/include/opencv4/opencv2/core/traits.hpp
+/usr/include/opencv4/opencv2/core/types.hpp
+/usr/include/opencv4/opencv2/core/types_c.h
+/usr/include/opencv4/opencv2/core/utility.hpp
+/usr/include/opencv4/opencv2/core/utils/filesystem.hpp
+/usr/include/opencv4/opencv2/core/utils/logger.defines.hpp
+/usr/include/opencv4/opencv2/core/utils/logger.hpp
+/usr/include/opencv4/opencv2/core/utils/trace.hpp
+/usr/include/opencv4/opencv2/core/va_intel.hpp
+/usr/include/opencv4/opencv2/core/version.hpp
+/usr/include/opencv4/opencv2/core/vsx_utils.hpp
+/usr/include/opencv4/opencv2/cvconfig.h
+/usr/include/opencv4/opencv2/dnn.hpp
+/usr/include/opencv4/opencv2/dnn/all_layers.hpp
+/usr/include/opencv4/opencv2/dnn/dict.hpp
+/usr/include/opencv4/opencv2/dnn/dnn.hpp
+/usr/include/opencv4/opencv2/dnn/dnn.inl.hpp
+/usr/include/opencv4/opencv2/dnn/layer.details.hpp
+/usr/include/opencv4/opencv2/dnn/layer.hpp
+/usr/include/opencv4/opencv2/dnn/shape_utils.hpp
+/usr/include/opencv4/opencv2/dnn/version.hpp
+/usr/include/opencv4/opencv2/features2d.hpp
+/usr/include/opencv4/opencv2/features2d/features2d.hpp
+/usr/include/opencv4/opencv2/features2d/hal/interface.h
+/usr/include/opencv4/opencv2/flann.hpp
+/usr/include/opencv4/opencv2/flann/all_indices.h
+/usr/include/opencv4/opencv2/flann/allocator.h
+/usr/include/opencv4/opencv2/flann/any.h
+/usr/include/opencv4/opencv2/flann/autotuned_index.h
+/usr/include/opencv4/opencv2/flann/composite_index.h
+/usr/include/opencv4/opencv2/flann/config.h
+/usr/include/opencv4/opencv2/flann/defines.h
+/usr/include/opencv4/opencv2/flann/dist.h
+/usr/include/opencv4/opencv2/flann/dummy.h
+/usr/include/opencv4/opencv2/flann/dynamic_bitset.h
+/usr/include/opencv4/opencv2/flann/flann.hpp
+/usr/include/opencv4/opencv2/flann/flann_base.hpp
+/usr/include/opencv4/opencv2/flann/general.h
+/usr/include/opencv4/opencv2/flann/ground_truth.h
+/usr/include/opencv4/opencv2/flann/heap.h
+/usr/include/opencv4/opencv2/flann/hierarchical_clustering_index.h
+/usr/include/opencv4/opencv2/flann/index_testing.h
+/usr/include/opencv4/opencv2/flann/kdtree_index.h
+/usr/include/opencv4/opencv2/flann/kdtree_single_index.h
+/usr/include/opencv4/opencv2/flann/kmeans_index.h
+/usr/include/opencv4/opencv2/flann/linear_index.h
+/usr/include/opencv4/opencv2/flann/logger.h
+/usr/include/opencv4/opencv2/flann/lsh_index.h
+/usr/include/opencv4/opencv2/flann/lsh_table.h
+/usr/include/opencv4/opencv2/flann/matrix.h
+/usr/include/opencv4/opencv2/flann/miniflann.hpp
+/usr/include/opencv4/opencv2/flann/nn_index.h
+/usr/include/opencv4/opencv2/flann/object_factory.h
+/usr/include/opencv4/opencv2/flann/params.h
+/usr/include/opencv4/opencv2/flann/random.h
+/usr/include/opencv4/opencv2/flann/result_set.h
+/usr/include/opencv4/opencv2/flann/sampling.h
+/usr/include/opencv4/opencv2/flann/saving.h
+/usr/include/opencv4/opencv2/flann/simplex_downhill.h
+/usr/include/opencv4/opencv2/flann/timer.h
+/usr/include/opencv4/opencv2/highgui.hpp
+/usr/include/opencv4/opencv2/highgui/highgui.hpp
+/usr/include/opencv4/opencv2/highgui/highgui_c.h
+/usr/include/opencv4/opencv2/imgcodecs.hpp
+/usr/include/opencv4/opencv2/imgcodecs/imgcodecs.hpp
+/usr/include/opencv4/opencv2/imgcodecs/imgcodecs_c.h
+/usr/include/opencv4/opencv2/imgcodecs/ios.h
+/usr/include/opencv4/opencv2/imgproc.hpp
+/usr/include/opencv4/opencv2/imgproc/detail/gcgraph.hpp
+/usr/include/opencv4/opencv2/imgproc/hal/hal.hpp
+/usr/include/opencv4/opencv2/imgproc/hal/interface.h
+/usr/include/opencv4/opencv2/imgproc/imgproc.hpp
+/usr/include/opencv4/opencv2/imgproc/imgproc_c.h
+/usr/include/opencv4/opencv2/imgproc/types_c.h
+/usr/include/opencv4/opencv2/ml.hpp
+/usr/include/opencv4/opencv2/ml/ml.hpp
+/usr/include/opencv4/opencv2/ml/ml.inl.hpp
+/usr/include/opencv4/opencv2/objdetect.hpp
+/usr/include/opencv4/opencv2/objdetect/detection_based_tracker.hpp
+/usr/include/opencv4/opencv2/objdetect/objdetect.hpp
+/usr/include/opencv4/opencv2/opencv.hpp
+/usr/include/opencv4/opencv2/opencv_modules.hpp
+/usr/include/opencv4/opencv2/photo.hpp
+/usr/include/opencv4/opencv2/photo/cuda.hpp
+/usr/include/opencv4/opencv2/photo/photo.hpp
+/usr/include/opencv4/opencv2/stitching.hpp
+/usr/include/opencv4/opencv2/stitching/detail/autocalib.hpp
+/usr/include/opencv4/opencv2/stitching/detail/blenders.hpp
+/usr/include/opencv4/opencv2/stitching/detail/camera.hpp
+/usr/include/opencv4/opencv2/stitching/detail/exposure_compensate.hpp
+/usr/include/opencv4/opencv2/stitching/detail/matchers.hpp
+/usr/include/opencv4/opencv2/stitching/detail/motion_estimators.hpp
+/usr/include/opencv4/opencv2/stitching/detail/seam_finders.hpp
+/usr/include/opencv4/opencv2/stitching/detail/timelapsers.hpp
+/usr/include/opencv4/opencv2/stitching/detail/util.hpp
+/usr/include/opencv4/opencv2/stitching/detail/util_inl.hpp
+/usr/include/opencv4/opencv2/stitching/detail/warpers.hpp
+/usr/include/opencv4/opencv2/stitching/detail/warpers_inl.hpp
+/usr/include/opencv4/opencv2/stitching/warpers.hpp
+/usr/include/opencv4/opencv2/video.hpp
+/usr/include/opencv4/opencv2/video/background_segm.hpp
+/usr/include/opencv4/opencv2/video/tracking.hpp
+/usr/include/opencv4/opencv2/video/video.hpp
+/usr/include/opencv4/opencv2/videoio.hpp
+/usr/include/opencv4/opencv2/videoio/cap_ios.h
+/usr/include/opencv4/opencv2/videoio/registry.hpp
+/usr/include/opencv4/opencv2/videoio/videoio.hpp
+/usr/include/opencv4/opencv2/videoio/videoio_c.h
+/usr/lib64/cmake/opencv4/OpenCVConfig-version.cmake
+/usr/lib64/cmake/opencv4/OpenCVConfig.cmake
+/usr/lib64/cmake/opencv4/OpenCVModules-releasewithdebinfo.cmake
+/usr/lib64/cmake/opencv4/OpenCVModules.cmake
 /usr/lib64/haswell/avx512_1/libopencv_calib3d.so
 /usr/lib64/haswell/avx512_1/libopencv_core.so
 /usr/lib64/haswell/avx512_1/libopencv_dnn.so
@@ -911,12 +779,9 @@ popd
 /usr/lib64/haswell/avx512_1/libopencv_ml.so
 /usr/lib64/haswell/avx512_1/libopencv_objdetect.so
 /usr/lib64/haswell/avx512_1/libopencv_photo.so
-/usr/lib64/haswell/avx512_1/libopencv_shape.so
 /usr/lib64/haswell/avx512_1/libopencv_stitching.so
-/usr/lib64/haswell/avx512_1/libopencv_superres.so
 /usr/lib64/haswell/avx512_1/libopencv_video.so
 /usr/lib64/haswell/avx512_1/libopencv_videoio.so
-/usr/lib64/haswell/avx512_1/libopencv_videostab.so
 /usr/lib64/haswell/libopencv_calib3d.so
 /usr/lib64/haswell/libopencv_core.so
 /usr/lib64/haswell/libopencv_dnn.so
@@ -928,12 +793,9 @@ popd
 /usr/lib64/haswell/libopencv_ml.so
 /usr/lib64/haswell/libopencv_objdetect.so
 /usr/lib64/haswell/libopencv_photo.so
-/usr/lib64/haswell/libopencv_shape.so
 /usr/lib64/haswell/libopencv_stitching.so
-/usr/lib64/haswell/libopencv_superres.so
 /usr/lib64/haswell/libopencv_video.so
 /usr/lib64/haswell/libopencv_videoio.so
-/usr/lib64/haswell/libopencv_videostab.so
 /usr/lib64/libopencv_calib3d.so
 /usr/lib64/libopencv_core.so
 /usr/lib64/libopencv_dnn.so
@@ -945,231 +807,96 @@ popd
 /usr/lib64/libopencv_ml.so
 /usr/lib64/libopencv_objdetect.so
 /usr/lib64/libopencv_photo.so
-/usr/lib64/libopencv_shape.so
 /usr/lib64/libopencv_stitching.so
-/usr/lib64/libopencv_superres.so
 /usr/lib64/libopencv_video.so
 /usr/lib64/libopencv_videoio.so
-/usr/lib64/libopencv_videostab.so
-/usr/lib64/pkgconfig/opencv.pc
-
-%files extras
-%defattr(-,root,root,-)
-/usr/share/OpenCV/samples/cpp/3calibration.cpp
-/usr/share/OpenCV/samples/cpp/application_trace.cpp
-/usr/share/OpenCV/samples/cpp/autofocus.cpp
-/usr/share/OpenCV/samples/cpp/bgfg_segm.cpp
-/usr/share/OpenCV/samples/cpp/calibration.cpp
-/usr/share/OpenCV/samples/cpp/camshiftdemo.cpp
-/usr/share/OpenCV/samples/cpp/cloning_demo.cpp
-/usr/share/OpenCV/samples/cpp/cloning_gui.cpp
-/usr/share/OpenCV/samples/cpp/connected_components.cpp
-/usr/share/OpenCV/samples/cpp/contours2.cpp
-/usr/share/OpenCV/samples/cpp/convexhull.cpp
-/usr/share/OpenCV/samples/cpp/cout_mat.cpp
-/usr/share/OpenCV/samples/cpp/create_mask.cpp
-/usr/share/OpenCV/samples/cpp/dbt_face_detection.cpp
-/usr/share/OpenCV/samples/cpp/delaunay2.cpp
-/usr/share/OpenCV/samples/cpp/demhist.cpp
-/usr/share/OpenCV/samples/cpp/detect_blob.cpp
-/usr/share/OpenCV/samples/cpp/detect_mser.cpp
-/usr/share/OpenCV/samples/cpp/dft.cpp
-/usr/share/OpenCV/samples/cpp/distrans.cpp
-/usr/share/OpenCV/samples/cpp/drawing.cpp
-/usr/share/OpenCV/samples/cpp/edge.cpp
-/usr/share/OpenCV/samples/cpp/em.cpp
-/usr/share/OpenCV/samples/cpp/facedetect.cpp
-/usr/share/OpenCV/samples/cpp/facial_features.cpp
-/usr/share/OpenCV/samples/cpp/falsecolor.cpp
-/usr/share/OpenCV/samples/cpp/fback.cpp
-/usr/share/OpenCV/samples/cpp/ffilldemo.cpp
-/usr/share/OpenCV/samples/cpp/filestorage.cpp
-/usr/share/OpenCV/samples/cpp/fitellipse.cpp
-/usr/share/OpenCV/samples/cpp/grabcut.cpp
-/usr/share/OpenCV/samples/cpp/image.cpp
-/usr/share/OpenCV/samples/cpp/image_alignment.cpp
-/usr/share/OpenCV/samples/cpp/image_sequence.cpp
-/usr/share/OpenCV/samples/cpp/imagelist_creator.cpp
-/usr/share/OpenCV/samples/cpp/inpaint.cpp
-/usr/share/OpenCV/samples/cpp/intelperc_capture.cpp
-/usr/share/OpenCV/samples/cpp/kalman.cpp
-/usr/share/OpenCV/samples/cpp/kmeans.cpp
-/usr/share/OpenCV/samples/cpp/laplace.cpp
-/usr/share/OpenCV/samples/cpp/letter_recog.cpp
-/usr/share/OpenCV/samples/cpp/lkdemo.cpp
-/usr/share/OpenCV/samples/cpp/logistic_regression.cpp
-/usr/share/OpenCV/samples/cpp/lsd_lines.cpp
-/usr/share/OpenCV/samples/cpp/mask_tmpl.cpp
-/usr/share/OpenCV/samples/cpp/matchmethod_orb_akaze_brisk.cpp
-/usr/share/OpenCV/samples/cpp/minarea.cpp
-/usr/share/OpenCV/samples/cpp/morphology2.cpp
-/usr/share/OpenCV/samples/cpp/neural_network.cpp
-/usr/share/OpenCV/samples/cpp/npr_demo.cpp
-/usr/share/OpenCV/samples/cpp/opencv_version.cpp
-/usr/share/OpenCV/samples/cpp/openni_capture.cpp
-/usr/share/OpenCV/samples/cpp/pca.cpp
-/usr/share/OpenCV/samples/cpp/peopledetect.cpp
-/usr/share/OpenCV/samples/cpp/phase_corr.cpp
-/usr/share/OpenCV/samples/cpp/points_classifier.cpp
-/usr/share/OpenCV/samples/cpp/polar_transforms.cpp
-/usr/share/OpenCV/samples/cpp/segment_objects.cpp
-/usr/share/OpenCV/samples/cpp/select3dobj.cpp
-/usr/share/OpenCV/samples/cpp/shape_example.cpp
-/usr/share/OpenCV/samples/cpp/smiledetect.cpp
-/usr/share/OpenCV/samples/cpp/squares.cpp
-/usr/share/OpenCV/samples/cpp/starter_imagelist.cpp
-/usr/share/OpenCV/samples/cpp/stereo_calib.cpp
-/usr/share/OpenCV/samples/cpp/stereo_match.cpp
-/usr/share/OpenCV/samples/cpp/stitching.cpp
-/usr/share/OpenCV/samples/cpp/stitching_detailed.cpp
-/usr/share/OpenCV/samples/cpp/train_HOG.cpp
-/usr/share/OpenCV/samples/cpp/train_svmsgd.cpp
-/usr/share/OpenCV/samples/cpp/travelsalesman.cpp
-/usr/share/OpenCV/samples/cpp/tree_engine.cpp
-/usr/share/OpenCV/samples/cpp/tvl1_optical_flow.cpp
-/usr/share/OpenCV/samples/cpp/videocapture_basic.cpp
-/usr/share/OpenCV/samples/cpp/videocapture_starter.cpp
-/usr/share/OpenCV/samples/cpp/videostab.cpp
-/usr/share/OpenCV/samples/cpp/videowriter_basic.cpp
-/usr/share/OpenCV/samples/cpp/warpPerspective_demo.cpp
-/usr/share/OpenCV/samples/cpp/watershed.cpp
-/usr/share/OpenCV/samples/gpu/alpha_comp.cpp
-/usr/share/OpenCV/samples/gpu/bgfg_segm.cpp
-/usr/share/OpenCV/samples/gpu/cascadeclassifier.cpp
-/usr/share/OpenCV/samples/gpu/cascadeclassifier_nvidia_api.cpp
-/usr/share/OpenCV/samples/gpu/farneback_optical_flow.cpp
-/usr/share/OpenCV/samples/gpu/generalized_hough.cpp
-/usr/share/OpenCV/samples/gpu/hog.cpp
-/usr/share/OpenCV/samples/gpu/houghlines.cpp
-/usr/share/OpenCV/samples/gpu/morphology.cpp
-/usr/share/OpenCV/samples/gpu/multi.cpp
-/usr/share/OpenCV/samples/gpu/opengl.cpp
-/usr/share/OpenCV/samples/gpu/optical_flow.cpp
-/usr/share/OpenCV/samples/gpu/opticalflow_nvidia_api.cpp
-/usr/share/OpenCV/samples/gpu/pyrlk_optical_flow.cpp
-/usr/share/OpenCV/samples/gpu/stereo_match.cpp
-/usr/share/OpenCV/samples/gpu/stereo_multi.cpp
-/usr/share/OpenCV/samples/gpu/super_resolution.cpp
-/usr/share/OpenCV/samples/gpu/surf_keypoint_matcher.cpp
-/usr/share/OpenCV/samples/gpu/video_reader.cpp
-/usr/share/OpenCV/samples/gpu/video_writer.cpp
-/usr/share/OpenCV/samples/tapi/bgfg_segm.cpp
-/usr/share/OpenCV/samples/tapi/camshift.cpp
-/usr/share/OpenCV/samples/tapi/clahe.cpp
-/usr/share/OpenCV/samples/tapi/hog.cpp
-/usr/share/OpenCV/samples/tapi/opencl_custom_kernel.cpp
-/usr/share/OpenCV/samples/tapi/pyrlk_optical_flow.cpp
-/usr/share/OpenCV/samples/tapi/squares.cpp
-/usr/share/OpenCV/samples/tapi/ufacedetect.cpp
-
-%files legacypython
-%defattr(-,root,root,-)
-/usr/lib/python2*/*
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/haswell/avx512_1/libopencv_calib3d.so.3.4
-/usr/lib64/haswell/avx512_1/libopencv_calib3d.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_core.so.3.4
-/usr/lib64/haswell/avx512_1/libopencv_core.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_dnn.so.3.4
-/usr/lib64/haswell/avx512_1/libopencv_dnn.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_features2d.so.3.4
-/usr/lib64/haswell/avx512_1/libopencv_features2d.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_flann.so.3.4
-/usr/lib64/haswell/avx512_1/libopencv_flann.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_highgui.so.3.4
-/usr/lib64/haswell/avx512_1/libopencv_highgui.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_imgcodecs.so.3.4
-/usr/lib64/haswell/avx512_1/libopencv_imgcodecs.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_imgproc.so.3.4
-/usr/lib64/haswell/avx512_1/libopencv_imgproc.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_ml.so.3.4
-/usr/lib64/haswell/avx512_1/libopencv_ml.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_objdetect.so.3.4
-/usr/lib64/haswell/avx512_1/libopencv_objdetect.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_photo.so.3.4
-/usr/lib64/haswell/avx512_1/libopencv_photo.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_shape.so.3.4
-/usr/lib64/haswell/avx512_1/libopencv_shape.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_stitching.so.3.4
-/usr/lib64/haswell/avx512_1/libopencv_stitching.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_superres.so.3.4
-/usr/lib64/haswell/avx512_1/libopencv_superres.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_video.so.3.4
-/usr/lib64/haswell/avx512_1/libopencv_video.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_videoio.so.3.4
-/usr/lib64/haswell/avx512_1/libopencv_videoio.so.3.4.3
-/usr/lib64/haswell/avx512_1/libopencv_videostab.so.3.4
-/usr/lib64/haswell/avx512_1/libopencv_videostab.so.3.4.3
-/usr/lib64/haswell/libopencv_calib3d.so.3.4
-/usr/lib64/haswell/libopencv_calib3d.so.3.4.3
-/usr/lib64/haswell/libopencv_core.so.3.4
-/usr/lib64/haswell/libopencv_core.so.3.4.3
-/usr/lib64/haswell/libopencv_dnn.so.3.4
-/usr/lib64/haswell/libopencv_dnn.so.3.4.3
-/usr/lib64/haswell/libopencv_features2d.so.3.4
-/usr/lib64/haswell/libopencv_features2d.so.3.4.3
-/usr/lib64/haswell/libopencv_flann.so.3.4
-/usr/lib64/haswell/libopencv_flann.so.3.4.3
-/usr/lib64/haswell/libopencv_highgui.so.3.4
-/usr/lib64/haswell/libopencv_highgui.so.3.4.3
-/usr/lib64/haswell/libopencv_imgcodecs.so.3.4
-/usr/lib64/haswell/libopencv_imgcodecs.so.3.4.3
-/usr/lib64/haswell/libopencv_imgproc.so.3.4
-/usr/lib64/haswell/libopencv_imgproc.so.3.4.3
-/usr/lib64/haswell/libopencv_ml.so.3.4
-/usr/lib64/haswell/libopencv_ml.so.3.4.3
-/usr/lib64/haswell/libopencv_objdetect.so.3.4
-/usr/lib64/haswell/libopencv_objdetect.so.3.4.3
-/usr/lib64/haswell/libopencv_photo.so.3.4
-/usr/lib64/haswell/libopencv_photo.so.3.4.3
-/usr/lib64/haswell/libopencv_shape.so.3.4
-/usr/lib64/haswell/libopencv_shape.so.3.4.3
-/usr/lib64/haswell/libopencv_stitching.so.3.4
-/usr/lib64/haswell/libopencv_stitching.so.3.4.3
-/usr/lib64/haswell/libopencv_superres.so.3.4
-/usr/lib64/haswell/libopencv_superres.so.3.4.3
-/usr/lib64/haswell/libopencv_video.so.3.4
-/usr/lib64/haswell/libopencv_video.so.3.4.3
-/usr/lib64/haswell/libopencv_videoio.so.3.4
-/usr/lib64/haswell/libopencv_videoio.so.3.4.3
-/usr/lib64/haswell/libopencv_videostab.so.3.4
-/usr/lib64/haswell/libopencv_videostab.so.3.4.3
-/usr/lib64/libopencv_calib3d.so.3.4
-/usr/lib64/libopencv_calib3d.so.3.4.3
-/usr/lib64/libopencv_core.so.3.4
-/usr/lib64/libopencv_core.so.3.4.3
-/usr/lib64/libopencv_dnn.so.3.4
-/usr/lib64/libopencv_dnn.so.3.4.3
-/usr/lib64/libopencv_features2d.so.3.4
-/usr/lib64/libopencv_features2d.so.3.4.3
-/usr/lib64/libopencv_flann.so.3.4
-/usr/lib64/libopencv_flann.so.3.4.3
-/usr/lib64/libopencv_highgui.so.3.4
-/usr/lib64/libopencv_highgui.so.3.4.3
-/usr/lib64/libopencv_imgcodecs.so.3.4
-/usr/lib64/libopencv_imgcodecs.so.3.4.3
-/usr/lib64/libopencv_imgproc.so.3.4
-/usr/lib64/libopencv_imgproc.so.3.4.3
-/usr/lib64/libopencv_ml.so.3.4
-/usr/lib64/libopencv_ml.so.3.4.3
-/usr/lib64/libopencv_objdetect.so.3.4
-/usr/lib64/libopencv_objdetect.so.3.4.3
-/usr/lib64/libopencv_photo.so.3.4
-/usr/lib64/libopencv_photo.so.3.4.3
-/usr/lib64/libopencv_shape.so.3.4
-/usr/lib64/libopencv_shape.so.3.4.3
-/usr/lib64/libopencv_stitching.so.3.4
-/usr/lib64/libopencv_stitching.so.3.4.3
-/usr/lib64/libopencv_superres.so.3.4
-/usr/lib64/libopencv_superres.so.3.4.3
-/usr/lib64/libopencv_video.so.3.4
-/usr/lib64/libopencv_video.so.3.4.3
-/usr/lib64/libopencv_videoio.so.3.4
-/usr/lib64/libopencv_videoio.so.3.4.3
-/usr/lib64/libopencv_videostab.so.3.4
-/usr/lib64/libopencv_videostab.so.3.4.3
+/usr/lib64/haswell/avx512_1/libopencv_calib3d.so.4.0
+/usr/lib64/haswell/avx512_1/libopencv_calib3d.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_core.so.4.0
+/usr/lib64/haswell/avx512_1/libopencv_core.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_dnn.so.4.0
+/usr/lib64/haswell/avx512_1/libopencv_dnn.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_features2d.so.4.0
+/usr/lib64/haswell/avx512_1/libopencv_features2d.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_flann.so.4.0
+/usr/lib64/haswell/avx512_1/libopencv_flann.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_highgui.so.4.0
+/usr/lib64/haswell/avx512_1/libopencv_highgui.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_imgcodecs.so.4.0
+/usr/lib64/haswell/avx512_1/libopencv_imgcodecs.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_imgproc.so.4.0
+/usr/lib64/haswell/avx512_1/libopencv_imgproc.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_ml.so.4.0
+/usr/lib64/haswell/avx512_1/libopencv_ml.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_objdetect.so.4.0
+/usr/lib64/haswell/avx512_1/libopencv_objdetect.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_photo.so.4.0
+/usr/lib64/haswell/avx512_1/libopencv_photo.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_stitching.so.4.0
+/usr/lib64/haswell/avx512_1/libopencv_stitching.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_video.so.4.0
+/usr/lib64/haswell/avx512_1/libopencv_video.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_videoio.so.4.0
+/usr/lib64/haswell/avx512_1/libopencv_videoio.so.4.0.0
+/usr/lib64/haswell/libopencv_calib3d.so.4.0
+/usr/lib64/haswell/libopencv_calib3d.so.4.0.0
+/usr/lib64/haswell/libopencv_core.so.4.0
+/usr/lib64/haswell/libopencv_core.so.4.0.0
+/usr/lib64/haswell/libopencv_dnn.so.4.0
+/usr/lib64/haswell/libopencv_dnn.so.4.0.0
+/usr/lib64/haswell/libopencv_features2d.so.4.0
+/usr/lib64/haswell/libopencv_features2d.so.4.0.0
+/usr/lib64/haswell/libopencv_flann.so.4.0
+/usr/lib64/haswell/libopencv_flann.so.4.0.0
+/usr/lib64/haswell/libopencv_highgui.so.4.0
+/usr/lib64/haswell/libopencv_highgui.so.4.0.0
+/usr/lib64/haswell/libopencv_imgcodecs.so.4.0
+/usr/lib64/haswell/libopencv_imgcodecs.so.4.0.0
+/usr/lib64/haswell/libopencv_imgproc.so.4.0
+/usr/lib64/haswell/libopencv_imgproc.so.4.0.0
+/usr/lib64/haswell/libopencv_ml.so.4.0
+/usr/lib64/haswell/libopencv_ml.so.4.0.0
+/usr/lib64/haswell/libopencv_objdetect.so.4.0
+/usr/lib64/haswell/libopencv_objdetect.so.4.0.0
+/usr/lib64/haswell/libopencv_photo.so.4.0
+/usr/lib64/haswell/libopencv_photo.so.4.0.0
+/usr/lib64/haswell/libopencv_stitching.so.4.0
+/usr/lib64/haswell/libopencv_stitching.so.4.0.0
+/usr/lib64/haswell/libopencv_video.so.4.0
+/usr/lib64/haswell/libopencv_video.so.4.0.0
+/usr/lib64/haswell/libopencv_videoio.so.4.0
+/usr/lib64/haswell/libopencv_videoio.so.4.0.0
+/usr/lib64/libopencv_calib3d.so.4.0
+/usr/lib64/libopencv_calib3d.so.4.0.0
+/usr/lib64/libopencv_core.so.4.0
+/usr/lib64/libopencv_core.so.4.0.0
+/usr/lib64/libopencv_dnn.so.4.0
+/usr/lib64/libopencv_dnn.so.4.0.0
+/usr/lib64/libopencv_features2d.so.4.0
+/usr/lib64/libopencv_features2d.so.4.0.0
+/usr/lib64/libopencv_flann.so.4.0
+/usr/lib64/libopencv_flann.so.4.0.0
+/usr/lib64/libopencv_highgui.so.4.0
+/usr/lib64/libopencv_highgui.so.4.0.0
+/usr/lib64/libopencv_imgcodecs.so.4.0
+/usr/lib64/libopencv_imgcodecs.so.4.0.0
+/usr/lib64/libopencv_imgproc.so.4.0
+/usr/lib64/libopencv_imgproc.so.4.0.0
+/usr/lib64/libopencv_ml.so.4.0
+/usr/lib64/libopencv_ml.so.4.0.0
+/usr/lib64/libopencv_objdetect.so.4.0
+/usr/lib64/libopencv_objdetect.so.4.0.0
+/usr/lib64/libopencv_photo.so.4.0
+/usr/lib64/libopencv_photo.so.4.0.0
+/usr/lib64/libopencv_stitching.so.4.0
+/usr/lib64/libopencv_stitching.so.4.0.0
+/usr/lib64/libopencv_video.so.4.0
+/usr/lib64/libopencv_video.so.4.0.0
+/usr/lib64/libopencv_videoio.so.4.0
+/usr/lib64/libopencv_videoio.so.4.0.0
 
 %files license
 %defattr(0644,root,root,0755)
@@ -1188,10 +915,3 @@ popd
 /usr/share/package-licenses/opencv/LICENSE
 /usr/share/package-licenses/opencv/modules_core_3rdparty_SoftFloat_COPYING.txt
 /usr/share/package-licenses/opencv/modules_dnn_src_torch_COPYRIGHT.txt
-
-%files python
-%defattr(-,root,root,-)
-
-%files python3
-%defattr(-,root,root,-)
-/usr/lib/python3*/*
