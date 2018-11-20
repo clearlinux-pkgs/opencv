@@ -1,5 +1,12 @@
-#mkdir -p %{buildroot}/usr/lib
-#mv %{buildroot}/usr/lib64/python*  %{buildroot}/usr/lib
+# A bad idea but this will allow things that use pkgconfig to use opencv4
+# Probably remove at some point once software updates build detection for new upstream release
+cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/opencv.pc
 
+# Build system completely fails to generate python2 compatability
 mkdir -p %{buildroot}/usr/lib/python2.7/site-packages/cv2
-mv %{buildroot}/usr/lib/python3.7/cv2/python-2.7/cv2.so %{buildroot}/usr/lib/python2.7/site-packages/
+cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/config.py %{buildroot}/usr/lib/python2.7/site-packages/cv2/
+cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/config-2.7.py %{buildroot}/usr/lib/python2.7/site-packages/cv2/
+cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/load_config_py2.py %{buildroot}/usr/lib/python2.7/site-packages/cv2/
+
+#rm -fr %{buildroot}/usr/lib/python3.7/__pycache__
+#rm -fr %{buildroot}/usr/lib/python3.7/setup.py
