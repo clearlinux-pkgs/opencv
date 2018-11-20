@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.0.0
-Release  : 75
+Release  : 76
 URL      : https://github.com/opencv/opencv/archive/4.0.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.0.0.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -92,6 +92,15 @@ Provides: opencv-devel = %{version}-%{release}
 dev components for the opencv package.
 
 
+%package legacypython
+Summary: legacypython components for the opencv package.
+Group: Default
+Requires: python-core
+
+%description legacypython
+legacypython components for the opencv package.
+
+
 %package lib
 Summary: lib components for the opencv package.
 Group: Libraries
@@ -142,7 +151,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1542678977
+export SOURCE_DATE_EPOCH=1542703110
 mkdir -p clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -202,7 +211,7 @@ make  %{?_smp_mflags} VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1542678977
+export SOURCE_DATE_EPOCH=1542703110
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
 cp 3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/3rdparty_cpufeatures_LICENSE
@@ -229,6 +238,10 @@ popd
 pushd clr-build
 %make_install
 popd
+## install_append content
+mkdir -p %{buildroot}/usr/lib/python2.7/site-packages/cv2
+mv %{buildroot}/usr/lib/python3.7/cv2/python-2.7/cv2.so %{buildroot}/usr/lib/python2.7/site-packages/
+## install_append end
 
 %files
 %defattr(-,root,root,-)
@@ -821,6 +834,10 @@ popd
 /usr/lib64/libopencv_stitching.so
 /usr/lib64/libopencv_video.so
 /usr/lib64/libopencv_videoio.so
+
+%files legacypython
+%defattr(-,root,root,-)
+/usr/lib/python2*/*
 
 %files lib
 %defattr(-,root,root,-)
