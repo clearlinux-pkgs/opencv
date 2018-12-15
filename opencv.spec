@@ -5,12 +5,12 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.0.0
-Release  : 80
+Release  : 81
 URL      : https://github.com/opencv/opencv/archive/4.0.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.0.0.tar.gz
 Summary  : Open Source Computer Vision Library
 Group    : Development/Tools
-License  : Apache-2.0 BSD-3-Clause BSD-3-Clause-Clear GPL-2.0 IJG JasPer-2.0 LGPL-2.1 Libpng MIT libtiff
+License  : Apache-2.0 BSD-3-Clause BSD-3-Clause-Clear GPL-2.0 HPND IJG JasPer-2.0 LGPL-2.1 Libpng MIT libtiff
 Requires: opencv-bin = %{version}-%{release}
 Requires: opencv-data = %{version}-%{release}
 Requires: opencv-lib = %{version}-%{release}
@@ -151,7 +151,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1543554564
+export SOURCE_DATE_EPOCH=1544842608
 mkdir -p clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -280,7 +280,7 @@ make  %{?_smp_mflags} VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1543554564
+export SOURCE_DATE_EPOCH=1544842608
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
 cp 3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/3rdparty_cpufeatures_LICENSE
@@ -295,6 +295,7 @@ cp 3rdparty/libpng/LICENSE %{buildroot}/usr/share/package-licenses/opencv/3rdpar
 cp 3rdparty/libtiff/COPYRIGHT %{buildroot}/usr/share/package-licenses/opencv/3rdparty_libtiff_COPYRIGHT
 cp 3rdparty/openexr/LICENSE %{buildroot}/usr/share/package-licenses/opencv/3rdparty_openexr_LICENSE
 cp 3rdparty/protobuf/LICENSE %{buildroot}/usr/share/package-licenses/opencv/3rdparty_protobuf_LICENSE
+cp 3rdparty/quirc/LICENSE %{buildroot}/usr/share/package-licenses/opencv/3rdparty_quirc_LICENSE
 cp LICENSE %{buildroot}/usr/share/package-licenses/opencv/LICENSE
 cp modules/core/3rdparty/SoftFloat/COPYING.txt %{buildroot}/usr/share/package-licenses/opencv/modules_core_3rdparty_SoftFloat_COPYING.txt
 cp modules/dnn/src/torch/COPYRIGHT.txt %{buildroot}/usr/share/package-licenses/opencv/modules_dnn_src_torch_COPYRIGHT.txt
@@ -309,10 +310,12 @@ pushd clr-build
 popd
 ## install_append content
 cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/opencv.pc
-mkdir -p %{buildroot}/usr/lib/python2.7/site-packages/cv2
+mkdir -p %{buildroot}/usr/lib/python2.7/site-packages/cv2/python-2.7
+cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/__init__.py %{buildroot}/usr/lib/python2.7/site-packages/cv2/
 cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/config.py %{buildroot}/usr/lib/python2.7/site-packages/cv2/
 cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/config-2.7.py %{buildroot}/usr/lib/python2.7/site-packages/cv2/
 cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/load_config_py2.py %{buildroot}/usr/lib/python2.7/site-packages/cv2/
+cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/python-2.7/cv2.so %{buildroot}/usr/lib/python2.7/site-packages/cv2/python-2.7/
 ## install_append end
 
 %files
@@ -1014,6 +1017,7 @@ cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/load_config_py2.py %{buildro
 /usr/share/package-licenses/opencv/3rdparty_libtiff_COPYRIGHT
 /usr/share/package-licenses/opencv/3rdparty_openexr_LICENSE
 /usr/share/package-licenses/opencv/3rdparty_protobuf_LICENSE
+/usr/share/package-licenses/opencv/3rdparty_quirc_LICENSE
 /usr/share/package-licenses/opencv/LICENSE
 /usr/share/package-licenses/opencv/modules_core_3rdparty_SoftFloat_COPYING.txt
 /usr/share/package-licenses/opencv/modules_dnn_src_torch_COPYRIGHT.txt

@@ -3,10 +3,12 @@
 cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/opencv.pc
 
 # Build system completely fails to generate python2 compatability
-mkdir -p %{buildroot}/usr/lib/python2.7/site-packages/cv2
+mkdir -p %{buildroot}/usr/lib/python2.7/site-packages/cv2/python-2.7
+cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/__init__.py %{buildroot}/usr/lib/python2.7/site-packages/cv2/
 cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/config.py %{buildroot}/usr/lib/python2.7/site-packages/cv2/
 cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/config-2.7.py %{buildroot}/usr/lib/python2.7/site-packages/cv2/
 cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/load_config_py2.py %{buildroot}/usr/lib/python2.7/site-packages/cv2/
+cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/python-2.7/cv2.so %{buildroot}/usr/lib/python2.7/site-packages/cv2/python-2.7/
 
 #rm -fr %{buildroot}/usr/lib/python3.7/__pycache__
 #rm -fr %{buildroot}/usr/lib/python3.7/setup.py
