@@ -4,10 +4,10 @@
 #
 %define keepstatic 1
 Name     : opencv
-Version  : 4.0.0
-Release  : 81
-URL      : https://github.com/opencv/opencv/archive/4.0.0.tar.gz
-Source0  : https://github.com/opencv/opencv/archive/4.0.0.tar.gz
+Version  : 4.0.1
+Release  : 82
+URL      : https://github.com/opencv/opencv/archive/4.0.1.tar.gz
+Source0  : https://github.com/opencv/opencv/archive/4.0.1.tar.gz
 Summary  : Open Source Computer Vision Library
 Group    : Development/Tools
 License  : Apache-2.0 BSD-3-Clause BSD-3-Clause-Clear GPL-2.0 HPND IJG JasPer-2.0 LGPL-2.1 Libpng MIT libtiff
@@ -138,12 +138,12 @@ python3 components for the opencv package.
 
 
 %prep
-%setup -q -n opencv-4.0.0
+%setup -q -n opencv-4.0.1
 pushd ..
-cp -a opencv-4.0.0 buildavx2
+cp -a opencv-4.0.1 buildavx2
 popd
 pushd ..
-cp -a opencv-4.0.0 buildavx512
+cp -a opencv-4.0.1 buildavx512
 popd
 
 %build
@@ -151,7 +151,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1544842608
+export SOURCE_DATE_EPOCH=1545504044
 mkdir -p clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -191,7 +191,7 @@ export CXXFLAGS_USE="$CXXFLAGS -fprofile-use -fprofile-dir=pgo -fprofile-correct
 -DOPENCV_GENERATE_PKGCONFIG=ON \
 -DOPENCV_CONFIG_INSTALL_PATH=lib64/cmake/opencv4
 CFLAGS="${CFLAGS_GENERATE}" CXXFLAGS="${CXXFLAGS_GENERATE}" FFLAGS="${FFLAGS_GENERATE}" FCFLAGS="${FCFLAGS_GENERATE}"
-make  %{?_smp_mflags} VERBOSE=1
+make  %{?_smp_mflags}
 bin/opencv_perf_core ||:
 bin/opencv_perf_imgproc ||:
 bin/opencv_perf_dnn ||:
@@ -200,7 +200,7 @@ bin/opencv_perf_features2d ||:
 bin/opencv_perf_superres ||:
 make clean
 CFLAGS="${CFLAGS_USE}" CXXFLAGS="${CXXFLAGS_USE}" FFLAGS="${FFLAGS_USE}" FCFLAGS="${FCFLAGS_USE}"
-make  %{?_smp_mflags} VERBOSE=1
+make  %{?_smp_mflags}
 popd
 mkdir -p clr-build-avx2
 pushd clr-build-avx2
@@ -234,7 +234,7 @@ export CXXFLAGS="$CXXFLAGS -march=haswell -m64"
 -DOPENCV_PYTHON_INSTALL_PATH=/usr/lib/python3.7/site-packages/ \
 -DOPENCV_GENERATE_PKGCONFIG=ON \
 -DOPENCV_CONFIG_INSTALL_PATH=lib64/cmake/opencv4
-make  %{?_smp_mflags} VERBOSE=1
+make  %{?_smp_mflags}
 popd
 mkdir -p clr-build-avx512
 pushd clr-build-avx512
@@ -276,11 +276,11 @@ export CXXFLAGS="$CXXFLAGS -march=skylake-avx512 -m64 "
 -DOPENCV_PYTHON_INSTALL_PATH=/usr/lib/python3.7/site-packages/ \
 -DOPENCV_GENERATE_PKGCONFIG=ON \
 -DOPENCV_CONFIG_INSTALL_PATH=lib64/cmake/opencv4
-make  %{?_smp_mflags} VERBOSE=1
+make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1544842608
+export SOURCE_DATE_EPOCH=1545504044
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
 cp 3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/3rdparty_cpufeatures_LICENSE
@@ -637,6 +637,7 @@ cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/python-2.7/cv2.so %{buildroo
 /usr/share/opencv4/samples/python/squares.py
 /usr/share/opencv4/samples/python/stereo_match.py
 /usr/share/opencv4/samples/python/stitching.py
+/usr/share/opencv4/samples/python/stitching_detailed.py
 /usr/share/opencv4/samples/python/texture_flow.py
 /usr/share/opencv4/samples/python/tst_scene_render.py
 /usr/share/opencv4/samples/python/turing.py
@@ -822,6 +823,7 @@ cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/python-2.7/cv2.so %{buildroo
 /usr/include/opencv4/opencv2/imgcodecs/imgcodecs.hpp
 /usr/include/opencv4/opencv2/imgcodecs/imgcodecs_c.h
 /usr/include/opencv4/opencv2/imgcodecs/ios.h
+/usr/include/opencv4/opencv2/imgcodecs/legacy/constants_c.h
 /usr/include/opencv4/opencv2/imgproc.hpp
 /usr/include/opencv4/opencv2/imgproc/detail/gcgraph.hpp
 /usr/include/opencv4/opencv2/imgproc/hal/hal.hpp
@@ -839,6 +841,7 @@ cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/python-2.7/cv2.so %{buildroo
 /usr/include/opencv4/opencv2/opencv_modules.hpp
 /usr/include/opencv4/opencv2/photo.hpp
 /usr/include/opencv4/opencv2/photo/cuda.hpp
+/usr/include/opencv4/opencv2/photo/legacy/constants_c.h
 /usr/include/opencv4/opencv2/photo/photo.hpp
 /usr/include/opencv4/opencv2/stitching.hpp
 /usr/include/opencv4/opencv2/stitching/detail/autocalib.hpp
@@ -856,10 +859,12 @@ cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/python-2.7/cv2.so %{buildroo
 /usr/include/opencv4/opencv2/stitching/warpers.hpp
 /usr/include/opencv4/opencv2/video.hpp
 /usr/include/opencv4/opencv2/video/background_segm.hpp
+/usr/include/opencv4/opencv2/video/legacy/constants_c.h
 /usr/include/opencv4/opencv2/video/tracking.hpp
 /usr/include/opencv4/opencv2/video/video.hpp
 /usr/include/opencv4/opencv2/videoio.hpp
 /usr/include/opencv4/opencv2/videoio/cap_ios.h
+/usr/include/opencv4/opencv2/videoio/legacy/constants_c.h
 /usr/include/opencv4/opencv2/videoio/registry.hpp
 /usr/include/opencv4/opencv2/videoio/videoio.hpp
 /usr/include/opencv4/opencv2/videoio/videoio_c.h
@@ -919,89 +924,89 @@ cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/python-2.7/cv2.so %{buildroo
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/haswell/avx512_1/libopencv_calib3d.so.4.0
-/usr/lib64/haswell/avx512_1/libopencv_calib3d.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_calib3d.so.4.0.1
 /usr/lib64/haswell/avx512_1/libopencv_core.so.4.0
-/usr/lib64/haswell/avx512_1/libopencv_core.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_core.so.4.0.1
 /usr/lib64/haswell/avx512_1/libopencv_dnn.so.4.0
-/usr/lib64/haswell/avx512_1/libopencv_dnn.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_dnn.so.4.0.1
 /usr/lib64/haswell/avx512_1/libopencv_features2d.so.4.0
-/usr/lib64/haswell/avx512_1/libopencv_features2d.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_features2d.so.4.0.1
 /usr/lib64/haswell/avx512_1/libopencv_flann.so.4.0
-/usr/lib64/haswell/avx512_1/libopencv_flann.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_flann.so.4.0.1
 /usr/lib64/haswell/avx512_1/libopencv_highgui.so.4.0
-/usr/lib64/haswell/avx512_1/libopencv_highgui.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_highgui.so.4.0.1
 /usr/lib64/haswell/avx512_1/libopencv_imgcodecs.so.4.0
-/usr/lib64/haswell/avx512_1/libopencv_imgcodecs.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_imgcodecs.so.4.0.1
 /usr/lib64/haswell/avx512_1/libopencv_imgproc.so.4.0
-/usr/lib64/haswell/avx512_1/libopencv_imgproc.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_imgproc.so.4.0.1
 /usr/lib64/haswell/avx512_1/libopencv_ml.so.4.0
-/usr/lib64/haswell/avx512_1/libopencv_ml.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_ml.so.4.0.1
 /usr/lib64/haswell/avx512_1/libopencv_objdetect.so.4.0
-/usr/lib64/haswell/avx512_1/libopencv_objdetect.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_objdetect.so.4.0.1
 /usr/lib64/haswell/avx512_1/libopencv_photo.so.4.0
-/usr/lib64/haswell/avx512_1/libopencv_photo.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_photo.so.4.0.1
 /usr/lib64/haswell/avx512_1/libopencv_stitching.so.4.0
-/usr/lib64/haswell/avx512_1/libopencv_stitching.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_stitching.so.4.0.1
 /usr/lib64/haswell/avx512_1/libopencv_video.so.4.0
-/usr/lib64/haswell/avx512_1/libopencv_video.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_video.so.4.0.1
 /usr/lib64/haswell/avx512_1/libopencv_videoio.so.4.0
-/usr/lib64/haswell/avx512_1/libopencv_videoio.so.4.0.0
+/usr/lib64/haswell/avx512_1/libopencv_videoio.so.4.0.1
 /usr/lib64/haswell/libopencv_calib3d.so.4.0
-/usr/lib64/haswell/libopencv_calib3d.so.4.0.0
+/usr/lib64/haswell/libopencv_calib3d.so.4.0.1
 /usr/lib64/haswell/libopencv_core.so.4.0
-/usr/lib64/haswell/libopencv_core.so.4.0.0
+/usr/lib64/haswell/libopencv_core.so.4.0.1
 /usr/lib64/haswell/libopencv_dnn.so.4.0
-/usr/lib64/haswell/libopencv_dnn.so.4.0.0
+/usr/lib64/haswell/libopencv_dnn.so.4.0.1
 /usr/lib64/haswell/libopencv_features2d.so.4.0
-/usr/lib64/haswell/libopencv_features2d.so.4.0.0
+/usr/lib64/haswell/libopencv_features2d.so.4.0.1
 /usr/lib64/haswell/libopencv_flann.so.4.0
-/usr/lib64/haswell/libopencv_flann.so.4.0.0
+/usr/lib64/haswell/libopencv_flann.so.4.0.1
 /usr/lib64/haswell/libopencv_highgui.so.4.0
-/usr/lib64/haswell/libopencv_highgui.so.4.0.0
+/usr/lib64/haswell/libopencv_highgui.so.4.0.1
 /usr/lib64/haswell/libopencv_imgcodecs.so.4.0
-/usr/lib64/haswell/libopencv_imgcodecs.so.4.0.0
+/usr/lib64/haswell/libopencv_imgcodecs.so.4.0.1
 /usr/lib64/haswell/libopencv_imgproc.so.4.0
-/usr/lib64/haswell/libopencv_imgproc.so.4.0.0
+/usr/lib64/haswell/libopencv_imgproc.so.4.0.1
 /usr/lib64/haswell/libopencv_ml.so.4.0
-/usr/lib64/haswell/libopencv_ml.so.4.0.0
+/usr/lib64/haswell/libopencv_ml.so.4.0.1
 /usr/lib64/haswell/libopencv_objdetect.so.4.0
-/usr/lib64/haswell/libopencv_objdetect.so.4.0.0
+/usr/lib64/haswell/libopencv_objdetect.so.4.0.1
 /usr/lib64/haswell/libopencv_photo.so.4.0
-/usr/lib64/haswell/libopencv_photo.so.4.0.0
+/usr/lib64/haswell/libopencv_photo.so.4.0.1
 /usr/lib64/haswell/libopencv_stitching.so.4.0
-/usr/lib64/haswell/libopencv_stitching.so.4.0.0
+/usr/lib64/haswell/libopencv_stitching.so.4.0.1
 /usr/lib64/haswell/libopencv_video.so.4.0
-/usr/lib64/haswell/libopencv_video.so.4.0.0
+/usr/lib64/haswell/libopencv_video.so.4.0.1
 /usr/lib64/haswell/libopencv_videoio.so.4.0
-/usr/lib64/haswell/libopencv_videoio.so.4.0.0
+/usr/lib64/haswell/libopencv_videoio.so.4.0.1
 /usr/lib64/libopencv_calib3d.so.4.0
-/usr/lib64/libopencv_calib3d.so.4.0.0
+/usr/lib64/libopencv_calib3d.so.4.0.1
 /usr/lib64/libopencv_core.so.4.0
-/usr/lib64/libopencv_core.so.4.0.0
+/usr/lib64/libopencv_core.so.4.0.1
 /usr/lib64/libopencv_dnn.so.4.0
-/usr/lib64/libopencv_dnn.so.4.0.0
+/usr/lib64/libopencv_dnn.so.4.0.1
 /usr/lib64/libopencv_features2d.so.4.0
-/usr/lib64/libopencv_features2d.so.4.0.0
+/usr/lib64/libopencv_features2d.so.4.0.1
 /usr/lib64/libopencv_flann.so.4.0
-/usr/lib64/libopencv_flann.so.4.0.0
+/usr/lib64/libopencv_flann.so.4.0.1
 /usr/lib64/libopencv_highgui.so.4.0
-/usr/lib64/libopencv_highgui.so.4.0.0
+/usr/lib64/libopencv_highgui.so.4.0.1
 /usr/lib64/libopencv_imgcodecs.so.4.0
-/usr/lib64/libopencv_imgcodecs.so.4.0.0
+/usr/lib64/libopencv_imgcodecs.so.4.0.1
 /usr/lib64/libopencv_imgproc.so.4.0
-/usr/lib64/libopencv_imgproc.so.4.0.0
+/usr/lib64/libopencv_imgproc.so.4.0.1
 /usr/lib64/libopencv_ml.so.4.0
-/usr/lib64/libopencv_ml.so.4.0.0
+/usr/lib64/libopencv_ml.so.4.0.1
 /usr/lib64/libopencv_objdetect.so.4.0
-/usr/lib64/libopencv_objdetect.so.4.0.0
+/usr/lib64/libopencv_objdetect.so.4.0.1
 /usr/lib64/libopencv_photo.so.4.0
-/usr/lib64/libopencv_photo.so.4.0.0
+/usr/lib64/libopencv_photo.so.4.0.1
 /usr/lib64/libopencv_stitching.so.4.0
-/usr/lib64/libopencv_stitching.so.4.0.0
+/usr/lib64/libopencv_stitching.so.4.0.1
 /usr/lib64/libopencv_video.so.4.0
-/usr/lib64/libopencv_video.so.4.0.0
+/usr/lib64/libopencv_video.so.4.0.1
 /usr/lib64/libopencv_videoio.so.4.0
-/usr/lib64/libopencv_videoio.so.4.0.0
+/usr/lib64/libopencv_videoio.so.4.0.1
 
 %files license
 %defattr(0644,root,root,0755)
