@@ -25,4 +25,4 @@ beautifulsoup4
 openjdk-dev
 openjdk
 libgphoto2-dev
-numpy-legacypython
+deprecated-numpy-legacypython
