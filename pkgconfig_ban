@@ -2,3 +2,11 @@
 # but are undesirable. One entry per line, no whitespace.
 libgphoto2
 tbb
+libxine
+libswscale
+libdc1394-2
+libavutil
+libavresample
+libavformat
+libavcodec
+aravis-0.6
