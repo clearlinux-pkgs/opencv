@@ -3,10 +3,9 @@
 libgphoto2
 tbb
 libxine
-libswscale
 libdc1394-2
 libavutil
-libavresample
 libavformat
 libavcodec
 aravis-0.6
+libavresample
