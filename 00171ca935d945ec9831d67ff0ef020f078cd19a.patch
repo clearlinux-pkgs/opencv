@@ -1,0 +1,20 @@
+commit 00171ca935d945ec9831d67ff0ef020f078cd19a
+Author: Maksim Shabunin <maksim.shabunin@gmail.com>
+Date:   Mon Mar 18 12:24:18 2019 +0300
+
+    Patched libpng to address CVE-2019-7317
+
+diff --git a/3rdparty/libpng/png.c b/3rdparty/libpng/png.c
+index 3dce191d1..ea44e2b68 100644
+--- a/3rdparty/libpng/png.c
++++ b/3rdparty/libpng/png.c
+@@ -4588,8 +4588,7 @@ png_image_free(png_imagep image)
+    if (image != NULL && image->opaque != NULL &&
+       image->opaque->error_buf == NULL)
+    {
+-      /* Ignore errors here: */
+-      (void)png_safe_execute(image, png_image_free_function, image);
++      png_image_free_function(image);
+       image->opaque = NULL;
+    }
+ }
