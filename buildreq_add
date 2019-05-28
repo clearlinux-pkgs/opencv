@@ -26,3 +26,6 @@ openjdk-dev
 openjdk
 libgphoto2-dev
 deprecated-numpy-legacypython
+dldt-dev
+pugixml-dev
+ade-dev

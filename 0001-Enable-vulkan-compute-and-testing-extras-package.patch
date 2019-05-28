@@ -1,0 +1,380 @@
+From 5619e5b7d3b4622353aefd91da5f791fc22f0717 Mon Sep 17 00:00:00 2001
+From: Kevron Rees <kevron.m.rees@intel.com>
+Date: Wed, 17 Apr 2019 19:32:30 +0000
+Subject: [PATCH opencv] Enable vulkan compute and testing-extras package
+
+---
+ cmake_args     |   4 ++
+ extras         |   1 -
+ opencv.spec    | 175 ++++++++++++++++++++++++++++++++++++++++++++++++-
+ release        |   2 +-
+ testing_extras |  76 +++++++++++++++++++++
+ 5 files changed, 255 insertions(+), 3 deletions(-)
+ create mode 100644 testing_extras
+
+diff --git a/cmake_args b/cmake_args
+index 261efec..ae253df 100644
+--- a/cmake_args
++++ b/cmake_args
+@@ -10,12 +10,16 @@
+ -DWITH_TBB=ON
+ -DWITH_OPENMP=ON
+ -DWITH_VA=ON
++-DWITH_VULKAN=ON
+ -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo
+ -DWITH_GSTREAMER=1
+ -DINSTALL_PYTHON_EXAMPLES=1
+ -DCPU_DISPATCH=AVX,AVX2,AVX512_SKX
+ -DLIB_SUFFIX=
+ -DBUILD_EXAMPLES=ON
++-DBUILD_TESTS=ON
++-DBUILD_PERF_TESTS=ON
++-DINSTALL_TESTS=ON
+ -DINSTALL_C_EXAMPLES=ON
+ -DINSTALL_PYTHON_EXAMPLES=ON
+ -DBUILD_JAVA=ON
+diff --git a/extras b/extras
+index e8b91b8..d1c4a33 100644
+--- a/extras
++++ b/extras
+@@ -118,4 +118,3 @@
+ /usr/share/OpenCV4/samples/tapi/squares.cpp
+ /usr/share/OpenCV4/samples/tapi/tvl1_optical_flow.cpp
+ /usr/share/OpenCV4/samples/tapi/ufacedetect.cpp
+- 
+diff --git a/opencv.spec b/opencv.spec
+index 63f8448..b8cdab9 100644
+--- a/opencv.spec
++++ b/opencv.spec
+@@ -5,7 +5,7 @@
+ %define keepstatic 1
+ Name     : opencv
+ Version  : 4.1.0
+-Release  : 90
++Release  : 91
+ URL      : https://github.com/opencv/opencv/archive/4.1.0/opencv-4.1.0.tar.gz
+ Source0  : https://github.com/opencv/opencv/archive/4.1.0/opencv-4.1.0.tar.gz
+ Summary  : Open Source Computer Vision Library
+@@ -145,6 +145,14 @@ Requires: python3-core
+ python3 components for the opencv package.
+ 
+ 
++%package testing-extras
++Summary: testing-extras components for the opencv package.
++Group: Default
++
++%description testing-extras
++testing-extras components for the opencv package.
++
++
+ %prep
+ %setup -q -n opencv-4.1.0
+ %patch1 -p1
+@@ -183,12 +191,16 @@ export CXXFLAGS_USE="$CXXFLAGS -fprofile-use -fprofile-dir=pgo -fprofile-correct
+ -DWITH_TBB=ON \
+ -DWITH_OPENMP=ON \
+ -DWITH_VA=ON \
++-DWITH_VULKAN=ON \
+ -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo \
+ -DWITH_GSTREAMER=1 \
+ -DINSTALL_PYTHON_EXAMPLES=1 \
+ -DCPU_DISPATCH=AVX,AVX2,AVX512_SKX \
+ -DLIB_SUFFIX= \
+ -DBUILD_EXAMPLES=ON \
++-DBUILD_TESTS=ON \
++-DBUILD_PERF_TESTS=ON \
++-DINSTALL_TESTS=ON \
+ -DINSTALL_C_EXAMPLES=ON \
+ -DINSTALL_PYTHON_EXAMPLES=ON \
+ -DBUILD_JAVA=ON \
+@@ -228,12 +240,16 @@ export CXXFLAGS="$CXXFLAGS -march=haswell -m64"
+ -DWITH_TBB=ON \
+ -DWITH_OPENMP=ON \
+ -DWITH_VA=ON \
++-DWITH_VULKAN=ON \
+ -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo \
+ -DWITH_GSTREAMER=1 \
+ -DINSTALL_PYTHON_EXAMPLES=1 \
+ -DCPU_DISPATCH=AVX,AVX2,AVX512_SKX \
+ -DLIB_SUFFIX= \
+ -DBUILD_EXAMPLES=ON \
++-DBUILD_TESTS=ON \
++-DBUILD_PERF_TESTS=ON \
++-DINSTALL_TESTS=ON \
+ -DINSTALL_C_EXAMPLES=ON \
+ -DINSTALL_PYTHON_EXAMPLES=ON \
+ -DBUILD_JAVA=ON \
+@@ -271,12 +287,16 @@ export CXXFLAGS="$CXXFLAGS -march=skylake-avx512 -m64 "
+ -DWITH_TBB=ON \
+ -DWITH_OPENMP=ON \
+ -DWITH_VA=ON \
++-DWITH_VULKAN=ON \
+ -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo \
+ -DWITH_GSTREAMER=1 \
+ -DINSTALL_PYTHON_EXAMPLES=1 \
+ -DCPU_DISPATCH=AVX,AVX2,AVX512_SKX \
+ -DLIB_SUFFIX= \
+ -DBUILD_EXAMPLES=ON \
++-DBUILD_TESTS=ON \
++-DBUILD_PERF_TESTS=ON \
++-DINSTALL_TESTS=ON \
+ -DINSTALL_C_EXAMPLES=ON \
+ -DINSTALL_PYTHON_EXAMPLES=ON \
+ -DBUILD_JAVA=ON \
+@@ -330,6 +350,81 @@ cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/python-2.7/cv2.so %{buildroo
+ 
+ %files bin
+ %defattr(-,root,root,-)
++%exclude /usr/bin/haswell/avx512_1/opencv_perf_calib3d
++%exclude /usr/bin/haswell/avx512_1/opencv_perf_core
++%exclude /usr/bin/haswell/avx512_1/opencv_perf_dnn
++%exclude /usr/bin/haswell/avx512_1/opencv_perf_features2d
++%exclude /usr/bin/haswell/avx512_1/opencv_perf_imgcodecs
++%exclude /usr/bin/haswell/avx512_1/opencv_perf_imgproc
++%exclude /usr/bin/haswell/avx512_1/opencv_perf_objdetect
++%exclude /usr/bin/haswell/avx512_1/opencv_perf_photo
++%exclude /usr/bin/haswell/avx512_1/opencv_perf_stitching
++%exclude /usr/bin/haswell/avx512_1/opencv_perf_video
++%exclude /usr/bin/haswell/avx512_1/opencv_perf_videoio
++%exclude /usr/bin/haswell/avx512_1/opencv_test_calib3d
++%exclude /usr/bin/haswell/avx512_1/opencv_test_core
++%exclude /usr/bin/haswell/avx512_1/opencv_test_dnn
++%exclude /usr/bin/haswell/avx512_1/opencv_test_features2d
++%exclude /usr/bin/haswell/avx512_1/opencv_test_flann
++%exclude /usr/bin/haswell/avx512_1/opencv_test_highgui
++%exclude /usr/bin/haswell/avx512_1/opencv_test_imgcodecs
++%exclude /usr/bin/haswell/avx512_1/opencv_test_imgproc
++%exclude /usr/bin/haswell/avx512_1/opencv_test_ml
++%exclude /usr/bin/haswell/avx512_1/opencv_test_objdetect
++%exclude /usr/bin/haswell/avx512_1/opencv_test_photo
++%exclude /usr/bin/haswell/avx512_1/opencv_test_stitching
++%exclude /usr/bin/haswell/avx512_1/opencv_test_video
++%exclude /usr/bin/haswell/avx512_1/opencv_test_videoio
++%exclude /usr/bin/haswell/opencv_perf_calib3d
++%exclude /usr/bin/haswell/opencv_perf_core
++%exclude /usr/bin/haswell/opencv_perf_dnn
++%exclude /usr/bin/haswell/opencv_perf_features2d
++%exclude /usr/bin/haswell/opencv_perf_imgcodecs
++%exclude /usr/bin/haswell/opencv_perf_imgproc
++%exclude /usr/bin/haswell/opencv_perf_objdetect
++%exclude /usr/bin/haswell/opencv_perf_photo
++%exclude /usr/bin/haswell/opencv_perf_stitching
++%exclude /usr/bin/haswell/opencv_perf_video
++%exclude /usr/bin/haswell/opencv_perf_videoio
++%exclude /usr/bin/haswell/opencv_test_calib3d
++%exclude /usr/bin/haswell/opencv_test_core
++%exclude /usr/bin/haswell/opencv_test_dnn
++%exclude /usr/bin/haswell/opencv_test_features2d
++%exclude /usr/bin/haswell/opencv_test_flann
++%exclude /usr/bin/haswell/opencv_test_highgui
++%exclude /usr/bin/haswell/opencv_test_imgcodecs
++%exclude /usr/bin/haswell/opencv_test_imgproc
++%exclude /usr/bin/haswell/opencv_test_ml
++%exclude /usr/bin/haswell/opencv_test_objdetect
++%exclude /usr/bin/haswell/opencv_test_photo
++%exclude /usr/bin/haswell/opencv_test_stitching
++%exclude /usr/bin/haswell/opencv_test_video
++%exclude /usr/bin/haswell/opencv_test_videoio
++%exclude /usr/bin/opencv_perf_calib3d
++%exclude /usr/bin/opencv_perf_core
++%exclude /usr/bin/opencv_perf_dnn
++%exclude /usr/bin/opencv_perf_features2d
++%exclude /usr/bin/opencv_perf_imgcodecs
++%exclude /usr/bin/opencv_perf_imgproc
++%exclude /usr/bin/opencv_perf_objdetect
++%exclude /usr/bin/opencv_perf_photo
++%exclude /usr/bin/opencv_perf_stitching
++%exclude /usr/bin/opencv_perf_video
++%exclude /usr/bin/opencv_perf_videoio
++%exclude /usr/bin/opencv_test_calib3d
++%exclude /usr/bin/opencv_test_core
++%exclude /usr/bin/opencv_test_dnn
++%exclude /usr/bin/opencv_test_features2d
++%exclude /usr/bin/opencv_test_flann
++%exclude /usr/bin/opencv_test_highgui
++%exclude /usr/bin/opencv_test_imgcodecs
++%exclude /usr/bin/opencv_test_imgproc
++%exclude /usr/bin/opencv_test_ml
++%exclude /usr/bin/opencv_test_objdetect
++%exclude /usr/bin/opencv_test_photo
++%exclude /usr/bin/opencv_test_stitching
++%exclude /usr/bin/opencv_test_video
++%exclude /usr/bin/opencv_test_videoio
+ /usr/bin/haswell/avx512_1/opencv_annotation
+ /usr/bin/haswell/avx512_1/opencv_interactive-calibration
+ /usr/bin/haswell/avx512_1/opencv_version
+@@ -1040,3 +1135,81 @@ cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/python-2.7/cv2.so %{buildroo
+ %files python3
+ %defattr(-,root,root,-)
+ /usr/lib/python3*/*
++
++%files testing-extras
++%defattr(-,root,root,-)
++/usr/bin/haswell/avx512_1/opencv_perf_calib3d
++/usr/bin/haswell/avx512_1/opencv_perf_core
++/usr/bin/haswell/avx512_1/opencv_perf_dnn
++/usr/bin/haswell/avx512_1/opencv_perf_features2d
++/usr/bin/haswell/avx512_1/opencv_perf_imgcodecs
++/usr/bin/haswell/avx512_1/opencv_perf_imgproc
++/usr/bin/haswell/avx512_1/opencv_perf_objdetect
++/usr/bin/haswell/avx512_1/opencv_perf_photo
++/usr/bin/haswell/avx512_1/opencv_perf_stitching
++/usr/bin/haswell/avx512_1/opencv_perf_video
++/usr/bin/haswell/avx512_1/opencv_perf_videoio
++/usr/bin/haswell/avx512_1/opencv_test_calib3d
++/usr/bin/haswell/avx512_1/opencv_test_core
++/usr/bin/haswell/avx512_1/opencv_test_dnn
++/usr/bin/haswell/avx512_1/opencv_test_features2d
++/usr/bin/haswell/avx512_1/opencv_test_flann
++/usr/bin/haswell/avx512_1/opencv_test_highgui
++/usr/bin/haswell/avx512_1/opencv_test_imgcodecs
++/usr/bin/haswell/avx512_1/opencv_test_imgproc
++/usr/bin/haswell/avx512_1/opencv_test_ml
++/usr/bin/haswell/avx512_1/opencv_test_objdetect
++/usr/bin/haswell/avx512_1/opencv_test_photo
++/usr/bin/haswell/avx512_1/opencv_test_stitching
++/usr/bin/haswell/avx512_1/opencv_test_video
++/usr/bin/haswell/avx512_1/opencv_test_videoio
++/usr/bin/haswell/opencv_perf_calib3d
++/usr/bin/haswell/opencv_perf_core
++/usr/bin/haswell/opencv_perf_dnn
++/usr/bin/haswell/opencv_perf_features2d
++/usr/bin/haswell/opencv_perf_imgcodecs
++/usr/bin/haswell/opencv_perf_imgproc
++/usr/bin/haswell/opencv_perf_objdetect
++/usr/bin/haswell/opencv_perf_photo
++/usr/bin/haswell/opencv_perf_stitching
++/usr/bin/haswell/opencv_perf_video
++/usr/bin/haswell/opencv_perf_videoio
++/usr/bin/haswell/opencv_test_calib3d
++/usr/bin/haswell/opencv_test_core
++/usr/bin/haswell/opencv_test_dnn
++/usr/bin/haswell/opencv_test_features2d
++/usr/bin/haswell/opencv_test_flann
++/usr/bin/haswell/opencv_test_highgui
++/usr/bin/haswell/opencv_test_imgcodecs
++/usr/bin/haswell/opencv_test_imgproc
++/usr/bin/haswell/opencv_test_ml
++/usr/bin/haswell/opencv_test_objdetect
++/usr/bin/haswell/opencv_test_photo
++/usr/bin/haswell/opencv_test_stitching
++/usr/bin/haswell/opencv_test_video
++/usr/bin/haswell/opencv_test_videoio
++/usr/bin/opencv_perf_calib3d
++/usr/bin/opencv_perf_core
++/usr/bin/opencv_perf_dnn
++/usr/bin/opencv_perf_features2d
++/usr/bin/opencv_perf_imgcodecs
++/usr/bin/opencv_perf_imgproc
++/usr/bin/opencv_perf_objdetect
++/usr/bin/opencv_perf_photo
++/usr/bin/opencv_perf_stitching
++/usr/bin/opencv_perf_video
++/usr/bin/opencv_perf_videoio
++/usr/bin/opencv_test_calib3d
++/usr/bin/opencv_test_core
++/usr/bin/opencv_test_dnn
++/usr/bin/opencv_test_features2d
++/usr/bin/opencv_test_flann
++/usr/bin/opencv_test_highgui
++/usr/bin/opencv_test_imgcodecs
++/usr/bin/opencv_test_imgproc
++/usr/bin/opencv_test_ml
++/usr/bin/opencv_test_objdetect
++/usr/bin/opencv_test_photo
++/usr/bin/opencv_test_stitching
++/usr/bin/opencv_test_video
++/usr/bin/opencv_test_videoio
+diff --git a/release b/release
+index d61f00d..7fe4e49 100644
+--- a/release
++++ b/release
+@@ -1 +1 @@
+-90
++91
+diff --git a/testing_extras b/testing_extras
+new file mode 100644
+index 0000000..d526ead
+--- /dev/null
++++ b/testing_extras
+@@ -0,0 +1,76 @@
++files = ['/usr/bin/haswell/avx512_1/opencv_perf_calib3d',
++         '/usr/bin/haswell/avx512_1/opencv_perf_core',
++         '/usr/bin/haswell/avx512_1/opencv_perf_dnn',
++         '/usr/bin/haswell/avx512_1/opencv_perf_features2d',
++         '/usr/bin/haswell/avx512_1/opencv_perf_imgcodecs',
++         '/usr/bin/haswell/avx512_1/opencv_perf_imgproc',
++         '/usr/bin/haswell/avx512_1/opencv_perf_objdetect',
++         '/usr/bin/haswell/avx512_1/opencv_perf_photo',
++         '/usr/bin/haswell/avx512_1/opencv_perf_stitching',
++         '/usr/bin/haswell/avx512_1/opencv_perf_video',
++         '/usr/bin/haswell/avx512_1/opencv_perf_videoio',
++         '/usr/bin/haswell/avx512_1/opencv_test_calib3d',
++         '/usr/bin/haswell/avx512_1/opencv_test_core',
++         '/usr/bin/haswell/avx512_1/opencv_test_dnn',
++         '/usr/bin/haswell/avx512_1/opencv_test_features2d',
++         '/usr/bin/haswell/avx512_1/opencv_test_flann',
++         '/usr/bin/haswell/avx512_1/opencv_test_highgui',
++         '/usr/bin/haswell/avx512_1/opencv_test_imgcodecs',
++         '/usr/bin/haswell/avx512_1/opencv_test_imgproc',
++         '/usr/bin/haswell/avx512_1/opencv_test_ml',
++         '/usr/bin/haswell/avx512_1/opencv_test_objdetect',
++         '/usr/bin/haswell/avx512_1/opencv_test_photo',
++         '/usr/bin/haswell/avx512_1/opencv_test_stitching',
++         '/usr/bin/haswell/avx512_1/opencv_test_video',
++         '/usr/bin/haswell/avx512_1/opencv_test_videoio',
++         '/usr/bin/haswell/opencv_perf_calib3d',
++         '/usr/bin/haswell/opencv_perf_core',
++         '/usr/bin/haswell/opencv_perf_dnn',
++         '/usr/bin/haswell/opencv_perf_features2d',
++         '/usr/bin/haswell/opencv_perf_imgcodecs',
++         '/usr/bin/haswell/opencv_perf_imgproc',
++         '/usr/bin/haswell/opencv_perf_objdetect',
++         '/usr/bin/haswell/opencv_perf_photo',
++         '/usr/bin/haswell/opencv_perf_stitching',
++         '/usr/bin/haswell/opencv_perf_video',
++         '/usr/bin/haswell/opencv_perf_videoio',
++         '/usr/bin/haswell/opencv_test_calib3d',
++         '/usr/bin/haswell/opencv_test_core',
++         '/usr/bin/haswell/opencv_test_dnn',
++         '/usr/bin/haswell/opencv_test_features2d',
++         '/usr/bin/haswell/opencv_test_flann',
++         '/usr/bin/haswell/opencv_test_highgui',
++         '/usr/bin/haswell/opencv_test_imgcodecs',
++         '/usr/bin/haswell/opencv_test_imgproc',
++         '/usr/bin/haswell/opencv_test_ml',
++         '/usr/bin/haswell/opencv_test_objdetect',
++         '/usr/bin/haswell/opencv_test_photo',
++         '/usr/bin/haswell/opencv_test_stitching',
++         '/usr/bin/haswell/opencv_test_video',
++         '/usr/bin/haswell/opencv_test_videoio',
++         '/usr/bin/opencv_perf_calib3d',
++         '/usr/bin/opencv_perf_core',
++         '/usr/bin/opencv_perf_dnn',
++         '/usr/bin/opencv_perf_features2d',
++         '/usr/bin/opencv_perf_imgcodecs',
++         '/usr/bin/opencv_perf_imgproc',
++         '/usr/bin/opencv_perf_objdetect',
++         '/usr/bin/opencv_perf_photo',
++         '/usr/bin/opencv_perf_stitching',
++         '/usr/bin/opencv_perf_video',
++         '/usr/bin/opencv_perf_videoio',
++         '/usr/bin/opencv_test_calib3d',
++         '/usr/bin/opencv_test_core',
++         '/usr/bin/opencv_test_dnn',
++         '/usr/bin/opencv_test_features2d',
++         '/usr/bin/opencv_test_flann',
++         '/usr/bin/opencv_test_highgui',
++         '/usr/bin/opencv_test_imgcodecs',
++         '/usr/bin/opencv_test_imgproc',
++         '/usr/bin/opencv_test_ml',
++         '/usr/bin/opencv_test_objdetect',
++         '/usr/bin/opencv_test_photo',
++         '/usr/bin/opencv_test_stitching',
++         '/usr/bin/opencv_test_video',
++         '/usr/bin/opencv_test_videoio'
++]
+\ No newline at end of file
+-- 
+2.21.0
+

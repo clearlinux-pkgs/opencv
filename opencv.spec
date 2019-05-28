@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.1.0
-Release  : 91
+Release  : 92
 URL      : https://github.com/opencv/opencv/archive/4.1.0/opencv-4.1.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.1.0/opencv-4.1.0.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -17,6 +17,8 @@ Requires: opencv-lib = %{version}-%{release}
 Requires: opencv-license = %{version}-%{release}
 Requires: opencv-python = %{version}-%{release}
 Requires: opencv-python3 = %{version}-%{release}
+Requires: dldt
+BuildRequires : ade-dev
 BuildRequires : beautifulsoup4
 BuildRequires : beignet-dev
 BuildRequires : buildreq-cmake
@@ -24,6 +26,8 @@ BuildRequires : buildreq-distutils3
 BuildRequires : ccache
 BuildRequires : cmake
 BuildRequires : deprecated-numpy-legacypython
+BuildRequires : dldt
+BuildRequires : dldt-dev
 BuildRequires : doxygen
 BuildRequires : eigen-dev
 BuildRequires : gdal-dev
@@ -37,6 +41,7 @@ BuildRequires : libva-dev
 BuildRequires : libva-intel-driver
 BuildRequires : libwebp-dev
 BuildRequires : mesa-dev
+BuildRequires : nano
 BuildRequires : numpy
 BuildRequires : ocl-icd-dev
 BuildRequires : openblas
@@ -53,6 +58,7 @@ BuildRequires : pkgconfig(gstreamer-video-1.0)
 BuildRequires : pkgconfig(libpng)
 BuildRequires : pkgconfig(libswscale)
 BuildRequires : protobuf-dev
+BuildRequires : pugixml-dev
 BuildRequires : python-dev
 BuildRequires : python3-dev
 BuildRequires : tbb-dev
@@ -62,12 +68,9 @@ Patch1: 00171ca935d945ec9831d67ff0ef020f078cd19a.patch
 Patch2: 25247b9f6e5e550868262b7611a9e575c1f7212a.patch
 
 %description
-A demo of the Java wrapper for OpenCV with two examples:
-1) feature detection and matching and
-2) face detection.
-The examples are coded in Scala and Java.
-Anyone familiar with Java should be able to read the Scala examples.
-Please feel free to contribute code examples in Scala or Java, or any JVM language.
+===================================================
+See the note about version numbers near the top of png.h.
+See INSTALL for instructions on how to install libpng.
 
 %package bin
 Summary: bin components for the opencv package.
@@ -163,22 +166,22 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1556663617
+export SOURCE_DATE_EPOCH=1559164817
 mkdir -p clr-build
 pushd clr-build
-export LDFLAGS="${LDFLAGS} -fno-lto"
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -mzero-caller-saved-regs=used "
-export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=pgo -fprofile-update=atomic "
-export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=pgo -fprofile-update=atomic "
-export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=pgo -fprofile-update=atomic "
-export CXXFLAGS_GENERATE="$CXXFLAGS -fprofile-generate -fprofile-dir=pgo -fprofile-update=atomic "
-export CFLAGS_USE="$CFLAGS -fprofile-use -fprofile-dir=pgo -fprofile-correction "
-export FCFLAGS_USE="$FCFLAGS -fprofile-use -fprofile-dir=pgo -fprofile-correction "
-export FFLAGS_USE="$FFLAGS -fprofile-use -fprofile-dir=pgo -fprofile-correction "
-export CXXFLAGS_USE="$CXXFLAGS -fprofile-use -fprofile-dir=pgo -fprofile-correction "
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
+export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
+export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
+export CXXFLAGS_GENERATE="$CXXFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
+export CFLAGS_USE="$CFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
+export FCFLAGS_USE="$FCFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
+export FFLAGS_USE="$FFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
+export CXXFLAGS_USE="$CXXFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
 %cmake .. -DWITH_FFMPEG=OFF \
 -DWITH_1394=OFF \
 -DWITH_GSTREAMER=ON \
@@ -190,6 +193,7 @@ export CXXFLAGS_USE="$CXXFLAGS -fprofile-use -fprofile-dir=pgo -fprofile-correct
 -DENABLE_SSE42=ON \
 -DWITH_TBB=ON \
 -DWITH_OPENMP=ON \
+-DWITH_INF_ENGINE=ON \
 -DWITH_VA=ON \
 -DWITH_VULKAN=ON \
 -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo \
@@ -221,11 +225,11 @@ make  %{?_smp_mflags} VERBOSE=1
 popd
 mkdir -p clr-build-avx2
 pushd clr-build-avx2
-export LDFLAGS="${LDFLAGS} -fno-lto"
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
 export CFLAGS="$CFLAGS -march=haswell -m64"
 export CXXFLAGS="$CXXFLAGS -march=haswell -m64"
 %cmake .. -DWITH_FFMPEG=OFF \
@@ -239,6 +243,7 @@ export CXXFLAGS="$CXXFLAGS -march=haswell -m64"
 -DENABLE_SSE42=ON \
 -DWITH_TBB=ON \
 -DWITH_OPENMP=ON \
+-DWITH_INF_ENGINE=ON \
 -DWITH_VA=ON \
 -DWITH_VULKAN=ON \
 -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo \
@@ -260,19 +265,19 @@ make  %{?_smp_mflags} VERBOSE=1
 popd
 mkdir -p clr-build-avx512
 pushd clr-build-avx512
-export LDFLAGS="${LDFLAGS} -fno-lto"
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
-export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=pgo -fprofile-update=atomic "
-export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=pgo -fprofile-update=atomic "
-export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=pgo -fprofile-update=atomic "
-export CXXFLAGS_GENERATE="$CXXFLAGS -fprofile-generate -fprofile-dir=pgo -fprofile-update=atomic "
-export CFLAGS_USE="$CFLAGS -fprofile-use -fprofile-dir=pgo -fprofile-correction "
-export FCFLAGS_USE="$FCFLAGS -fprofile-use -fprofile-dir=pgo -fprofile-correction "
-export FFLAGS_USE="$FFLAGS -fprofile-use -fprofile-dir=pgo -fprofile-correction "
-export CXXFLAGS_USE="$CXXFLAGS -fprofile-use -fprofile-dir=pgo -fprofile-correction "
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
+export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
+export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
+export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
+export CXXFLAGS_GENERATE="$CXXFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
+export CFLAGS_USE="$CFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
+export FCFLAGS_USE="$FCFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
+export FFLAGS_USE="$FFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
+export CXXFLAGS_USE="$CXXFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
 export CFLAGS="$CFLAGS -march=skylake-avx512 -m64 "
 export CXXFLAGS="$CXXFLAGS -march=skylake-avx512 -m64 "
 %cmake .. -DWITH_FFMPEG=OFF \
@@ -286,6 +291,7 @@ export CXXFLAGS="$CXXFLAGS -march=skylake-avx512 -m64 "
 -DENABLE_SSE42=ON \
 -DWITH_TBB=ON \
 -DWITH_OPENMP=ON \
+-DWITH_INF_ENGINE=ON \
 -DWITH_VA=ON \
 -DWITH_VULKAN=ON \
 -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo \
@@ -307,7 +313,7 @@ make  %{?_smp_mflags} VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1556663617
+export SOURCE_DATE_EPOCH=1559164817
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
 cp 3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/3rdparty_cpufeatures_LICENSE
