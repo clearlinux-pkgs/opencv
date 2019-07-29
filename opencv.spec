@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.1.0
-Release  : 94
+Release  : 95
 URL      : https://github.com/opencv/opencv/archive/4.1.0/opencv-4.1.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.1.0/opencv-4.1.0.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -20,7 +20,6 @@ Requires: opencv-python3 = %{version}-%{release}
 Requires: dldt
 BuildRequires : ade-dev
 BuildRequires : beautifulsoup4
-BuildRequires : beignet-dev
 BuildRequires : buildreq-cmake
 BuildRequires : buildreq-distutils3
 BuildRequires : ccache
@@ -43,6 +42,7 @@ BuildRequires : mesa-dev
 BuildRequires : numpy
 BuildRequires : ocl-icd-dev
 BuildRequires : openblas
+BuildRequires : opencl-headers-dev
 BuildRequires : openjdk
 BuildRequires : openjdk-dev
 BuildRequires : openjdk9-dev
@@ -66,13 +66,12 @@ Patch1: 00171ca935d945ec9831d67ff0ef020f078cd19a.patch
 Patch2: 25247b9f6e5e550868262b7611a9e575c1f7212a.patch
 
 %description
-JasPer Readme
-*************
-This is the source code distribution for JasPer.  JasPer is a collection
-of software (i.e., a library and application programs) for the coding
-and manipulation of images.  This software can handle image data in a
-variety of formats.  One such format supported by JasPer is the JPEG-2000
-format defined in ISO/IEC 15444-1.
+ZLIB DATA COMPRESSION LIBRARY
+zlib 1.2.11 is a general purpose data compression library.  All the code is
+thread safe.  The data format used by the zlib library is described by RFCs
+(Request for Comments) 1950 to 1952 in the files
+http://tools.ietf.org/html/rfc1950 (zlib format), rfc1951 (deflate format) and
+rfc1952 (gzip format).
 
 %package bin
 Summary: bin components for the opencv package.
@@ -168,7 +167,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1564421477
+export SOURCE_DATE_EPOCH=1564430465
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -315,7 +314,7 @@ make  %{?_smp_mflags} VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1564421477
+export SOURCE_DATE_EPOCH=1564430465
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
 cp 3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/3rdparty_cpufeatures_LICENSE

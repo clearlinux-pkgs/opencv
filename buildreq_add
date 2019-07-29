@@ -9,7 +9,7 @@ eigen-dev
 libva-dev
 libva-intel-driver
 openblas
-beignet-dev
+opencl-headers-dev
 python-dev
 python3-dev
 numpy
