@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.1.0
-Release  : 93
+Release  : 94
 URL      : https://github.com/opencv/opencv/archive/4.1.0/opencv-4.1.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.1.0/opencv-4.1.0.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -27,7 +27,6 @@ BuildRequires : ccache
 BuildRequires : cmake
 BuildRequires : deprecated-numpy-legacypython
 BuildRequires : dldt
-BuildRequires : dldt-dev
 BuildRequires : doxygen
 BuildRequires : eigen-dev
 BuildRequires : gdal-dev
@@ -41,7 +40,6 @@ BuildRequires : libva-dev
 BuildRequires : libva-intel-driver
 BuildRequires : libwebp-dev
 BuildRequires : mesa-dev
-BuildRequires : nano
 BuildRequires : numpy
 BuildRequires : ocl-icd-dev
 BuildRequires : openblas
@@ -68,9 +66,13 @@ Patch1: 00171ca935d945ec9831d67ff0ef020f078cd19a.patch
 Patch2: 25247b9f6e5e550868262b7611a9e575c1f7212a.patch
 
 %description
-===================================================
-See the note about version numbers near the top of png.h.
-See INSTALL for instructions on how to install libpng.
+JasPer Readme
+*************
+This is the source code distribution for JasPer.  JasPer is a collection
+of software (i.e., a library and application programs) for the coding
+and manipulation of images.  This software can handle image data in a
+variety of formats.  One such format supported by JasPer is the JPEG-2000
+format defined in ISO/IEC 15444-1.
 
 %package bin
 Summary: bin components for the opencv package.
@@ -101,6 +103,14 @@ Requires: opencv = %{version}-%{release}
 
 %description dev
 dev components for the opencv package.
+
+
+%package extras-testing
+Summary: extras-testing components for the opencv package.
+Group: Default
+
+%description extras-testing
+extras-testing components for the opencv package.
 
 
 %package legacypython
@@ -148,14 +158,6 @@ Requires: python3-core
 python3 components for the opencv package.
 
 
-%package testing-extras
-Summary: testing-extras components for the opencv package.
-Group: Default
-
-%description testing-extras
-testing-extras components for the opencv package.
-
-
 %prep
 %setup -q -n opencv-4.1.0
 %patch1 -p1
@@ -165,8 +167,8 @@ testing-extras components for the opencv package.
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1559164817
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1564421477
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -313,7 +315,7 @@ make  %{?_smp_mflags} VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1559164817
+export SOURCE_DATE_EPOCH=1564421477
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
 cp 3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/3rdparty_cpufeatures_LICENSE
@@ -1025,6 +1027,84 @@ cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/python-2.7/cv2.so %{buildroo
 /usr/lib64/pkgconfig/opencv.pc
 /usr/lib64/pkgconfig/opencv4.pc
 
+%files extras-testing
+%defattr(-,root,root,-)
+/usr/bin/haswell/avx512_1/opencv_perf_calib3d
+/usr/bin/haswell/avx512_1/opencv_perf_core
+/usr/bin/haswell/avx512_1/opencv_perf_dnn
+/usr/bin/haswell/avx512_1/opencv_perf_features2d
+/usr/bin/haswell/avx512_1/opencv_perf_imgcodecs
+/usr/bin/haswell/avx512_1/opencv_perf_imgproc
+/usr/bin/haswell/avx512_1/opencv_perf_objdetect
+/usr/bin/haswell/avx512_1/opencv_perf_photo
+/usr/bin/haswell/avx512_1/opencv_perf_stitching
+/usr/bin/haswell/avx512_1/opencv_perf_video
+/usr/bin/haswell/avx512_1/opencv_perf_videoio
+/usr/bin/haswell/avx512_1/opencv_test_calib3d
+/usr/bin/haswell/avx512_1/opencv_test_core
+/usr/bin/haswell/avx512_1/opencv_test_dnn
+/usr/bin/haswell/avx512_1/opencv_test_features2d
+/usr/bin/haswell/avx512_1/opencv_test_flann
+/usr/bin/haswell/avx512_1/opencv_test_highgui
+/usr/bin/haswell/avx512_1/opencv_test_imgcodecs
+/usr/bin/haswell/avx512_1/opencv_test_imgproc
+/usr/bin/haswell/avx512_1/opencv_test_ml
+/usr/bin/haswell/avx512_1/opencv_test_objdetect
+/usr/bin/haswell/avx512_1/opencv_test_photo
+/usr/bin/haswell/avx512_1/opencv_test_stitching
+/usr/bin/haswell/avx512_1/opencv_test_video
+/usr/bin/haswell/avx512_1/opencv_test_videoio
+/usr/bin/haswell/opencv_perf_calib3d
+/usr/bin/haswell/opencv_perf_core
+/usr/bin/haswell/opencv_perf_dnn
+/usr/bin/haswell/opencv_perf_features2d
+/usr/bin/haswell/opencv_perf_imgcodecs
+/usr/bin/haswell/opencv_perf_imgproc
+/usr/bin/haswell/opencv_perf_objdetect
+/usr/bin/haswell/opencv_perf_photo
+/usr/bin/haswell/opencv_perf_stitching
+/usr/bin/haswell/opencv_perf_video
+/usr/bin/haswell/opencv_perf_videoio
+/usr/bin/haswell/opencv_test_calib3d
+/usr/bin/haswell/opencv_test_core
+/usr/bin/haswell/opencv_test_dnn
+/usr/bin/haswell/opencv_test_features2d
+/usr/bin/haswell/opencv_test_flann
+/usr/bin/haswell/opencv_test_highgui
+/usr/bin/haswell/opencv_test_imgcodecs
+/usr/bin/haswell/opencv_test_imgproc
+/usr/bin/haswell/opencv_test_ml
+/usr/bin/haswell/opencv_test_objdetect
+/usr/bin/haswell/opencv_test_photo
+/usr/bin/haswell/opencv_test_stitching
+/usr/bin/haswell/opencv_test_video
+/usr/bin/haswell/opencv_test_videoio
+/usr/bin/opencv_perf_calib3d
+/usr/bin/opencv_perf_core
+/usr/bin/opencv_perf_dnn
+/usr/bin/opencv_perf_features2d
+/usr/bin/opencv_perf_imgcodecs
+/usr/bin/opencv_perf_imgproc
+/usr/bin/opencv_perf_objdetect
+/usr/bin/opencv_perf_photo
+/usr/bin/opencv_perf_stitching
+/usr/bin/opencv_perf_video
+/usr/bin/opencv_perf_videoio
+/usr/bin/opencv_test_calib3d
+/usr/bin/opencv_test_core
+/usr/bin/opencv_test_dnn
+/usr/bin/opencv_test_features2d
+/usr/bin/opencv_test_flann
+/usr/bin/opencv_test_highgui
+/usr/bin/opencv_test_imgcodecs
+/usr/bin/opencv_test_imgproc
+/usr/bin/opencv_test_ml
+/usr/bin/opencv_test_objdetect
+/usr/bin/opencv_test_photo
+/usr/bin/opencv_test_stitching
+/usr/bin/opencv_test_video
+/usr/bin/opencv_test_videoio
+
 %files legacypython
 %defattr(-,root,root,-)
 /usr/lib/python2*/*
@@ -1141,81 +1221,3 @@ cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/python-2.7/cv2.so %{buildroo
 %files python3
 %defattr(-,root,root,-)
 /usr/lib/python3*/*
-
-%files testing-extras
-%defattr(-,root,root,-)
-/usr/bin/haswell/avx512_1/opencv_perf_calib3d
-/usr/bin/haswell/avx512_1/opencv_perf_core
-/usr/bin/haswell/avx512_1/opencv_perf_dnn
-/usr/bin/haswell/avx512_1/opencv_perf_features2d
-/usr/bin/haswell/avx512_1/opencv_perf_imgcodecs
-/usr/bin/haswell/avx512_1/opencv_perf_imgproc
-/usr/bin/haswell/avx512_1/opencv_perf_objdetect
-/usr/bin/haswell/avx512_1/opencv_perf_photo
-/usr/bin/haswell/avx512_1/opencv_perf_stitching
-/usr/bin/haswell/avx512_1/opencv_perf_video
-/usr/bin/haswell/avx512_1/opencv_perf_videoio
-/usr/bin/haswell/avx512_1/opencv_test_calib3d
-/usr/bin/haswell/avx512_1/opencv_test_core
-/usr/bin/haswell/avx512_1/opencv_test_dnn
-/usr/bin/haswell/avx512_1/opencv_test_features2d
-/usr/bin/haswell/avx512_1/opencv_test_flann
-/usr/bin/haswell/avx512_1/opencv_test_highgui
-/usr/bin/haswell/avx512_1/opencv_test_imgcodecs
-/usr/bin/haswell/avx512_1/opencv_test_imgproc
-/usr/bin/haswell/avx512_1/opencv_test_ml
-/usr/bin/haswell/avx512_1/opencv_test_objdetect
-/usr/bin/haswell/avx512_1/opencv_test_photo
-/usr/bin/haswell/avx512_1/opencv_test_stitching
-/usr/bin/haswell/avx512_1/opencv_test_video
-/usr/bin/haswell/avx512_1/opencv_test_videoio
-/usr/bin/haswell/opencv_perf_calib3d
-/usr/bin/haswell/opencv_perf_core
-/usr/bin/haswell/opencv_perf_dnn
-/usr/bin/haswell/opencv_perf_features2d
-/usr/bin/haswell/opencv_perf_imgcodecs
-/usr/bin/haswell/opencv_perf_imgproc
-/usr/bin/haswell/opencv_perf_objdetect
-/usr/bin/haswell/opencv_perf_photo
-/usr/bin/haswell/opencv_perf_stitching
-/usr/bin/haswell/opencv_perf_video
-/usr/bin/haswell/opencv_perf_videoio
-/usr/bin/haswell/opencv_test_calib3d
-/usr/bin/haswell/opencv_test_core
-/usr/bin/haswell/opencv_test_dnn
-/usr/bin/haswell/opencv_test_features2d
-/usr/bin/haswell/opencv_test_flann
-/usr/bin/haswell/opencv_test_highgui
-/usr/bin/haswell/opencv_test_imgcodecs
-/usr/bin/haswell/opencv_test_imgproc
-/usr/bin/haswell/opencv_test_ml
-/usr/bin/haswell/opencv_test_objdetect
-/usr/bin/haswell/opencv_test_photo
-/usr/bin/haswell/opencv_test_stitching
-/usr/bin/haswell/opencv_test_video
-/usr/bin/haswell/opencv_test_videoio
-/usr/bin/opencv_perf_calib3d
-/usr/bin/opencv_perf_core
-/usr/bin/opencv_perf_dnn
-/usr/bin/opencv_perf_features2d
-/usr/bin/opencv_perf_imgcodecs
-/usr/bin/opencv_perf_imgproc
-/usr/bin/opencv_perf_objdetect
-/usr/bin/opencv_perf_photo
-/usr/bin/opencv_perf_stitching
-/usr/bin/opencv_perf_video
-/usr/bin/opencv_perf_videoio
-/usr/bin/opencv_test_calib3d
-/usr/bin/opencv_test_core
-/usr/bin/opencv_test_dnn
-/usr/bin/opencv_test_features2d
-/usr/bin/opencv_test_flann
-/usr/bin/opencv_test_highgui
-/usr/bin/opencv_test_imgcodecs
-/usr/bin/opencv_test_imgproc
-/usr/bin/opencv_test_ml
-/usr/bin/opencv_test_objdetect
-/usr/bin/opencv_test_photo
-/usr/bin/opencv_test_stitching
-/usr/bin/opencv_test_video
-/usr/bin/opencv_test_videoio
