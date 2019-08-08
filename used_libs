@@ -18,7 +18,6 @@ libm.so.6
 libopenblas.so.0
 libpng16.so.16
 libpthread.so.0
-librt.so.1
 libstdc++.so.6
 libtbb.so.2
 libva.so.2

@@ -1,4 +1,5 @@
 # This file contains recursive sources that require this package
 deprecated-python-dldt
 dldt
+mxnet
 python-dldt
