@@ -14,5 +14,5 @@
 #cve-2017-14136.patch
 #0001-Set-__restrict__.patch
 #0004-Do-not-scan-for-python2-support.patch
-00171ca935d945ec9831d67ff0ef020f078cd19a.patch
-25247b9f6e5e550868262b7611a9e575c1f7212a.patch
+#00171ca935d945ec9831d67ff0ef020f078cd19a.patch
+#25247b9f6e5e550868262b7611a9e575c1f7212a.patch
