@@ -28,3 +28,4 @@ libgphoto2-dev
 deprecated-numpy-legacypython
 pugixml-dev
 ade-dev
+dldt-dev

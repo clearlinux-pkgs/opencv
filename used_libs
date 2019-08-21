@@ -13,6 +13,7 @@ libgstpbutils-1.0.so.0
 libgstreamer-1.0.so.0
 libgstriff-1.0.so.0
 libgtk-3.so.0
+libinference_engine.so.1
 libjpeg.so.62
 libm.so.6
 libopenblas.so.0
