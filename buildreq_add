@@ -10,7 +10,6 @@ libva-dev
 libva-intel-driver
 openblas
 opencl-headers-dev
-python-dev
 python3-dev
 numpy
 v4l-utils-dev
@@ -25,7 +24,6 @@ beautifulsoup4
 openjdk-dev
 openjdk
 libgphoto2-dev
-deprecated-numpy-legacypython
 pugixml-dev
 ade-dev
 dldt-dev

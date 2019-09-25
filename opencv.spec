@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.1.1
-Release  : 101
+Release  : 102
 URL      : https://github.com/opencv/opencv/archive/4.1.1/opencv-4.1.1.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.1.1/opencv-4.1.1.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -27,7 +27,6 @@ BuildRequires : buildreq-distutils3
 BuildRequires : buildreq-mvn
 BuildRequires : ccache
 BuildRequires : cmake
-BuildRequires : deprecated-numpy-legacypython
 BuildRequires : dldt
 BuildRequires : dldt-dev
 BuildRequires : doxygen
@@ -35,6 +34,7 @@ BuildRequires : eigen-dev
 BuildRequires : gdal-dev
 BuildRequires : glib-dev
 BuildRequires : glibc-dev
+BuildRequires : gradle
 BuildRequires : gstreamer-dev
 BuildRequires : gtk3-dev
 BuildRequires : libX11-dev libICE-dev libSM-dev libXau-dev libXcomposite-dev libXcursor-dev libXdamage-dev libXdmcp-dev libXext-dev libXfixes-dev libXft-dev libXi-dev libXinerama-dev libXi-dev libXmu-dev libXpm-dev libXrandr-dev libXrender-dev libXres-dev libXScrnSaver-dev libXt-dev libXtst-dev libXv-dev libXxf86misc-dev libXxf86vm-dev
@@ -56,7 +56,6 @@ BuildRequires : pkgconfig(gstreamer-video-1.0)
 BuildRequires : pkgconfig(libpng)
 BuildRequires : protobuf-dev
 BuildRequires : pugixml-dev
-BuildRequires : python-dev
 BuildRequires : python3-dev
 BuildRequires : qtbase-dev mesa-dev
 BuildRequires : tbb-dev
@@ -111,15 +110,6 @@ Group: Default
 extras-testing components for the opencv package.
 
 
-%package legacypython
-Summary: legacypython components for the opencv package.
-Group: Default
-Requires: python-core
-
-%description legacypython
-legacypython components for the opencv package.
-
-
 %package lib
 Summary: lib components for the opencv package.
 Group: Libraries
@@ -165,7 +155,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1568765616
+export SOURCE_DATE_EPOCH=1569441454
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -211,7 +201,7 @@ export CXXFLAGS_USE="$CXXFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofil
 -DOPENCV_GENERATE_PKGCONFIG=ON \
 -DOPENCV_CONFIG_INSTALL_PATH=lib64/cmake/opencv4
 CFLAGS="${CFLAGS_GENERATE}" CXXFLAGS="${CXXFLAGS_GENERATE}" FFLAGS="${FFLAGS_GENERATE}" FCFLAGS="${FCFLAGS_GENERATE}"
-make  %{?_smp_mflags} VERBOSE=1
+make  %{?_smp_mflags}  VERBOSE=1
 
 bin/opencv_perf_core ||:
 bin/opencv_perf_imgproc ||:
@@ -221,7 +211,7 @@ bin/opencv_perf_features2d ||:
 bin/opencv_perf_superres ||:
 make clean
 CFLAGS="${CFLAGS_USE}" CXXFLAGS="${CXXFLAGS_USE}" FFLAGS="${FFLAGS_USE}" FCFLAGS="${FCFLAGS_USE}"
-make  %{?_smp_mflags} VERBOSE=1
+make  %{?_smp_mflags}  VERBOSE=1
 popd
 mkdir -p clr-build-avx2
 pushd clr-build-avx2
@@ -261,7 +251,7 @@ export CXXFLAGS="$CXXFLAGS -march=haswell -m64"
 -DOPENCV_PYTHON_INSTALL_PATH=/usr/lib/python3.7/site-packages/ \
 -DOPENCV_GENERATE_PKGCONFIG=ON \
 -DOPENCV_CONFIG_INSTALL_PATH=lib64/cmake/opencv4
-make  %{?_smp_mflags} VERBOSE=1
+make  %{?_smp_mflags}  VERBOSE=1
 popd
 mkdir -p clr-build-avx512
 pushd clr-build-avx512
@@ -309,11 +299,11 @@ export CXXFLAGS="$CXXFLAGS -march=skylake-avx512 -m64 "
 -DOPENCV_PYTHON_INSTALL_PATH=/usr/lib/python3.7/site-packages/ \
 -DOPENCV_GENERATE_PKGCONFIG=ON \
 -DOPENCV_CONFIG_INSTALL_PATH=lib64/cmake/opencv4
-make  %{?_smp_mflags} VERBOSE=1
+make  %{?_smp_mflags}  VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1568765616
+export SOURCE_DATE_EPOCH=1569441454
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
 cp 3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/3rdparty_cpufeatures_LICENSE
@@ -344,12 +334,6 @@ pushd clr-build
 popd
 ## install_append content
 cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/opencv.pc
-mkdir -p %{buildroot}/usr/lib/python2.7/site-packages/cv2/python-2.7
-cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/__init__.py %{buildroot}/usr/lib/python2.7/site-packages/cv2/
-cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/config.py %{buildroot}/usr/lib/python2.7/site-packages/cv2/
-cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/config-2.7.py %{buildroot}/usr/lib/python2.7/site-packages/cv2/
-cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/load_config_py2.py %{buildroot}/usr/lib/python2.7/site-packages/cv2/
-cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/python-2.7/cv2.so %{buildroot}/usr/lib/python2.7/site-packages/cv2/python-2.7/
 ## install_append end
 
 %files
@@ -1038,10 +1022,6 @@ cp %{buildroot}/usr/lib/python3.7/site-packages/cv2/python-2.7/cv2.so %{buildroo
 /usr/bin/opencv_test_stitching
 /usr/bin/opencv_test_video
 /usr/bin/opencv_test_videoio
-
-%files legacypython
-%defattr(-,root,root,-)
-/usr/lib/python2*/*
 
 %files lib
 %defattr(-,root,root,-)
