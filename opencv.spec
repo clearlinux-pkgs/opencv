@@ -4,10 +4,10 @@
 #
 %define keepstatic 1
 Name     : opencv
-Version  : 4.1.1
-Release  : 102
-URL      : https://github.com/opencv/opencv/archive/4.1.1/opencv-4.1.1.tar.gz
-Source0  : https://github.com/opencv/opencv/archive/4.1.1/opencv-4.1.1.tar.gz
+Version  : 4.1.2
+Release  : 103
+URL      : https://github.com/opencv/opencv/archive/4.1.2/opencv-4.1.2.tar.gz
+Source0  : https://github.com/opencv/opencv/archive/4.1.2/opencv-4.1.2.tar.gz
 Summary  : Open Source Computer Vision Library
 Group    : Development/Tools
 License  : Apache-2.0 BSD-3-Clause BSD-3-Clause-Clear GPL-2.0 HPND IJG JasPer-2.0 LGPL-2.1 Libpng MIT libtiff
@@ -61,15 +61,14 @@ BuildRequires : qtbase-dev mesa-dev
 BuildRequires : tbb-dev
 BuildRequires : v4l-utils-dev
 BuildRequires : zlib-dev
-Patch1: CVE-2019-16249.patch
 
 %description
-A demo of the Java wrapper for OpenCV with two examples:
-1) feature detection and matching and
-2) face detection.
-The examples are coded in Scala and Java.
-Anyone familiar with Java should be able to read the Scala examples.
-Please feel free to contribute code examples in Scala or Java, or any JVM language.
+ZLIB DATA COMPRESSION LIBRARY
+zlib 1.2.11 is a general purpose data compression library.  All the code is
+thread safe.  The data format used by the zlib library is described by RFCs
+(Request for Comments) 1950 to 1952 in the files
+http://tools.ietf.org/html/rfc1950 (zlib format), rfc1951 (deflate format) and
+rfc1952 (gzip format).
 
 %package bin
 Summary: bin components for the opencv package.
@@ -96,6 +95,7 @@ Requires: opencv-lib = %{version}-%{release}
 Requires: opencv-bin = %{version}-%{release}
 Requires: opencv-data = %{version}-%{release}
 Provides: opencv-devel = %{version}-%{release}
+Requires: opencv = %{version}-%{release}
 Requires: opencv = %{version}-%{release}
 
 %description dev
@@ -147,22 +147,22 @@ python3 components for the opencv package.
 
 
 %prep
-%setup -q -n opencv-4.1.1
-%patch1 -p1
+%setup -q -n opencv-4.1.2
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1569441454
+export SOURCE_DATE_EPOCH=1570910572
 mkdir -p clr-build
 pushd clr-build
+# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong "
 export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
@@ -215,11 +215,12 @@ make  %{?_smp_mflags}  VERBOSE=1
 popd
 mkdir -p clr-build-avx2
 pushd clr-build-avx2
+# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=haswell "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=haswell "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=haswell "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=haswell "
 export CFLAGS="$CFLAGS -march=haswell -m64"
 export CXXFLAGS="$CXXFLAGS -march=haswell -m64"
 %cmake .. -DWITH_FFMPEG=OFF \
@@ -255,11 +256,12 @@ make  %{?_smp_mflags}  VERBOSE=1
 popd
 mkdir -p clr-build-avx512
 pushd clr-build-avx512
+# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 "
 export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
@@ -303,7 +305,7 @@ make  %{?_smp_mflags}  VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1569441454
+export SOURCE_DATE_EPOCH=1570910572
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
 cp 3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/3rdparty_cpufeatures_LICENSE
@@ -743,10 +745,13 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/include/opencv4/opencv2/core/hal/intrin_avx512.hpp
 /usr/include/opencv4/opencv2/core/hal/intrin_cpp.hpp
 /usr/include/opencv4/opencv2/core/hal/intrin_forward.hpp
+/usr/include/opencv4/opencv2/core/hal/intrin_msa.hpp
 /usr/include/opencv4/opencv2/core/hal/intrin_neon.hpp
 /usr/include/opencv4/opencv2/core/hal/intrin_sse.hpp
 /usr/include/opencv4/opencv2/core/hal/intrin_sse_em.hpp
 /usr/include/opencv4/opencv2/core/hal/intrin_vsx.hpp
+/usr/include/opencv4/opencv2/core/hal/intrin_wasm.hpp
+/usr/include/opencv4/opencv2/core/hal/msa_macros.h
 /usr/include/opencv4/opencv2/core/mat.hpp
 /usr/include/opencv4/opencv2/core/mat.inl.hpp
 /usr/include/opencv4/opencv2/core/matx.hpp
@@ -823,6 +828,7 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/include/opencv4/opencv2/flann/flann_base.hpp
 /usr/include/opencv4/opencv2/flann/general.h
 /usr/include/opencv4/opencv2/flann/ground_truth.h
+/usr/include/opencv4/opencv2/flann/hdf5.h
 /usr/include/opencv4/opencv2/flann/heap.h
 /usr/include/opencv4/opencv2/flann/hierarchical_clustering_index.h
 /usr/include/opencv4/opencv2/flann/index_testing.h
@@ -1026,89 +1032,89 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/haswell/avx512_1/libopencv_calib3d.so.4.1
-/usr/lib64/haswell/avx512_1/libopencv_calib3d.so.4.1.1
+/usr/lib64/haswell/avx512_1/libopencv_calib3d.so.4.1.2
 /usr/lib64/haswell/avx512_1/libopencv_core.so.4.1
-/usr/lib64/haswell/avx512_1/libopencv_core.so.4.1.1
+/usr/lib64/haswell/avx512_1/libopencv_core.so.4.1.2
 /usr/lib64/haswell/avx512_1/libopencv_dnn.so.4.1
-/usr/lib64/haswell/avx512_1/libopencv_dnn.so.4.1.1
+/usr/lib64/haswell/avx512_1/libopencv_dnn.so.4.1.2
 /usr/lib64/haswell/avx512_1/libopencv_features2d.so.4.1
-/usr/lib64/haswell/avx512_1/libopencv_features2d.so.4.1.1
+/usr/lib64/haswell/avx512_1/libopencv_features2d.so.4.1.2
 /usr/lib64/haswell/avx512_1/libopencv_flann.so.4.1
-/usr/lib64/haswell/avx512_1/libopencv_flann.so.4.1.1
+/usr/lib64/haswell/avx512_1/libopencv_flann.so.4.1.2
 /usr/lib64/haswell/avx512_1/libopencv_highgui.so.4.1
-/usr/lib64/haswell/avx512_1/libopencv_highgui.so.4.1.1
+/usr/lib64/haswell/avx512_1/libopencv_highgui.so.4.1.2
 /usr/lib64/haswell/avx512_1/libopencv_imgcodecs.so.4.1
-/usr/lib64/haswell/avx512_1/libopencv_imgcodecs.so.4.1.1
+/usr/lib64/haswell/avx512_1/libopencv_imgcodecs.so.4.1.2
 /usr/lib64/haswell/avx512_1/libopencv_imgproc.so.4.1
-/usr/lib64/haswell/avx512_1/libopencv_imgproc.so.4.1.1
+/usr/lib64/haswell/avx512_1/libopencv_imgproc.so.4.1.2
 /usr/lib64/haswell/avx512_1/libopencv_ml.so.4.1
-/usr/lib64/haswell/avx512_1/libopencv_ml.so.4.1.1
+/usr/lib64/haswell/avx512_1/libopencv_ml.so.4.1.2
 /usr/lib64/haswell/avx512_1/libopencv_objdetect.so.4.1
-/usr/lib64/haswell/avx512_1/libopencv_objdetect.so.4.1.1
+/usr/lib64/haswell/avx512_1/libopencv_objdetect.so.4.1.2
 /usr/lib64/haswell/avx512_1/libopencv_photo.so.4.1
-/usr/lib64/haswell/avx512_1/libopencv_photo.so.4.1.1
+/usr/lib64/haswell/avx512_1/libopencv_photo.so.4.1.2
 /usr/lib64/haswell/avx512_1/libopencv_stitching.so.4.1
-/usr/lib64/haswell/avx512_1/libopencv_stitching.so.4.1.1
+/usr/lib64/haswell/avx512_1/libopencv_stitching.so.4.1.2
 /usr/lib64/haswell/avx512_1/libopencv_video.so.4.1
-/usr/lib64/haswell/avx512_1/libopencv_video.so.4.1.1
+/usr/lib64/haswell/avx512_1/libopencv_video.so.4.1.2
 /usr/lib64/haswell/avx512_1/libopencv_videoio.so.4.1
-/usr/lib64/haswell/avx512_1/libopencv_videoio.so.4.1.1
+/usr/lib64/haswell/avx512_1/libopencv_videoio.so.4.1.2
 /usr/lib64/haswell/libopencv_calib3d.so.4.1
-/usr/lib64/haswell/libopencv_calib3d.so.4.1.1
+/usr/lib64/haswell/libopencv_calib3d.so.4.1.2
 /usr/lib64/haswell/libopencv_core.so.4.1
-/usr/lib64/haswell/libopencv_core.so.4.1.1
+/usr/lib64/haswell/libopencv_core.so.4.1.2
 /usr/lib64/haswell/libopencv_dnn.so.4.1
-/usr/lib64/haswell/libopencv_dnn.so.4.1.1
+/usr/lib64/haswell/libopencv_dnn.so.4.1.2
 /usr/lib64/haswell/libopencv_features2d.so.4.1
-/usr/lib64/haswell/libopencv_features2d.so.4.1.1
+/usr/lib64/haswell/libopencv_features2d.so.4.1.2
 /usr/lib64/haswell/libopencv_flann.so.4.1
-/usr/lib64/haswell/libopencv_flann.so.4.1.1
+/usr/lib64/haswell/libopencv_flann.so.4.1.2
 /usr/lib64/haswell/libopencv_highgui.so.4.1
-/usr/lib64/haswell/libopencv_highgui.so.4.1.1
+/usr/lib64/haswell/libopencv_highgui.so.4.1.2
 /usr/lib64/haswell/libopencv_imgcodecs.so.4.1
-/usr/lib64/haswell/libopencv_imgcodecs.so.4.1.1
+/usr/lib64/haswell/libopencv_imgcodecs.so.4.1.2
 /usr/lib64/haswell/libopencv_imgproc.so.4.1
-/usr/lib64/haswell/libopencv_imgproc.so.4.1.1
+/usr/lib64/haswell/libopencv_imgproc.so.4.1.2
 /usr/lib64/haswell/libopencv_ml.so.4.1
-/usr/lib64/haswell/libopencv_ml.so.4.1.1
+/usr/lib64/haswell/libopencv_ml.so.4.1.2
 /usr/lib64/haswell/libopencv_objdetect.so.4.1
-/usr/lib64/haswell/libopencv_objdetect.so.4.1.1
+/usr/lib64/haswell/libopencv_objdetect.so.4.1.2
 /usr/lib64/haswell/libopencv_photo.so.4.1
-/usr/lib64/haswell/libopencv_photo.so.4.1.1
+/usr/lib64/haswell/libopencv_photo.so.4.1.2
 /usr/lib64/haswell/libopencv_stitching.so.4.1
-/usr/lib64/haswell/libopencv_stitching.so.4.1.1
+/usr/lib64/haswell/libopencv_stitching.so.4.1.2
 /usr/lib64/haswell/libopencv_video.so.4.1
-/usr/lib64/haswell/libopencv_video.so.4.1.1
+/usr/lib64/haswell/libopencv_video.so.4.1.2
 /usr/lib64/haswell/libopencv_videoio.so.4.1
-/usr/lib64/haswell/libopencv_videoio.so.4.1.1
+/usr/lib64/haswell/libopencv_videoio.so.4.1.2
 /usr/lib64/libopencv_calib3d.so.4.1
-/usr/lib64/libopencv_calib3d.so.4.1.1
+/usr/lib64/libopencv_calib3d.so.4.1.2
 /usr/lib64/libopencv_core.so.4.1
-/usr/lib64/libopencv_core.so.4.1.1
+/usr/lib64/libopencv_core.so.4.1.2
 /usr/lib64/libopencv_dnn.so.4.1
-/usr/lib64/libopencv_dnn.so.4.1.1
+/usr/lib64/libopencv_dnn.so.4.1.2
 /usr/lib64/libopencv_features2d.so.4.1
-/usr/lib64/libopencv_features2d.so.4.1.1
+/usr/lib64/libopencv_features2d.so.4.1.2
 /usr/lib64/libopencv_flann.so.4.1
-/usr/lib64/libopencv_flann.so.4.1.1
+/usr/lib64/libopencv_flann.so.4.1.2
 /usr/lib64/libopencv_highgui.so.4.1
-/usr/lib64/libopencv_highgui.so.4.1.1
+/usr/lib64/libopencv_highgui.so.4.1.2
 /usr/lib64/libopencv_imgcodecs.so.4.1
-/usr/lib64/libopencv_imgcodecs.so.4.1.1
+/usr/lib64/libopencv_imgcodecs.so.4.1.2
 /usr/lib64/libopencv_imgproc.so.4.1
-/usr/lib64/libopencv_imgproc.so.4.1.1
+/usr/lib64/libopencv_imgproc.so.4.1.2
 /usr/lib64/libopencv_ml.so.4.1
-/usr/lib64/libopencv_ml.so.4.1.1
+/usr/lib64/libopencv_ml.so.4.1.2
 /usr/lib64/libopencv_objdetect.so.4.1
-/usr/lib64/libopencv_objdetect.so.4.1.1
+/usr/lib64/libopencv_objdetect.so.4.1.2
 /usr/lib64/libopencv_photo.so.4.1
-/usr/lib64/libopencv_photo.so.4.1.1
+/usr/lib64/libopencv_photo.so.4.1.2
 /usr/lib64/libopencv_stitching.so.4.1
-/usr/lib64/libopencv_stitching.so.4.1.1
+/usr/lib64/libopencv_stitching.so.4.1.2
 /usr/lib64/libopencv_video.so.4.1
-/usr/lib64/libopencv_video.so.4.1.1
+/usr/lib64/libopencv_video.so.4.1.2
 /usr/lib64/libopencv_videoio.so.4.1
-/usr/lib64/libopencv_videoio.so.4.1.1
+/usr/lib64/libopencv_videoio.so.4.1.2
 
 %files license
 %defattr(0644,root,root,0755)
