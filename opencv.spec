@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.1.2
-Release  : 104
+Release  : 105
 URL      : https://github.com/opencv/opencv/archive/4.1.2/opencv-4.1.2.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.1.2/opencv-4.1.2.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -54,6 +54,7 @@ BuildRequires : openjdk11-dev
 BuildRequires : pkg-config
 BuildRequires : pkgconfig(gstreamer-video-1.0)
 BuildRequires : pkgconfig(libpng)
+BuildRequires : pkgconfig(libswscale)
 BuildRequires : protobuf-dev
 BuildRequires : pugixml-dev
 BuildRequires : python3-dev
@@ -63,12 +64,12 @@ BuildRequires : v4l-utils-dev
 BuildRequires : zlib-dev
 
 %description
-ZLIB DATA COMPRESSION LIBRARY
-zlib 1.2.11 is a general purpose data compression library.  All the code is
-thread safe.  The data format used by the zlib library is described by RFCs
-(Request for Comments) 1950 to 1952 in the files
-http://tools.ietf.org/html/rfc1950 (zlib format), rfc1951 (deflate format) and
-rfc1952 (gzip format).
+A demo of the Java wrapper for OpenCV with two examples:
+1) feature detection and matching and
+2) face detection.
+The examples are coded in Scala and Java.
+Anyone familiar with Java should be able to read the Scala examples.
+Please feel free to contribute code examples in Scala or Java, or any JVM language.
 
 %package bin
 Summary: bin components for the opencv package.
@@ -96,10 +97,17 @@ Requires: opencv-bin = %{version}-%{release}
 Requires: opencv-data = %{version}-%{release}
 Provides: opencv-devel = %{version}-%{release}
 Requires: opencv = %{version}-%{release}
-Requires: opencv = %{version}-%{release}
 
 %description dev
 dev components for the opencv package.
+
+
+%package extras
+Summary: extras components for the opencv package.
+Group: Default
+
+%description extras
+extras components for the opencv package.
 
 
 %package extras-testing
@@ -148,30 +156,34 @@ python3 components for the opencv package.
 
 %prep
 %setup -q -n opencv-4.1.2
+cd %{_builddir}/opencv-4.1.2
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1570910572
+export SOURCE_DATE_EPOCH=1573541802
 mkdir -p clr-build
 pushd clr-build
-# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export CXXFLAGS_GENERATE="$CXXFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
+export LDFLAGS_GENERATE="$LDFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export CFLAGS_USE="$CFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
 export FCFLAGS_USE="$FCFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
 export FFLAGS_USE="$FFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
 export CXXFLAGS_USE="$CXXFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
-%cmake .. -DWITH_FFMPEG=OFF \
+export LDFLAGS_USE="$LDFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
+%cmake .. -DWITH_FFMPEG=ON \
+-DVIDEOIO_PLUGIN_LIST=gstreamer,ffmpeg \
+-DEIGEN_INCLUDE_PATH=/usr/include/eigen3 \
 -DWITH_1394=OFF \
 -DWITH_GSTREAMER=ON \
 -DWITH_IPP=OFF \
@@ -200,7 +212,7 @@ export CXXFLAGS_USE="$CXXFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofil
 -DOPENCV_PYTHON_INSTALL_PATH=/usr/lib/python3.7/site-packages/ \
 -DOPENCV_GENERATE_PKGCONFIG=ON \
 -DOPENCV_CONFIG_INSTALL_PATH=lib64/cmake/opencv4
-CFLAGS="${CFLAGS_GENERATE}" CXXFLAGS="${CXXFLAGS_GENERATE}" FFLAGS="${FFLAGS_GENERATE}" FCFLAGS="${FCFLAGS_GENERATE}"
+CFLAGS="${CFLAGS_GENERATE}" CXXFLAGS="${CXXFLAGS_GENERATE}" FFLAGS="${FFLAGS_GENERATE}" FCFLAGS="${FCFLAGS_GENERATE}" LDFLAGS="${LDFLAGS_GENERATE}"
 make  %{?_smp_mflags}  VERBOSE=1
 
 bin/opencv_perf_core ||:
@@ -210,20 +222,21 @@ bin/opencv_perf_stitching ||:
 bin/opencv_perf_features2d ||:
 bin/opencv_perf_superres ||:
 make clean
-CFLAGS="${CFLAGS_USE}" CXXFLAGS="${CXXFLAGS_USE}" FFLAGS="${FFLAGS_USE}" FCFLAGS="${FCFLAGS_USE}"
+CFLAGS="${CFLAGS_USE}" CXXFLAGS="${CXXFLAGS_USE}" FFLAGS="${FFLAGS_USE}" FCFLAGS="${FCFLAGS_USE}" LDFLAGS="${LDFLAGS_USE}"
 make  %{?_smp_mflags}  VERBOSE=1
 popd
 mkdir -p clr-build-avx2
 pushd clr-build-avx2
-# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=haswell "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=haswell "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=haswell "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=haswell "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
 export CFLAGS="$CFLAGS -march=haswell -m64"
 export CXXFLAGS="$CXXFLAGS -march=haswell -m64"
-%cmake .. -DWITH_FFMPEG=OFF \
+%cmake .. -DWITH_FFMPEG=ON \
+-DVIDEOIO_PLUGIN_LIST=gstreamer,ffmpeg \
+-DEIGEN_INCLUDE_PATH=/usr/include/eigen3 \
 -DWITH_1394=OFF \
 -DWITH_GSTREAMER=ON \
 -DWITH_IPP=OFF \
@@ -256,23 +269,26 @@ make  %{?_smp_mflags}  VERBOSE=1
 popd
 mkdir -p clr-build-avx512
 pushd clr-build-avx512
-# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fcf-protection=full -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fprofile-correction -fprofile-dir=/var/tmp/pgo -fprofile-use -fstack-protector-strong -march=skylake-avx512 "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
 export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export CXXFLAGS_GENERATE="$CXXFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
+export LDFLAGS_GENERATE="$LDFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export CFLAGS_USE="$CFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
 export FCFLAGS_USE="$FCFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
 export FFLAGS_USE="$FFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
 export CXXFLAGS_USE="$CXXFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
+export LDFLAGS_USE="$LDFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
 export CFLAGS="$CFLAGS -march=skylake-avx512 -m64 "
 export CXXFLAGS="$CXXFLAGS -march=skylake-avx512 -m64 "
-%cmake .. -DWITH_FFMPEG=OFF \
+%cmake .. -DWITH_FFMPEG=ON \
+-DVIDEOIO_PLUGIN_LIST=gstreamer,ffmpeg \
+-DEIGEN_INCLUDE_PATH=/usr/include/eigen3 \
 -DWITH_1394=OFF \
 -DWITH_GSTREAMER=ON \
 -DWITH_IPP=OFF \
@@ -305,26 +321,26 @@ make  %{?_smp_mflags}  VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1570910572
+export SOURCE_DATE_EPOCH=1573541802
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
-cp 3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/3rdparty_cpufeatures_LICENSE
-cp 3rdparty/ffmpeg/license.txt %{buildroot}/usr/share/package-licenses/opencv/3rdparty_ffmpeg_license.txt
-cp 3rdparty/include/opencl/LICENSE.txt %{buildroot}/usr/share/package-licenses/opencv/3rdparty_include_opencl_LICENSE.txt
-cp 3rdparty/ittnotify/src/ittnotify/LICENSE.BSD %{buildroot}/usr/share/package-licenses/opencv/3rdparty_ittnotify_src_ittnotify_LICENSE.BSD
-cp 3rdparty/ittnotify/src/ittnotify/LICENSE.GPL %{buildroot}/usr/share/package-licenses/opencv/3rdparty_ittnotify_src_ittnotify_LICENSE.GPL
-cp 3rdparty/libjasper/LICENSE %{buildroot}/usr/share/package-licenses/opencv/3rdparty_libjasper_LICENSE
-cp 3rdparty/libjasper/copyright %{buildroot}/usr/share/package-licenses/opencv/3rdparty_libjasper_copyright
-cp 3rdparty/libjpeg-turbo/LICENSE.md %{buildroot}/usr/share/package-licenses/opencv/3rdparty_libjpeg-turbo_LICENSE.md
-cp 3rdparty/libpng/LICENSE %{buildroot}/usr/share/package-licenses/opencv/3rdparty_libpng_LICENSE
-cp 3rdparty/libtiff/COPYRIGHT %{buildroot}/usr/share/package-licenses/opencv/3rdparty_libtiff_COPYRIGHT
-cp 3rdparty/libwebp/COPYING %{buildroot}/usr/share/package-licenses/opencv/3rdparty_libwebp_COPYING
-cp 3rdparty/openexr/LICENSE %{buildroot}/usr/share/package-licenses/opencv/3rdparty_openexr_LICENSE
-cp 3rdparty/protobuf/LICENSE %{buildroot}/usr/share/package-licenses/opencv/3rdparty_protobuf_LICENSE
-cp 3rdparty/quirc/LICENSE %{buildroot}/usr/share/package-licenses/opencv/3rdparty_quirc_LICENSE
-cp LICENSE %{buildroot}/usr/share/package-licenses/opencv/LICENSE
-cp modules/core/3rdparty/SoftFloat/COPYING.txt %{buildroot}/usr/share/package-licenses/opencv/modules_core_3rdparty_SoftFloat_COPYING.txt
-cp modules/dnn/src/torch/COPYRIGHT.txt %{buildroot}/usr/share/package-licenses/opencv/modules_dnn_src_torch_COPYRIGHT.txt
+cp %{_builddir}/opencv-4.1.2/3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/ec4468ecfe59c46406d4fc5aca1cee2a83c4d93e
+cp %{_builddir}/opencv-4.1.2/3rdparty/ffmpeg/license.txt %{buildroot}/usr/share/package-licenses/opencv/0aacebb8a54d52a40db8d2d449eceb42f66e198b
+cp %{_builddir}/opencv-4.1.2/3rdparty/include/opencl/LICENSE.txt %{buildroot}/usr/share/package-licenses/opencv/7235f6784b4eae4c40a259dcecc7a20e6c487263
+cp %{_builddir}/opencv-4.1.2/3rdparty/ittnotify/src/ittnotify/LICENSE.BSD %{buildroot}/usr/share/package-licenses/opencv/4f83a9480069279bc79a7af6990b9a546a1d0c02
+cp %{_builddir}/opencv-4.1.2/3rdparty/ittnotify/src/ittnotify/LICENSE.GPL %{buildroot}/usr/share/package-licenses/opencv/49709bd29acf27e87953e37e63bb68373347a805
+cp %{_builddir}/opencv-4.1.2/3rdparty/libjasper/LICENSE %{buildroot}/usr/share/package-licenses/opencv/14b5d0210560128e1a5d5204698cf705011ef792
+cp %{_builddir}/opencv-4.1.2/3rdparty/libjasper/copyright %{buildroot}/usr/share/package-licenses/opencv/a6c8c1690157753de298c1ea2a66a2400d1ab5a3
+cp %{_builddir}/opencv-4.1.2/3rdparty/libjpeg-turbo/LICENSE.md %{buildroot}/usr/share/package-licenses/opencv/a5f4d6f407de11b9ce0fef27e335ddcaeded9f2d
+cp %{_builddir}/opencv-4.1.2/3rdparty/libpng/LICENSE %{buildroot}/usr/share/package-licenses/opencv/fc3951ba26fe1914759f605696a1d23e3b41766f
+cp %{_builddir}/opencv-4.1.2/3rdparty/libtiff/COPYRIGHT %{buildroot}/usr/share/package-licenses/opencv/a2f64f2a85f5fd34bda8eb713c3aad008adbb589
+cp %{_builddir}/opencv-4.1.2/3rdparty/libwebp/COPYING %{buildroot}/usr/share/package-licenses/opencv/59cd938fcbd6735b1ef91781280d6eb6c4b7c5d9
+cp %{_builddir}/opencv-4.1.2/3rdparty/openexr/LICENSE %{buildroot}/usr/share/package-licenses/opencv/72f59fbac43fa1a7f0607d7fdba747832e626656
+cp %{_builddir}/opencv-4.1.2/3rdparty/protobuf/LICENSE %{buildroot}/usr/share/package-licenses/opencv/a0bcc878d7e7181b120ae51837c8d1703fe919ab
+cp %{_builddir}/opencv-4.1.2/3rdparty/quirc/LICENSE %{buildroot}/usr/share/package-licenses/opencv/eaa22397809541edc6c7678716c4929f4977ee32
+cp %{_builddir}/opencv-4.1.2/LICENSE %{buildroot}/usr/share/package-licenses/opencv/d06b83b51939fa7e7aec05cd3175681efe1c2f6e
+cp %{_builddir}/opencv-4.1.2/modules/core/3rdparty/SoftFloat/COPYING.txt %{buildroot}/usr/share/package-licenses/opencv/91a334a8403de4f677844cfcf4067720be0bb802
+cp %{_builddir}/opencv-4.1.2/modules/dnn/src/torch/COPYRIGHT.txt %{buildroot}/usr/share/package-licenses/opencv/99d45ca0d503d7988a486e0d4f95058f89e14115
 pushd clr-build-avx512
 %make_install_avx512  || :
 popd
@@ -951,6 +967,11 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/lib64/pkgconfig/opencv.pc
 /usr/lib64/pkgconfig/opencv4.pc
 
+%files extras
+%defattr(-,root,root,-)
+/usr/lib64/libopencv_videoio_ffmpeg.so
+/usr/lib64/libopencv_videoio_gstreamer.so
+
 %files extras-testing
 %defattr(-,root,root,-)
 /usr/bin/haswell/avx512_1/opencv_perf_calib3d
@@ -1115,26 +1136,28 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/lib64/libopencv_video.so.4.1.2
 /usr/lib64/libopencv_videoio.so.4.1
 /usr/lib64/libopencv_videoio.so.4.1.2
+/usr/lib64/libopencv_videoio_ffmpeg.so.avx2
+/usr/lib64/libopencv_videoio_gstreamer.so.avx2
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/opencv/3rdparty_cpufeatures_LICENSE
-/usr/share/package-licenses/opencv/3rdparty_ffmpeg_license.txt
-/usr/share/package-licenses/opencv/3rdparty_include_opencl_LICENSE.txt
-/usr/share/package-licenses/opencv/3rdparty_ittnotify_src_ittnotify_LICENSE.BSD
-/usr/share/package-licenses/opencv/3rdparty_ittnotify_src_ittnotify_LICENSE.GPL
-/usr/share/package-licenses/opencv/3rdparty_libjasper_LICENSE
-/usr/share/package-licenses/opencv/3rdparty_libjasper_copyright
-/usr/share/package-licenses/opencv/3rdparty_libjpeg-turbo_LICENSE.md
-/usr/share/package-licenses/opencv/3rdparty_libpng_LICENSE
-/usr/share/package-licenses/opencv/3rdparty_libtiff_COPYRIGHT
-/usr/share/package-licenses/opencv/3rdparty_libwebp_COPYING
-/usr/share/package-licenses/opencv/3rdparty_openexr_LICENSE
-/usr/share/package-licenses/opencv/3rdparty_protobuf_LICENSE
-/usr/share/package-licenses/opencv/3rdparty_quirc_LICENSE
-/usr/share/package-licenses/opencv/LICENSE
-/usr/share/package-licenses/opencv/modules_core_3rdparty_SoftFloat_COPYING.txt
-/usr/share/package-licenses/opencv/modules_dnn_src_torch_COPYRIGHT.txt
+/usr/share/package-licenses/opencv/0aacebb8a54d52a40db8d2d449eceb42f66e198b
+/usr/share/package-licenses/opencv/14b5d0210560128e1a5d5204698cf705011ef792
+/usr/share/package-licenses/opencv/49709bd29acf27e87953e37e63bb68373347a805
+/usr/share/package-licenses/opencv/4f83a9480069279bc79a7af6990b9a546a1d0c02
+/usr/share/package-licenses/opencv/59cd938fcbd6735b1ef91781280d6eb6c4b7c5d9
+/usr/share/package-licenses/opencv/7235f6784b4eae4c40a259dcecc7a20e6c487263
+/usr/share/package-licenses/opencv/72f59fbac43fa1a7f0607d7fdba747832e626656
+/usr/share/package-licenses/opencv/91a334a8403de4f677844cfcf4067720be0bb802
+/usr/share/package-licenses/opencv/99d45ca0d503d7988a486e0d4f95058f89e14115
+/usr/share/package-licenses/opencv/a0bcc878d7e7181b120ae51837c8d1703fe919ab
+/usr/share/package-licenses/opencv/a2f64f2a85f5fd34bda8eb713c3aad008adbb589
+/usr/share/package-licenses/opencv/a5f4d6f407de11b9ce0fef27e335ddcaeded9f2d
+/usr/share/package-licenses/opencv/a6c8c1690157753de298c1ea2a66a2400d1ab5a3
+/usr/share/package-licenses/opencv/d06b83b51939fa7e7aec05cd3175681efe1c2f6e
+/usr/share/package-licenses/opencv/eaa22397809541edc6c7678716c4929f4977ee32
+/usr/share/package-licenses/opencv/ec4468ecfe59c46406d4fc5aca1cee2a83c4d93e
+/usr/share/package-licenses/opencv/fc3951ba26fe1914759f605696a1d23e3b41766f
 
 %files python
 %defattr(-,root,root,-)

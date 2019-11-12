@@ -118,3 +118,5 @@
 /usr/share/OpenCV4/samples/tapi/squares.cpp
 /usr/share/OpenCV4/samples/tapi/tvl1_optical_flow.cpp
 /usr/share/OpenCV4/samples/tapi/ufacedetect.cpp
+/usr/lib64/libopencv_videoio_ffmpeg.so
+/usr/lib64/libopencv_videoio_gstreamer.so
