@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.1.2
-Release  : 109
+Release  : 110
 URL      : https://github.com/opencv/opencv/archive/4.1.2/opencv-4.1.2.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.1.2/opencv-4.1.2.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -163,7 +163,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1573541802
+export SOURCE_DATE_EPOCH=1575404900
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -209,7 +209,7 @@ export LDFLAGS_USE="$LDFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-
 -DINSTALL_C_EXAMPLES=ON \
 -DINSTALL_PYTHON_EXAMPLES=ON \
 -DBUILD_JAVA=ON \
--DOPENCV_PYTHON_INSTALL_PATH=/usr/lib/python3.7/site-packages/ \
+-DOPENCV_PYTHON_INSTALL_PATH=/usr/lib/python3.8/site-packages/ \
 -DOPENCV_GENERATE_PKGCONFIG=ON \
 -DOPENCV_CONFIG_INSTALL_PATH=lib64/cmake/opencv4
 CFLAGS="${CFLAGS_GENERATE}" CXXFLAGS="${CXXFLAGS_GENERATE}" FFLAGS="${FFLAGS_GENERATE}" FCFLAGS="${FCFLAGS_GENERATE}" LDFLAGS="${LDFLAGS_GENERATE}"
@@ -262,7 +262,7 @@ export CXXFLAGS="$CXXFLAGS -march=haswell -m64"
 -DINSTALL_C_EXAMPLES=ON \
 -DINSTALL_PYTHON_EXAMPLES=ON \
 -DBUILD_JAVA=ON \
--DOPENCV_PYTHON_INSTALL_PATH=/usr/lib/python3.7/site-packages/ \
+-DOPENCV_PYTHON_INSTALL_PATH=/usr/lib/python3.8/site-packages/ \
 -DOPENCV_GENERATE_PKGCONFIG=ON \
 -DOPENCV_CONFIG_INSTALL_PATH=lib64/cmake/opencv4
 make  %{?_smp_mflags}  VERBOSE=1
@@ -314,14 +314,14 @@ export CXXFLAGS="$CXXFLAGS -march=skylake-avx512 -m64 "
 -DINSTALL_C_EXAMPLES=ON \
 -DINSTALL_PYTHON_EXAMPLES=ON \
 -DBUILD_JAVA=ON \
--DOPENCV_PYTHON_INSTALL_PATH=/usr/lib/python3.7/site-packages/ \
+-DOPENCV_PYTHON_INSTALL_PATH=/usr/lib/python3.8/site-packages/ \
 -DOPENCV_GENERATE_PKGCONFIG=ON \
 -DOPENCV_CONFIG_INSTALL_PATH=lib64/cmake/opencv4
 make  %{?_smp_mflags}  VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1573541802
+export SOURCE_DATE_EPOCH=1575404900
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
 cp %{_builddir}/opencv-4.1.2/3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/ec4468ecfe59c46406d4fc5aca1cee2a83c4d93e
