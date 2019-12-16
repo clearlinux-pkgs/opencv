@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.1.2
-Release  : 110
+Release  : 111
 URL      : https://github.com/opencv/opencv/archive/4.1.2/opencv-4.1.2.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.1.2/opencv-4.1.2.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -163,7 +163,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1575404900
+export SOURCE_DATE_EPOCH=1576517977
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -181,7 +181,8 @@ export FCFLAGS_USE="$FCFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-
 export FFLAGS_USE="$FFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
 export CXXFLAGS_USE="$CXXFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
 export LDFLAGS_USE="$LDFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
-%cmake .. -DWITH_FFMPEG=ON \
+%cmake .. -DCMAKE_INSTALL_LIBDIR:PATH=lib64 \
+-DWITH_FFMPEG=ON \
 -DVIDEOIO_PLUGIN_LIST=gstreamer,ffmpeg \
 -DEIGEN_INCLUDE_PATH=/usr/include/eigen3 \
 -DWITH_1394=OFF \
@@ -234,7 +235,8 @@ export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-se
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
 export CFLAGS="$CFLAGS -march=haswell -m64"
 export CXXFLAGS="$CXXFLAGS -march=haswell -m64"
-%cmake .. -DWITH_FFMPEG=ON \
+%cmake .. -DCMAKE_INSTALL_LIBDIR:PATH=lib64 \
+-DWITH_FFMPEG=ON \
 -DVIDEOIO_PLUGIN_LIST=gstreamer,ffmpeg \
 -DEIGEN_INCLUDE_PATH=/usr/include/eigen3 \
 -DWITH_1394=OFF \
@@ -286,7 +288,8 @@ export CXXFLAGS_USE="$CXXFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofil
 export LDFLAGS_USE="$LDFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
 export CFLAGS="$CFLAGS -march=skylake-avx512 -m64 "
 export CXXFLAGS="$CXXFLAGS -march=skylake-avx512 -m64 "
-%cmake .. -DWITH_FFMPEG=ON \
+%cmake .. -DCMAKE_INSTALL_LIBDIR:PATH=lib64 \
+-DWITH_FFMPEG=ON \
 -DVIDEOIO_PLUGIN_LIST=gstreamer,ffmpeg \
 -DEIGEN_INCLUDE_PATH=/usr/include/eigen3 \
 -DWITH_1394=OFF \
@@ -321,7 +324,7 @@ make  %{?_smp_mflags}  VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1575404900
+export SOURCE_DATE_EPOCH=1576517977
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
 cp %{_builddir}/opencv-4.1.2/3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/ec4468ecfe59c46406d4fc5aca1cee2a83c4d93e
