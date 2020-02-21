@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.2.0
-Release  : 114
+Release  : 115
 URL      : https://github.com/opencv/opencv/archive/4.2.0/opencv-4.2.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.2.0/opencv-4.2.0.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -20,11 +20,9 @@ Requires: opencv-python3 = %{version}-%{release}
 Requires: dldt
 BuildRequires : ade-dev
 BuildRequires : apache-ant
-BuildRequires : apache-maven
 BuildRequires : beautifulsoup4
 BuildRequires : buildreq-cmake
 BuildRequires : buildreq-distutils3
-BuildRequires : buildreq-mvn
 BuildRequires : ccache
 BuildRequires : cmake
 BuildRequires : dldt
@@ -34,7 +32,6 @@ BuildRequires : eigen-dev
 BuildRequires : gdal-dev
 BuildRequires : glib-dev
 BuildRequires : glibc-dev
-BuildRequires : gradle
 BuildRequires : gstreamer-dev
 BuildRequires : gtk3-dev
 BuildRequires : libX11-dev libICE-dev libSM-dev libXau-dev libXcomposite-dev libXcursor-dev libXdamage-dev libXdmcp-dev libXext-dev libXfixes-dev libXft-dev libXi-dev libXinerama-dev libXi-dev libXmu-dev libXpm-dev libXrandr-dev libXrender-dev libXres-dev libXScrnSaver-dev libXt-dev libXtst-dev libXv-dev libXxf86misc-dev libXxf86vm-dev
@@ -163,7 +160,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1578363072
+export SOURCE_DATE_EPOCH=1582319616
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -324,7 +321,7 @@ make  %{?_smp_mflags}  VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1578363072
+export SOURCE_DATE_EPOCH=1582319616
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
 cp %{_builddir}/opencv-4.2.0/3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/ec4468ecfe59c46406d4fc5aca1cee2a83c4d93e
