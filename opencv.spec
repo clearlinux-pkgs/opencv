@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.2.0
-Release  : 116
+Release  : 118
 URL      : https://github.com/opencv/opencv/archive/4.2.0/opencv-4.2.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.2.0/opencv-4.2.0.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -17,7 +17,8 @@ Requires: opencv-lib = %{version}-%{release}
 Requires: opencv-license = %{version}-%{release}
 Requires: opencv-python = %{version}-%{release}
 Requires: opencv-python3 = %{version}-%{release}
-Requires: dldt
+BuildRequires : VTK-dev
+BuildRequires : ade-data
 BuildRequires : ade-dev
 BuildRequires : apache-ant
 BuildRequires : beautifulsoup4
@@ -25,9 +26,8 @@ BuildRequires : buildreq-cmake
 BuildRequires : buildreq-distutils3
 BuildRequires : ccache
 BuildRequires : cmake
-BuildRequires : dldt
-BuildRequires : dldt-dev
 BuildRequires : doxygen
+BuildRequires : eigen-data
 BuildRequires : eigen-dev
 BuildRequires : gdal-dev
 BuildRequires : glib-dev
@@ -37,6 +37,7 @@ BuildRequires : gtk3-dev
 BuildRequires : libX11-dev libICE-dev libSM-dev libXau-dev libXcomposite-dev libXcursor-dev libXdamage-dev libXdmcp-dev libXext-dev libXfixes-dev libXft-dev libXi-dev libXinerama-dev libXi-dev libXmu-dev libXpm-dev libXrandr-dev libXrender-dev libXres-dev libXScrnSaver-dev libXt-dev libXtst-dev libXv-dev libXxf86misc-dev libXxf86vm-dev
 BuildRequires : libgphoto2-dev
 BuildRequires : libjpeg-turbo-dev
+BuildRequires : librealsense-dev
 BuildRequires : libva-dev
 BuildRequires : libva-intel-driver
 BuildRequires : libwebp-dev
@@ -45,6 +46,7 @@ BuildRequires : numpy
 BuildRequires : ocl-icd-dev
 BuildRequires : openblas
 BuildRequires : opencl-headers-dev
+BuildRequires : opencv-dev
 BuildRequires : openjdk
 BuildRequires : openjdk-dev
 BuildRequires : openjdk11-dev
@@ -97,14 +99,6 @@ Requires: opencv = %{version}-%{release}
 
 %description dev
 dev components for the opencv package.
-
-
-%package extras
-Summary: extras components for the opencv package.
-Group: Default
-
-%description extras
-extras components for the opencv package.
 
 
 %package extras-testing
@@ -160,13 +154,13 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1582319616
+export SOURCE_DATE_EPOCH=1589008818
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$FFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$FFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
@@ -179,9 +173,7 @@ export FFLAGS_USE="$FFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-co
 export CXXFLAGS_USE="$CXXFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
 export LDFLAGS_USE="$LDFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
 %cmake .. -DCMAKE_INSTALL_LIBDIR:PATH=lib64 \
--DWITH_FFMPEG=ON \
--DVIDEOIO_PLUGIN_LIST=gstreamer,ffmpeg \
--DEIGEN_INCLUDE_PATH=/usr/include/eigen3 \
+-DWITH_FFMPEG=Off \
 -DWITH_1394=OFF \
 -DWITH_GSTREAMER=ON \
 -DWITH_IPP=OFF \
@@ -192,7 +184,6 @@ export LDFLAGS_USE="$LDFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-
 -DENABLE_SSE42=ON \
 -DWITH_TBB=ON \
 -DWITH_OPENMP=ON \
--DWITH_INF_ENGINE=ON \
 -DWITH_VA=ON \
 -DWITH_VULKAN=ON \
 -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo \
@@ -227,15 +218,15 @@ mkdir -p clr-build-avx2
 pushd clr-build-avx2
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
+export FCFLAGS="$FFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
+export FFLAGS="$FFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=haswell -mzero-caller-saved-regs=used "
 export CFLAGS="$CFLAGS -march=haswell -m64"
 export CXXFLAGS="$CXXFLAGS -march=haswell -m64"
+export FFLAGS="$FFLAGS -march=haswell -m64"
+export FCFLAGS="$FCFLAGS -march=haswell -m64"
 %cmake .. -DCMAKE_INSTALL_LIBDIR:PATH=lib64 \
--DWITH_FFMPEG=ON \
--DVIDEOIO_PLUGIN_LIST=gstreamer,ffmpeg \
--DEIGEN_INCLUDE_PATH=/usr/include/eigen3 \
+-DWITH_FFMPEG=Off \
 -DWITH_1394=OFF \
 -DWITH_GSTREAMER=ON \
 -DWITH_IPP=OFF \
@@ -246,7 +237,6 @@ export CXXFLAGS="$CXXFLAGS -march=haswell -m64"
 -DENABLE_SSE42=ON \
 -DWITH_TBB=ON \
 -DWITH_OPENMP=ON \
--DWITH_INF_ENGINE=ON \
 -DWITH_VA=ON \
 -DWITH_VULKAN=ON \
 -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo \
@@ -270,8 +260,8 @@ mkdir -p clr-build-avx512
 pushd clr-build-avx512
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
+export FCFLAGS="$FFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
+export FFLAGS="$FFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -march=skylake-avx512 -mzero-caller-saved-regs=used "
 export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
@@ -285,10 +275,10 @@ export CXXFLAGS_USE="$CXXFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofil
 export LDFLAGS_USE="$LDFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
 export CFLAGS="$CFLAGS -march=skylake-avx512 -m64 "
 export CXXFLAGS="$CXXFLAGS -march=skylake-avx512 -m64 "
+export FFLAGS="$FFLAGS -march=skylake-avx512 -m64 "
+export FCFLAGS="$FCFLAGS -march=skylake-avx512 -m64 "
 %cmake .. -DCMAKE_INSTALL_LIBDIR:PATH=lib64 \
--DWITH_FFMPEG=ON \
--DVIDEOIO_PLUGIN_LIST=gstreamer,ffmpeg \
--DEIGEN_INCLUDE_PATH=/usr/include/eigen3 \
+-DWITH_FFMPEG=Off \
 -DWITH_1394=OFF \
 -DWITH_GSTREAMER=ON \
 -DWITH_IPP=OFF \
@@ -299,7 +289,6 @@ export CXXFLAGS="$CXXFLAGS -march=skylake-avx512 -m64 "
 -DENABLE_SSE42=ON \
 -DWITH_TBB=ON \
 -DWITH_OPENMP=ON \
--DWITH_INF_ENGINE=ON \
 -DWITH_VA=ON \
 -DWITH_VULKAN=ON \
 -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo \
@@ -321,7 +310,7 @@ make  %{?_smp_mflags}  VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1582319616
+export SOURCE_DATE_EPOCH=1589008818
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
 cp %{_builddir}/opencv-4.2.0/3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/ec4468ecfe59c46406d4fc5aca1cee2a83c4d93e
@@ -338,6 +327,7 @@ cp %{_builddir}/opencv-4.2.0/3rdparty/libwebp/COPYING %{buildroot}/usr/share/pac
 cp %{_builddir}/opencv-4.2.0/3rdparty/openexr/LICENSE %{buildroot}/usr/share/package-licenses/opencv/72f59fbac43fa1a7f0607d7fdba747832e626656
 cp %{_builddir}/opencv-4.2.0/3rdparty/protobuf/LICENSE %{buildroot}/usr/share/package-licenses/opencv/a0bcc878d7e7181b120ae51837c8d1703fe919ab
 cp %{_builddir}/opencv-4.2.0/3rdparty/quirc/LICENSE %{buildroot}/usr/share/package-licenses/opencv/eaa22397809541edc6c7678716c4929f4977ee32
+cp %{_builddir}/opencv-4.2.0/LICENSE %{buildroot}/usr/share/package-licenses/opencv/4b0044393617ff5e7e074c7a8db7751e4c12cdfc
 cp %{_builddir}/opencv-4.2.0/modules/core/3rdparty/SoftFloat/COPYING.txt %{buildroot}/usr/share/package-licenses/opencv/91a334a8403de4f677844cfcf4067720be0bb802
 cp %{_builddir}/opencv-4.2.0/modules/dnn/src/torch/COPYRIGHT.txt %{buildroot}/usr/share/package-licenses/opencv/99d45ca0d503d7988a486e0d4f95058f89e14115
 pushd clr-build-avx512
@@ -972,11 +962,6 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/lib64/pkgconfig/opencv.pc
 /usr/lib64/pkgconfig/opencv4.pc
 
-%files extras
-%defattr(-,root,root,-)
-/usr/lib64/libopencv_videoio_ffmpeg.so
-/usr/lib64/libopencv_videoio_gstreamer.so
-
 %files extras-testing
 %defattr(-,root,root,-)
 /usr/bin/haswell/avx512_1/opencv_perf_calib3d
@@ -1141,14 +1126,13 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/lib64/libopencv_video.so.4.2.0
 /usr/lib64/libopencv_videoio.so.4.2
 /usr/lib64/libopencv_videoio.so.4.2.0
-/usr/lib64/libopencv_videoio_ffmpeg.so.avx2
-/usr/lib64/libopencv_videoio_gstreamer.so.avx2
 
 %files license
 %defattr(0644,root,root,0755)
 /usr/share/package-licenses/opencv/0aacebb8a54d52a40db8d2d449eceb42f66e198b
 /usr/share/package-licenses/opencv/14b5d0210560128e1a5d5204698cf705011ef792
 /usr/share/package-licenses/opencv/49709bd29acf27e87953e37e63bb68373347a805
+/usr/share/package-licenses/opencv/4b0044393617ff5e7e074c7a8db7751e4c12cdfc
 /usr/share/package-licenses/opencv/4f83a9480069279bc79a7af6990b9a546a1d0c02
 /usr/share/package-licenses/opencv/59cd938fcbd6735b1ef91781280d6eb6c4b7c5d9
 /usr/share/package-licenses/opencv/7235f6784b4eae4c40a259dcecc7a20e6c487263
