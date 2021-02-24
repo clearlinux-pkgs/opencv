@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.4.0
-Release  : 128
+Release  : 129
 URL      : https://github.com/opencv/opencv/archive/4.4.0/opencv-4.4.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.4.0/opencv-4.4.0.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -34,7 +34,7 @@ BuildRequires : glib-dev
 BuildRequires : glibc-dev
 BuildRequires : gstreamer-dev
 BuildRequires : gtk3-dev
-BuildRequires : libX11-dev libICE-dev libSM-dev libXau-dev libXcomposite-dev libXcursor-dev libXdamage-dev libXdmcp-dev libXext-dev libXfixes-dev libXft-dev libXi-dev libXinerama-dev libXi-dev libXmu-dev libXpm-dev libXrandr-dev libXrender-dev libXres-dev libXScrnSaver-dev libXt-dev libXtst-dev libXv-dev libXxf86misc-dev libXxf86vm-dev
+BuildRequires : libX11-dev libICE-dev libSM-dev libXau-dev libXcomposite-dev libXcursor-dev libXdamage-dev libXdmcp-dev libXext-dev libXfixes-dev libXft-dev libXi-dev libXinerama-dev libXi-dev libXmu-dev libXpm-dev libXrandr-dev libXrender-dev libXres-dev libXScrnSaver-dev libXt-dev libXtst-dev libXv-dev libXxf86vm-dev
 BuildRequires : libgphoto2-dev
 BuildRequires : libjpeg-turbo-dev
 BuildRequires : librealsense-dev
