@@ -4,13 +4,13 @@
 #
 %define keepstatic 1
 Name     : opencv
-Version  : 4.4.0
-Release  : 141
-URL      : https://github.com/opencv/opencv/archive/4.4.0/opencv-4.4.0.tar.gz
-Source0  : https://github.com/opencv/opencv/archive/4.4.0/opencv-4.4.0.tar.gz
+Version  : 4.5.4
+Release  : 142
+URL      : https://github.com/opencv/opencv/archive/4.5.4/opencv-4.5.4.tar.gz
+Source0  : https://github.com/opencv/opencv/archive/4.5.4/opencv-4.5.4.tar.gz
 Summary  : Open Source Computer Vision Library
 Group    : Development/Tools
-License  : Apache-2.0 BSD-3-Clause GPL-2.0 HPND IJG JasPer-2.0 LGPL-2.1 Libpng MIT libtiff
+License  : Apache-2.0 BSD-2-Clause BSD-3-Clause GPL-2.0 HPND JasPer-2.0 LGPL-2.1 Libpng MIT libtiff
 Requires: opencv-bin = %{version}-%{release}
 Requires: opencv-data = %{version}-%{release}
 Requires: opencv-filemap = %{version}-%{release}
@@ -30,6 +30,7 @@ BuildRequires : cmake
 BuildRequires : doxygen
 BuildRequires : eigen-data
 BuildRequires : eigen-dev
+BuildRequires : extra-cmake-modules pkgconfig(OpenEXR)
 BuildRequires : gdal-dev
 BuildRequires : glib-dev
 BuildRequires : glibc-dev
@@ -43,6 +44,7 @@ BuildRequires : libva-dev
 BuildRequires : libva-intel-driver
 BuildRequires : libwebp-dev
 BuildRequires : mesa-dev
+BuildRequires : mkl-dnn-dev
 BuildRequires : numpy
 BuildRequires : ocl-icd-dev
 BuildRequires : openblas
@@ -58,7 +60,6 @@ BuildRequires : pkgconfig(libpng)
 BuildRequires : protobuf-dev
 BuildRequires : pugixml-dev
 BuildRequires : python3-dev
-BuildRequires : qtbase-dev mesa-dev
 BuildRequires : tbb-dev
 BuildRequires : v4l-utils-dev
 BuildRequires : zlib-dev
@@ -158,15 +159,15 @@ python3 components for the opencv package.
 
 
 %prep
-%setup -q -n opencv-4.4.0
-cd %{_builddir}/opencv-4.4.0
+%setup -q -n opencv-4.5.4
+cd %{_builddir}/opencv-4.5.4
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1637099304
+export SOURCE_DATE_EPOCH=1639503572
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -325,26 +326,29 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1637099304
+export SOURCE_DATE_EPOCH=1639503572
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
-cp %{_builddir}/opencv-4.4.0/3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/ec4468ecfe59c46406d4fc5aca1cee2a83c4d93e
-cp %{_builddir}/opencv-4.4.0/3rdparty/ffmpeg/license.txt %{buildroot}/usr/share/package-licenses/opencv/0aacebb8a54d52a40db8d2d449eceb42f66e198b
-cp %{_builddir}/opencv-4.4.0/3rdparty/include/opencl/LICENSE.txt %{buildroot}/usr/share/package-licenses/opencv/7235f6784b4eae4c40a259dcecc7a20e6c487263
-cp %{_builddir}/opencv-4.4.0/3rdparty/ittnotify/src/ittnotify/LICENSE.BSD %{buildroot}/usr/share/package-licenses/opencv/4f83a9480069279bc79a7af6990b9a546a1d0c02
-cp %{_builddir}/opencv-4.4.0/3rdparty/ittnotify/src/ittnotify/LICENSE.GPL %{buildroot}/usr/share/package-licenses/opencv/49709bd29acf27e87953e37e63bb68373347a805
-cp %{_builddir}/opencv-4.4.0/3rdparty/libjasper/LICENSE %{buildroot}/usr/share/package-licenses/opencv/14b5d0210560128e1a5d5204698cf705011ef792
-cp %{_builddir}/opencv-4.4.0/3rdparty/libjasper/copyright %{buildroot}/usr/share/package-licenses/opencv/a6c8c1690157753de298c1ea2a66a2400d1ab5a3
-cp %{_builddir}/opencv-4.4.0/3rdparty/libjpeg-turbo/LICENSE.md %{buildroot}/usr/share/package-licenses/opencv/a5f4d6f407de11b9ce0fef27e335ddcaeded9f2d
-cp %{_builddir}/opencv-4.4.0/3rdparty/libpng/LICENSE %{buildroot}/usr/share/package-licenses/opencv/fc3951ba26fe1914759f605696a1d23e3b41766f
-cp %{_builddir}/opencv-4.4.0/3rdparty/libtiff/COPYRIGHT %{buildroot}/usr/share/package-licenses/opencv/a2f64f2a85f5fd34bda8eb713c3aad008adbb589
-cp %{_builddir}/opencv-4.4.0/3rdparty/libwebp/COPYING %{buildroot}/usr/share/package-licenses/opencv/59cd938fcbd6735b1ef91781280d6eb6c4b7c5d9
-cp %{_builddir}/opencv-4.4.0/3rdparty/openexr/LICENSE %{buildroot}/usr/share/package-licenses/opencv/72f59fbac43fa1a7f0607d7fdba747832e626656
-cp %{_builddir}/opencv-4.4.0/3rdparty/protobuf/LICENSE %{buildroot}/usr/share/package-licenses/opencv/a0bcc878d7e7181b120ae51837c8d1703fe919ab
-cp %{_builddir}/opencv-4.4.0/3rdparty/quirc/LICENSE %{buildroot}/usr/share/package-licenses/opencv/eaa22397809541edc6c7678716c4929f4977ee32
-cp %{_builddir}/opencv-4.4.0/LICENSE %{buildroot}/usr/share/package-licenses/opencv/13afd4683100a8df1656137a1957db39e9f6f3bf
-cp %{_builddir}/opencv-4.4.0/modules/core/3rdparty/SoftFloat/COPYING.txt %{buildroot}/usr/share/package-licenses/opencv/91a334a8403de4f677844cfcf4067720be0bb802
-cp %{_builddir}/opencv-4.4.0/modules/dnn/src/torch/COPYRIGHT.txt %{buildroot}/usr/share/package-licenses/opencv/99d45ca0d503d7988a486e0d4f95058f89e14115
+cp %{_builddir}/opencv-4.5.4/3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/ec4468ecfe59c46406d4fc5aca1cee2a83c4d93e
+cp %{_builddir}/opencv-4.5.4/3rdparty/ffmpeg/license.txt %{buildroot}/usr/share/package-licenses/opencv/0aacebb8a54d52a40db8d2d449eceb42f66e198b
+cp %{_builddir}/opencv-4.5.4/3rdparty/include/opencl/LICENSE.txt %{buildroot}/usr/share/package-licenses/opencv/7235f6784b4eae4c40a259dcecc7a20e6c487263
+cp %{_builddir}/opencv-4.5.4/3rdparty/ittnotify/src/ittnotify/LICENSE.BSD %{buildroot}/usr/share/package-licenses/opencv/4f83a9480069279bc79a7af6990b9a546a1d0c02
+cp %{_builddir}/opencv-4.5.4/3rdparty/ittnotify/src/ittnotify/LICENSE.GPL %{buildroot}/usr/share/package-licenses/opencv/49709bd29acf27e87953e37e63bb68373347a805
+cp %{_builddir}/opencv-4.5.4/3rdparty/libjasper/LICENSE %{buildroot}/usr/share/package-licenses/opencv/14b5d0210560128e1a5d5204698cf705011ef792
+cp %{_builddir}/opencv-4.5.4/3rdparty/libjasper/copyright %{buildroot}/usr/share/package-licenses/opencv/a6c8c1690157753de298c1ea2a66a2400d1ab5a3
+cp %{_builddir}/opencv-4.5.4/3rdparty/libjpeg-turbo/LICENSE.md %{buildroot}/usr/share/package-licenses/opencv/86ef6dd8ea5818778ae1a6a709eddc8e3c12614f
+cp %{_builddir}/opencv-4.5.4/3rdparty/libpng/LICENSE %{buildroot}/usr/share/package-licenses/opencv/fc3951ba26fe1914759f605696a1d23e3b41766f
+cp %{_builddir}/opencv-4.5.4/3rdparty/libtiff/COPYRIGHT %{buildroot}/usr/share/package-licenses/opencv/a2f64f2a85f5fd34bda8eb713c3aad008adbb589
+cp %{_builddir}/opencv-4.5.4/3rdparty/libwebp/COPYING %{buildroot}/usr/share/package-licenses/opencv/59cd938fcbd6735b1ef91781280d6eb6c4b7c5d9
+cp %{_builddir}/opencv-4.5.4/3rdparty/openexr/LICENSE %{buildroot}/usr/share/package-licenses/opencv/72f59fbac43fa1a7f0607d7fdba747832e626656
+cp %{_builddir}/opencv-4.5.4/3rdparty/openjpeg/LICENSE %{buildroot}/usr/share/package-licenses/opencv/a1a529b822da257f69972ea711df38489e9d4251
+cp %{_builddir}/opencv-4.5.4/3rdparty/protobuf/LICENSE %{buildroot}/usr/share/package-licenses/opencv/a0bcc878d7e7181b120ae51837c8d1703fe919ab
+cp %{_builddir}/opencv-4.5.4/3rdparty/quirc/LICENSE %{buildroot}/usr/share/package-licenses/opencv/eaa22397809541edc6c7678716c4929f4977ee32
+cp %{_builddir}/opencv-4.5.4/LICENSE %{buildroot}/usr/share/package-licenses/opencv/2b8b815229aa8a61e483fb4ba0588b8b6c491890
+cp %{_builddir}/opencv-4.5.4/doc/LICENSE_BSD.txt %{buildroot}/usr/share/package-licenses/opencv/13afd4683100a8df1656137a1957db39e9f6f3bf
+cp %{_builddir}/opencv-4.5.4/doc/LICENSE_CHANGE_NOTICE.txt %{buildroot}/usr/share/package-licenses/opencv/18594b1d48529dc2c3d414eef7eb8da646f2369e
+cp %{_builddir}/opencv-4.5.4/modules/core/3rdparty/SoftFloat/COPYING.txt %{buildroot}/usr/share/package-licenses/opencv/91a334a8403de4f677844cfcf4067720be0bb802
+cp %{_builddir}/opencv-4.5.4/modules/dnn/src/torch/COPYRIGHT.txt %{buildroot}/usr/share/package-licenses/opencv/99d45ca0d503d7988a486e0d4f95058f89e14115
 pushd clr-build-avx2
 %make_install_v3  || :
 popd
@@ -369,6 +373,7 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 %defattr(-,root,root,-)
 /usr/bin/opencv_annotation
 /usr/bin/opencv_interactive-calibration
+/usr/bin/opencv_model_diagnostics
 /usr/bin/opencv_version
 /usr/bin/opencv_visualisation
 /usr/bin/setup_vars_opencv4.sh
@@ -409,6 +414,7 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/share/opencv4/samples/cpp/3calibration.cpp
 /usr/share/opencv4/samples/cpp/CMakeLists.txt
 /usr/share/opencv4/samples/cpp/application_trace.cpp
+/usr/share/opencv4/samples/cpp/asift.cpp
 /usr/share/opencv4/samples/cpp/bgfg_segm.cpp
 /usr/share/opencv4/samples/cpp/calibration.cpp
 /usr/share/opencv4/samples/cpp/camshiftdemo.cpp
@@ -425,13 +431,16 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/share/opencv4/samples/cpp/detect_blob.cpp
 /usr/share/opencv4/samples/cpp/detect_mser.cpp
 /usr/share/opencv4/samples/cpp/dft.cpp
-/usr/share/opencv4/samples/cpp/digits.cpp
+/usr/share/opencv4/samples/cpp/digits_lenet.cpp
+/usr/share/opencv4/samples/cpp/digits_svm.cpp
 /usr/share/opencv4/samples/cpp/dis_opticalflow.cpp
 /usr/share/opencv4/samples/cpp/distrans.cpp
 /usr/share/opencv4/samples/cpp/drawing.cpp
 /usr/share/opencv4/samples/cpp/edge.cpp
 /usr/share/opencv4/samples/cpp/ela.cpp
 /usr/share/opencv4/samples/cpp/em.cpp
+/usr/share/opencv4/samples/cpp/epipolar_lines.cpp
+/usr/share/opencv4/samples/cpp/essential_mat_reconstr.cpp
 /usr/share/opencv4/samples/cpp/facedetect.cpp
 /usr/share/opencv4/samples/cpp/facial_features.cpp
 /usr/share/opencv4/samples/cpp/falsecolor.cpp
@@ -439,6 +448,7 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/share/opencv4/samples/cpp/ffilldemo.cpp
 /usr/share/opencv4/samples/cpp/filestorage.cpp
 /usr/share/opencv4/samples/cpp/fitellipse.cpp
+/usr/share/opencv4/samples/cpp/flann_search_dataset.cpp
 /usr/share/opencv4/samples/cpp/grabcut.cpp
 /usr/share/opencv4/samples/cpp/image_alignment.cpp
 /usr/share/opencv4/samples/cpp/imagelist_creator.cpp
@@ -452,6 +462,7 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/share/opencv4/samples/cpp/letter_recog.cpp
 /usr/share/opencv4/samples/cpp/lkdemo.cpp
 /usr/share/opencv4/samples/cpp/logistic_regression.cpp
+/usr/share/opencv4/samples/cpp/lsd_lines.cpp
 /usr/share/opencv4/samples/cpp/mask_tmpl.cpp
 /usr/share/opencv4/samples/cpp/matchmethod_orb_akaze_brisk.cpp
 /usr/share/opencv4/samples/cpp/minarea.cpp
@@ -503,6 +514,8 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/share/opencv4/samples/data/aloeGT.png
 /usr/share/opencv4/samples/data/aloeL.jpg
 /usr/share/opencv4/samples/data/aloeR.jpg
+/usr/share/opencv4/samples/data/alphabet_36.txt
+/usr/share/opencv4/samples/data/alphabet_94.txt
 /usr/share/opencv4/samples/data/apple.jpg
 /usr/share/opencv4/samples/data/baboon.jpg
 /usr/share/opencv4/samples/data/basketball1.png
@@ -529,6 +542,7 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/share/opencv4/samples/data/ela_modified.jpg
 /usr/share/opencv4/samples/data/ela_original.jpg
 /usr/share/opencv4/samples/data/ellipses.jpg
+/usr/share/opencv4/samples/data/essential_mat_data.txt
 /usr/share/opencv4/samples/data/fruits.jpg
 /usr/share/opencv4/samples/data/gradient.png
 /usr/share/opencv4/samples/data/graf1.png
@@ -555,6 +569,8 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/share/opencv4/samples/data/lena.jpg
 /usr/share/opencv4/samples/data/lena_tmpl.jpg
 /usr/share/opencv4/samples/data/letter-recognition.data
+/usr/share/opencv4/samples/data/leuvenA.jpg
+/usr/share/opencv4/samples/data/leuvenB.jpg
 /usr/share/opencv4/samples/data/licenseplate_motion.jpg
 /usr/share/opencv4/samples/data/mask.png
 /usr/share/opencv4/samples/data/messi5.jpg
@@ -587,6 +603,7 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/share/opencv4/samples/data/rubberwhale1.png
 /usr/share/opencv4/samples/data/rubberwhale2.png
 /usr/share/opencv4/samples/data/smarties.png
+/usr/share/opencv4/samples/data/squirrel_cls.jpg
 /usr/share/opencv4/samples/data/starry_night.jpg
 /usr/share/opencv4/samples/data/stereo_calib.xml
 /usr/share/opencv4/samples/data/stuff.jpg
@@ -602,9 +619,16 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/share/opencv4/samples/dnn/colorization.cpp
 /usr/share/opencv4/samples/dnn/common.hpp
 /usr/share/opencv4/samples/dnn/custom_layers.hpp
+/usr/share/opencv4/samples/dnn/dasiamrpn_tracker.cpp
+/usr/share/opencv4/samples/dnn/face_detect.cpp
+/usr/share/opencv4/samples/dnn/face_match.cpp
 /usr/share/opencv4/samples/dnn/human_parsing.cpp
 /usr/share/opencv4/samples/dnn/object_detection.cpp
 /usr/share/opencv4/samples/dnn/openpose.cpp
+/usr/share/opencv4/samples/dnn/person_reid.cpp
+/usr/share/opencv4/samples/dnn/scene_text_detection.cpp
+/usr/share/opencv4/samples/dnn/scene_text_recognition.cpp
+/usr/share/opencv4/samples/dnn/scene_text_spotting.cpp
 /usr/share/opencv4/samples/dnn/segmentation.cpp
 /usr/share/opencv4/samples/dnn/text_detection.cpp
 /usr/share/opencv4/samples/gpu/CMakeLists.txt
@@ -649,6 +673,7 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/share/opencv4/samples/python/distrans.py
 /usr/share/opencv4/samples/python/drawing.py
 /usr/share/opencv4/samples/python/edge.py
+/usr/share/opencv4/samples/python/essential_mat_reconstr.py
 /usr/share/opencv4/samples/python/facedetect.py
 /usr/share/opencv4/samples/python/feature_homography.py
 /usr/share/opencv4/samples/python/find_obj.py
@@ -685,6 +710,7 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/share/opencv4/samples/python/stitching_detailed.py
 /usr/share/opencv4/samples/python/text_skewness_correction.py
 /usr/share/opencv4/samples/python/texture_flow.py
+/usr/share/opencv4/samples/python/tracker.py
 /usr/share/opencv4/samples/python/tst_scene_render.py
 /usr/share/opencv4/samples/python/turing.py
 /usr/share/opencv4/samples/python/video.py
@@ -692,6 +718,8 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/share/opencv4/samples/python/video_v4l2.py
 /usr/share/opencv4/samples/python/watershed.py
 /usr/share/opencv4/samples/samples_utils.cmake
+/usr/share/opencv4/samples/sycl/CMakeLists.txt
+/usr/share/opencv4/samples/sycl/sycl-opencv-interop.cpp
 /usr/share/opencv4/samples/tapi/CMakeLists.txt
 /usr/share/opencv4/samples/tapi/bgfg_segm.cpp
 /usr/share/opencv4/samples/tapi/camshift.cpp
@@ -702,6 +730,7 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/share/opencv4/samples/tapi/pyrlk_optical_flow.cpp
 /usr/share/opencv4/samples/tapi/squares.cpp
 /usr/share/opencv4/samples/tapi/ufacedetect.cpp
+/usr/share/opencv4/samples/tapi/video_acceleration.cpp
 /usr/share/opencv4/valgrind.supp
 /usr/share/opencv4/valgrind_3rdparty.supp
 
@@ -762,6 +791,8 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/include/opencv4/opencv2/core/detail/async_promise.hpp
 /usr/include/opencv4/opencv2/core/detail/exception_ptr.hpp
 /usr/include/opencv4/opencv2/core/directx.hpp
+/usr/include/opencv4/opencv2/core/dualquaternion.hpp
+/usr/include/opencv4/opencv2/core/dualquaternion.inl.hpp
 /usr/include/opencv4/opencv2/core/eigen.hpp
 /usr/include/opencv4/opencv2/core/fast_math.hpp
 /usr/include/opencv4/opencv2/core/hal/hal.hpp
@@ -773,6 +804,8 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/include/opencv4/opencv2/core/hal/intrin_forward.hpp
 /usr/include/opencv4/opencv2/core/hal/intrin_msa.hpp
 /usr/include/opencv4/opencv2/core/hal/intrin_neon.hpp
+/usr/include/opencv4/opencv2/core/hal/intrin_rvv.hpp
+/usr/include/opencv4/opencv2/core/hal/intrin_rvv071.hpp
 /usr/include/opencv4/opencv2/core/hal/intrin_sse.hpp
 /usr/include/opencv4/opencv2/core/hal/intrin_sse_em.hpp
 /usr/include/opencv4/opencv2/core/hal/intrin_vsx.hpp
@@ -788,14 +821,14 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/include/opencv4/opencv2/core/opencl/ocl_defs.hpp
 /usr/include/opencv4/opencv2/core/opencl/opencl_info.hpp
 /usr/include/opencv4/opencv2/core/opencl/opencl_svm.hpp
-/usr/include/opencv4/opencv2/core/opencl/runtime/autogenerated/opencl_clamdblas.hpp
-/usr/include/opencv4/opencv2/core/opencl/runtime/autogenerated/opencl_clamdfft.hpp
+/usr/include/opencv4/opencv2/core/opencl/runtime/autogenerated/opencl_clblas.hpp
+/usr/include/opencv4/opencv2/core/opencl/runtime/autogenerated/opencl_clfft.hpp
 /usr/include/opencv4/opencv2/core/opencl/runtime/autogenerated/opencl_core.hpp
 /usr/include/opencv4/opencv2/core/opencl/runtime/autogenerated/opencl_core_wrappers.hpp
 /usr/include/opencv4/opencv2/core/opencl/runtime/autogenerated/opencl_gl.hpp
 /usr/include/opencv4/opencv2/core/opencl/runtime/autogenerated/opencl_gl_wrappers.hpp
-/usr/include/opencv4/opencv2/core/opencl/runtime/opencl_clamdblas.hpp
-/usr/include/opencv4/opencv2/core/opencl/runtime/opencl_clamdfft.hpp
+/usr/include/opencv4/opencv2/core/opencl/runtime/opencl_clblas.hpp
+/usr/include/opencv4/opencv2/core/opencl/runtime/opencl_clfft.hpp
 /usr/include/opencv4/opencv2/core/opencl/runtime/opencl_core.hpp
 /usr/include/opencv4/opencv2/core/opencl/runtime/opencl_core_wrappers.hpp
 /usr/include/opencv4/opencv2/core/opencl/runtime/opencl_gl.hpp
@@ -807,7 +840,12 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/include/opencv4/opencv2/core/operations.hpp
 /usr/include/opencv4/opencv2/core/optim.hpp
 /usr/include/opencv4/opencv2/core/ovx.hpp
+/usr/include/opencv4/opencv2/core/parallel/backend/parallel_for.openmp.hpp
+/usr/include/opencv4/opencv2/core/parallel/backend/parallel_for.tbb.hpp
+/usr/include/opencv4/opencv2/core/parallel/parallel_backend.hpp
 /usr/include/opencv4/opencv2/core/persistence.hpp
+/usr/include/opencv4/opencv2/core/quaternion.hpp
+/usr/include/opencv4/opencv2/core/quaternion.inl.hpp
 /usr/include/opencv4/opencv2/core/saturate.hpp
 /usr/include/opencv4/opencv2/core/simd_intrinsics.hpp
 /usr/include/opencv4/opencv2/core/softfloat.hpp
@@ -837,6 +875,7 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/include/opencv4/opencv2/dnn/layer.details.hpp
 /usr/include/opencv4/opencv2/dnn/layer.hpp
 /usr/include/opencv4/opencv2/dnn/shape_utils.hpp
+/usr/include/opencv4/opencv2/dnn/utils/debug_utils.hpp
 /usr/include/opencv4/opencv2/dnn/utils/inference_engine.hpp
 /usr/include/opencv4/opencv2/dnn/version.hpp
 /usr/include/opencv4/opencv2/features2d.hpp
@@ -887,18 +926,22 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/include/opencv4/opencv2/imgcodecs/imgcodecs_c.h
 /usr/include/opencv4/opencv2/imgcodecs/ios.h
 /usr/include/opencv4/opencv2/imgcodecs/legacy/constants_c.h
+/usr/include/opencv4/opencv2/imgcodecs/macosx.h
 /usr/include/opencv4/opencv2/imgproc.hpp
+/usr/include/opencv4/opencv2/imgproc/bindings.hpp
 /usr/include/opencv4/opencv2/imgproc/detail/gcgraph.hpp
 /usr/include/opencv4/opencv2/imgproc/hal/hal.hpp
 /usr/include/opencv4/opencv2/imgproc/hal/interface.h
 /usr/include/opencv4/opencv2/imgproc/imgproc.hpp
 /usr/include/opencv4/opencv2/imgproc/imgproc_c.h
+/usr/include/opencv4/opencv2/imgproc/segmentation.hpp
 /usr/include/opencv4/opencv2/imgproc/types_c.h
 /usr/include/opencv4/opencv2/ml.hpp
 /usr/include/opencv4/opencv2/ml/ml.hpp
 /usr/include/opencv4/opencv2/ml/ml.inl.hpp
 /usr/include/opencv4/opencv2/objdetect.hpp
 /usr/include/opencv4/opencv2/objdetect/detection_based_tracker.hpp
+/usr/include/opencv4/opencv2/objdetect/face.hpp
 /usr/include/opencv4/opencv2/objdetect/objdetect.hpp
 /usr/include/opencv4/opencv2/opencv.hpp
 /usr/include/opencv4/opencv2/opencv_modules.hpp
@@ -922,6 +965,7 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/include/opencv4/opencv2/stitching/warpers.hpp
 /usr/include/opencv4/opencv2/video.hpp
 /usr/include/opencv4/opencv2/video/background_segm.hpp
+/usr/include/opencv4/opencv2/video/detail/tracking.detail.hpp
 /usr/include/opencv4/opencv2/video/legacy/constants_c.h
 /usr/include/opencv4/opencv2/video/tracking.hpp
 /usr/include/opencv4/opencv2/video/video.hpp
@@ -986,34 +1030,34 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/libopencv_calib3d.so.4.4
-/usr/lib64/libopencv_calib3d.so.4.4.0
-/usr/lib64/libopencv_core.so.4.4
-/usr/lib64/libopencv_core.so.4.4.0
-/usr/lib64/libopencv_dnn.so.4.4
-/usr/lib64/libopencv_dnn.so.4.4.0
-/usr/lib64/libopencv_features2d.so.4.4
-/usr/lib64/libopencv_features2d.so.4.4.0
-/usr/lib64/libopencv_flann.so.4.4
-/usr/lib64/libopencv_flann.so.4.4.0
-/usr/lib64/libopencv_highgui.so.4.4
-/usr/lib64/libopencv_highgui.so.4.4.0
-/usr/lib64/libopencv_imgcodecs.so.4.4
-/usr/lib64/libopencv_imgcodecs.so.4.4.0
-/usr/lib64/libopencv_imgproc.so.4.4
-/usr/lib64/libopencv_imgproc.so.4.4.0
-/usr/lib64/libopencv_ml.so.4.4
-/usr/lib64/libopencv_ml.so.4.4.0
-/usr/lib64/libopencv_objdetect.so.4.4
-/usr/lib64/libopencv_objdetect.so.4.4.0
-/usr/lib64/libopencv_photo.so.4.4
-/usr/lib64/libopencv_photo.so.4.4.0
-/usr/lib64/libopencv_stitching.so.4.4
-/usr/lib64/libopencv_stitching.so.4.4.0
-/usr/lib64/libopencv_video.so.4.4
-/usr/lib64/libopencv_video.so.4.4.0
-/usr/lib64/libopencv_videoio.so.4.4
-/usr/lib64/libopencv_videoio.so.4.4.0
+/usr/lib64/libopencv_calib3d.so.4.5
+/usr/lib64/libopencv_calib3d.so.4.5.4
+/usr/lib64/libopencv_core.so.4.5
+/usr/lib64/libopencv_core.so.4.5.4
+/usr/lib64/libopencv_dnn.so.4.5
+/usr/lib64/libopencv_dnn.so.4.5.4
+/usr/lib64/libopencv_features2d.so.4.5
+/usr/lib64/libopencv_features2d.so.4.5.4
+/usr/lib64/libopencv_flann.so.4.5
+/usr/lib64/libopencv_flann.so.4.5.4
+/usr/lib64/libopencv_highgui.so.4.5
+/usr/lib64/libopencv_highgui.so.4.5.4
+/usr/lib64/libopencv_imgcodecs.so.4.5
+/usr/lib64/libopencv_imgcodecs.so.4.5.4
+/usr/lib64/libopencv_imgproc.so.4.5
+/usr/lib64/libopencv_imgproc.so.4.5.4
+/usr/lib64/libopencv_ml.so.4.5
+/usr/lib64/libopencv_ml.so.4.5.4
+/usr/lib64/libopencv_objdetect.so.4.5
+/usr/lib64/libopencv_objdetect.so.4.5.4
+/usr/lib64/libopencv_photo.so.4.5
+/usr/lib64/libopencv_photo.so.4.5.4
+/usr/lib64/libopencv_stitching.so.4.5
+/usr/lib64/libopencv_stitching.so.4.5.4
+/usr/lib64/libopencv_video.so.4.5
+/usr/lib64/libopencv_video.so.4.5.4
+/usr/lib64/libopencv_videoio.so.4.5
+/usr/lib64/libopencv_videoio.so.4.5.4
 /usr/share/clear/optimized-elf/lib*
 /usr/share/clear/optimized-elf/other*
 
@@ -1022,16 +1066,19 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/share/package-licenses/opencv/0aacebb8a54d52a40db8d2d449eceb42f66e198b
 /usr/share/package-licenses/opencv/13afd4683100a8df1656137a1957db39e9f6f3bf
 /usr/share/package-licenses/opencv/14b5d0210560128e1a5d5204698cf705011ef792
+/usr/share/package-licenses/opencv/18594b1d48529dc2c3d414eef7eb8da646f2369e
+/usr/share/package-licenses/opencv/2b8b815229aa8a61e483fb4ba0588b8b6c491890
 /usr/share/package-licenses/opencv/49709bd29acf27e87953e37e63bb68373347a805
 /usr/share/package-licenses/opencv/4f83a9480069279bc79a7af6990b9a546a1d0c02
 /usr/share/package-licenses/opencv/59cd938fcbd6735b1ef91781280d6eb6c4b7c5d9
 /usr/share/package-licenses/opencv/7235f6784b4eae4c40a259dcecc7a20e6c487263
 /usr/share/package-licenses/opencv/72f59fbac43fa1a7f0607d7fdba747832e626656
+/usr/share/package-licenses/opencv/86ef6dd8ea5818778ae1a6a709eddc8e3c12614f
 /usr/share/package-licenses/opencv/91a334a8403de4f677844cfcf4067720be0bb802
 /usr/share/package-licenses/opencv/99d45ca0d503d7988a486e0d4f95058f89e14115
 /usr/share/package-licenses/opencv/a0bcc878d7e7181b120ae51837c8d1703fe919ab
+/usr/share/package-licenses/opencv/a1a529b822da257f69972ea711df38489e9d4251
 /usr/share/package-licenses/opencv/a2f64f2a85f5fd34bda8eb713c3aad008adbb589
-/usr/share/package-licenses/opencv/a5f4d6f407de11b9ce0fef27e335ddcaeded9f2d
 /usr/share/package-licenses/opencv/a6c8c1690157753de298c1ea2a66a2400d1ab5a3
 /usr/share/package-licenses/opencv/eaa22397809541edc6c7678716c4929f4977ee32
 /usr/share/package-licenses/opencv/ec4468ecfe59c46406d4fc5aca1cee2a83c4d93e

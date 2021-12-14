@@ -6,3 +6,14 @@ bs4
 beignet-dev
 openjdk9-dev
 dldt-dev
+pypi(onnx)
+pypi(numpy)
+pypi(torch)
+pypi(torchvision)
+pypi(tensorflow)
+pypi(tensorflow_gpu)
+pypi(paddlepaddle)
+pypi(paddlepaddle_gpu)
+pypi(paddlehub)
+pypi(paddle2onnx)
+pypi(paddleseg)

@@ -1,0 +1,12 @@
+4.5.4
+pypi(numpy)
+pypi(onnx)
+pypi(paddle2onnx)
+pypi(paddlehub)
+pypi(paddlepaddle)
+pypi(paddlepaddle_gpu)
+pypi(paddleseg)
+pypi(tensorflow)
+pypi(tensorflow_gpu)
+pypi(torch)
+pypi(torchvision)
