@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.5.4
-Release  : 142
+Release  : 143
 URL      : https://github.com/opencv/opencv/archive/4.5.4/opencv-4.5.4.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.5.4/opencv-4.5.4.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -21,7 +21,6 @@ Requires: opencv-python3 = %{version}-%{release}
 BuildRequires : VTK-dev
 BuildRequires : ade-data
 BuildRequires : ade-dev
-BuildRequires : apache-ant
 BuildRequires : beautifulsoup4
 BuildRequires : buildreq-cmake
 BuildRequires : buildreq-distutils3
