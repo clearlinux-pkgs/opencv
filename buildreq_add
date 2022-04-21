@@ -11,7 +11,7 @@ libva-intel-driver
 openblas
 opencl-headers-dev
 python3-dev
-numpy
+pypi-numpy
 v4l-utils-dev
 doxygen
 ccache

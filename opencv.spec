@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.5.5
-Release  : 151
+Release  : 152
 URL      : https://github.com/opencv/opencv/archive/4.5.5/opencv-4.5.5.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.5.5/opencv-4.5.5.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -43,7 +43,6 @@ BuildRequires : libva-intel-driver
 BuildRequires : libwebp-dev
 BuildRequires : mesa-dev
 BuildRequires : mkl-dnn-dev
-BuildRequires : numpy
 BuildRequires : ocl-icd-dev
 BuildRequires : openblas
 BuildRequires : opencl-headers-dev
@@ -58,6 +57,7 @@ BuildRequires : pkgconfig(libpng)
 BuildRequires : protobuf-dev
 BuildRequires : pugixml-dev
 BuildRequires : pypi-beautifulsoup4
+BuildRequires : pypi-numpy
 BuildRequires : python3-dev
 BuildRequires : tbb-dev
 BuildRequires : v4l-utils-dev
@@ -166,7 +166,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1649433370
+export SOURCE_DATE_EPOCH=1650514183
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -325,7 +325,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1649433370
+export SOURCE_DATE_EPOCH=1650514183
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
 cp %{_builddir}/opencv-4.5.5/3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/ec4468ecfe59c46406d4fc5aca1cee2a83c4d93e
