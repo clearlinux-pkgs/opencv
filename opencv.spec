@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.5.5
-Release  : 152
+Release  : 153
 URL      : https://github.com/opencv/opencv/archive/4.5.5/opencv-4.5.5.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.5.5/opencv-4.5.5.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -49,7 +49,6 @@ BuildRequires : opencl-headers-dev
 BuildRequires : opencv-dev
 BuildRequires : openjdk
 BuildRequires : openjdk-dev
-BuildRequires : openjdk11-dev
 BuildRequires : openjpeg
 BuildRequires : pkg-config
 BuildRequires : pkgconfig(gstreamer-video-1.0)
@@ -142,7 +141,6 @@ license components for the opencv package.
 Summary: python components for the opencv package.
 Group: Default
 Requires: opencv-python3 = %{version}-%{release}
-Requires: opencv-filemap = %{version}-%{release}
 
 %description python
 python components for the opencv package.
@@ -151,6 +149,7 @@ python components for the opencv package.
 %package python3
 Summary: python3 components for the opencv package.
 Group: Default
+Requires: opencv-filemap = %{version}-%{release}
 Requires: python3-core
 
 %description python3
@@ -166,14 +165,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1650514183
+export SOURCE_DATE_EPOCH=1656445556
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
-export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
-export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
-export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
+export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
+export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
+export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
 export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
@@ -230,10 +229,10 @@ popd
 mkdir -p clr-build-avx2
 pushd clr-build-avx2
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -O3 -Ofast -Wl,-z,x86-64-v3 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86-64-v3 -mno-vzeroupper -mprefer-vector-width=256 -mtune=skylake "
-export FCFLAGS="$FFLAGS -O3 -Ofast -Wl,-z,x86-64-v3 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86-64-v3 -mno-vzeroupper -mprefer-vector-width=256 -mtune=skylake "
-export FFLAGS="$FFLAGS -O3 -Ofast -Wl,-z,x86-64-v3 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86-64-v3 -mno-vzeroupper -mprefer-vector-width=256 -mtune=skylake "
-export CXXFLAGS="$CXXFLAGS -O3 -Ofast -Wl,-z,x86-64-v3 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86-64-v3 -mno-vzeroupper -mprefer-vector-width=256 -mtune=skylake "
+export CFLAGS="$CFLAGS -O3 -Ofast -Wl,-z,x86-64-v3 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86-64-v3 -mprefer-vector-width=256 -msse2avx -mtune=skylake "
+export FCFLAGS="$FFLAGS -O3 -Ofast -Wl,-z,x86-64-v3 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86-64-v3 -mprefer-vector-width=256 -msse2avx -mtune=skylake "
+export FFLAGS="$FFLAGS -O3 -Ofast -Wl,-z,x86-64-v3 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86-64-v3 -mprefer-vector-width=256 -msse2avx -mtune=skylake "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -Wl,-z,x86-64-v3 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86-64-v3 -mprefer-vector-width=256 -msse2avx -mtune=skylake "
 export CFLAGS="$CFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
 export CXXFLAGS="$CXXFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
 export FFLAGS="$FFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
@@ -273,10 +272,10 @@ popd
 mkdir -p clr-build-avx512
 pushd clr-build-avx512
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -O3 -Ofast -Wl,-z,x86-64-v4 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86_64-v4 -mno-vzeroupper -mprefer-vector-width=256 -mtune=skylake "
-export FCFLAGS="$FFLAGS -O3 -Ofast -Wl,-z,x86-64-v4 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86_64-v4 -mno-vzeroupper -mprefer-vector-width=256 -mtune=skylake "
-export FFLAGS="$FFLAGS -O3 -Ofast -Wl,-z,x86-64-v4 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86_64-v4 -mno-vzeroupper -mprefer-vector-width=256 -mtune=skylake "
-export CXXFLAGS="$CXXFLAGS -O3 -Ofast -Wl,-z,x86-64-v4 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86_64-v4 -mno-vzeroupper -mprefer-vector-width=256 -mtune=skylake "
+export CFLAGS="$CFLAGS -O3 -Ofast -Wl,-z,x86-64-v4 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86_64-v4 -mprefer-vector-width=256 -msse2avx -mtune=skylake "
+export FCFLAGS="$FFLAGS -O3 -Ofast -Wl,-z,x86-64-v4 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86_64-v4 -mprefer-vector-width=256 -msse2avx -mtune=skylake "
+export FFLAGS="$FFLAGS -O3 -Ofast -Wl,-z,x86-64-v4 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86_64-v4 -mprefer-vector-width=256 -msse2avx -mtune=skylake "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -Wl,-z,x86-64-v4 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86_64-v4 -mprefer-vector-width=256 -msse2avx -mtune=skylake "
 export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
@@ -325,7 +324,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1650514183
+export SOURCE_DATE_EPOCH=1656445556
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
 cp %{_builddir}/opencv-4.5.5/3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/ec4468ecfe59c46406d4fc5aca1cee2a83c4d93e
@@ -362,8 +361,8 @@ popd
 # Probably remove at some point once software updates build detection for new upstream release
 cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/opencv.pc
 ## install_append end
-/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
-/usr/bin/elf-move.py avx512 %{buildroot}-v4 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
+/usr/bin/elf-move.py avx512 %{buildroot}-v4 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
@@ -917,6 +916,34 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/lib64/cmake/opencv4/OpenCVConfig.cmake
 /usr/lib64/cmake/opencv4/OpenCVModules-releasewithdebinfo.cmake
 /usr/lib64/cmake/opencv4/OpenCVModules.cmake
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_calib3d.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_core.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_dnn.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_features2d.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_flann.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_highgui.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_imgcodecs.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_imgproc.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_ml.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_objdetect.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_photo.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_stitching.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_video.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_videoio.so
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_calib3d.so
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_core.so
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_dnn.so
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_features2d.so
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_flann.so
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_highgui.so
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_imgcodecs.so
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_imgproc.so
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_ml.so
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_objdetect.so
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_photo.so
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_stitching.so
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_video.so
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_videoio.so
 /usr/lib64/libopencv_calib3d.so
 /usr/lib64/libopencv_core.so
 /usr/lib64/libopencv_dnn.so
@@ -968,6 +995,62 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_calib3d.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_calib3d.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_core.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_core.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_dnn.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_dnn.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_features2d.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_features2d.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_flann.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_flann.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_highgui.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_highgui.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_imgcodecs.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_imgcodecs.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_imgproc.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_imgproc.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_ml.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_ml.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_objdetect.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_objdetect.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_photo.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_photo.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_stitching.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_stitching.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_video.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_video.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_videoio.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_videoio.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_calib3d.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_calib3d.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_core.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_core.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_dnn.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_dnn.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_features2d.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_features2d.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_flann.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_flann.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_highgui.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_highgui.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_imgcodecs.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_imgcodecs.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_imgproc.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_imgproc.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_ml.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_ml.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_objdetect.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_objdetect.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_photo.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_photo.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_stitching.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_stitching.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_video.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_video.so.405
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_videoio.so.4.5.5
+/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_videoio.so.405
 /usr/lib64/libopencv_calib3d.so.4.5.5
 /usr/lib64/libopencv_calib3d.so.405
 /usr/lib64/libopencv_core.so.4.5.5
@@ -996,7 +1079,6 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/lib64/libopencv_video.so.405
 /usr/lib64/libopencv_videoio.so.4.5.5
 /usr/lib64/libopencv_videoio.so.405
-/usr/share/clear/optimized-elf/lib*
 /usr/share/clear/optimized-elf/other*
 
 %files license
