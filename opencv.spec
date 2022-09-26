@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.6.0
-Release  : 157
+Release  : 158
 URL      : https://github.com/opencv/opencv/archive/4.6.0/opencv-4.6.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.6.0/opencv-4.6.0.tar.gz
 Summary  : Open Source Computer Vision Library
