@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.6.0
-Release  : 158
+Release  : 159
 URL      : https://github.com/opencv/opencv/archive/4.6.0/opencv-4.6.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.6.0/opencv-4.6.0.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -168,14 +168,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1663375177
+export SOURCE_DATE_EPOCH=1664927851
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
-export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
-export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
-export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
+export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mprefer-vector-width=256 "
+export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mprefer-vector-width=256 "
+export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mprefer-vector-width=256 "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mprefer-vector-width=256 "
 export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
@@ -232,10 +232,10 @@ popd
 mkdir -p clr-build-avx2
 pushd clr-build-avx2
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -O3 -Ofast -Wl,-z,x86-64-v3 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86-64-v3 -mprefer-vector-width=256 -mtune=skylake "
-export FCFLAGS="$FFLAGS -O3 -Ofast -Wl,-z,x86-64-v3 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86-64-v3 -mprefer-vector-width=256 -mtune=skylake "
-export FFLAGS="$FFLAGS -O3 -Ofast -Wl,-z,x86-64-v3 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86-64-v3 -mprefer-vector-width=256 -mtune=skylake "
-export CXXFLAGS="$CXXFLAGS -O3 -Ofast -Wl,-z,x86-64-v3 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86-64-v3 -mprefer-vector-width=256 -mtune=skylake "
+export CFLAGS="$CFLAGS -O3 -Ofast -Wl,-z,x86-64-v3 -falign-functions=32 -fno-lto -fno-semantic-interposition -march=x86-64-v3 -mprefer-vector-width=256 -msse2avx -mtune=skylake "
+export FCFLAGS="$FFLAGS -O3 -Ofast -Wl,-z,x86-64-v3 -falign-functions=32 -fno-lto -fno-semantic-interposition -march=x86-64-v3 -mprefer-vector-width=256 -msse2avx -mtune=skylake "
+export FFLAGS="$FFLAGS -O3 -Ofast -Wl,-z,x86-64-v3 -falign-functions=32 -fno-lto -fno-semantic-interposition -march=x86-64-v3 -mprefer-vector-width=256 -msse2avx -mtune=skylake "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -Wl,-z,x86-64-v3 -falign-functions=32 -fno-lto -fno-semantic-interposition -march=x86-64-v3 -mprefer-vector-width=256 -msse2avx -mtune=skylake "
 export CFLAGS="$CFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
 export CXXFLAGS="$CXXFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
 export FFLAGS="$FFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
@@ -275,10 +275,10 @@ popd
 mkdir -p clr-build-avx512
 pushd clr-build-avx512
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -O3 -Ofast -Wl,-z,x86-64-v4 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86_64-v4 -mprefer-vector-width=256 -mtune=skylake "
-export FCFLAGS="$FFLAGS -O3 -Ofast -Wl,-z,x86-64-v4 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86_64-v4 -mprefer-vector-width=256 -mtune=skylake "
-export FFLAGS="$FFLAGS -O3 -Ofast -Wl,-z,x86-64-v4 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86_64-v4 -mprefer-vector-width=256 -mtune=skylake "
-export CXXFLAGS="$CXXFLAGS -O3 -Ofast -Wl,-z,x86-64-v4 -falign-functions=32 -fno-lto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=x86_64-v4 -mprefer-vector-width=256 -mtune=skylake "
+export CFLAGS="$CFLAGS -O3 -Ofast -Wl,-z,x86-64-v4 -falign-functions=32 -fno-lto -fno-semantic-interposition -march=x86_64-v4 -mprefer-vector-width=256 -msse2avx -mtune=skylake "
+export FCFLAGS="$FFLAGS -O3 -Ofast -Wl,-z,x86-64-v4 -falign-functions=32 -fno-lto -fno-semantic-interposition -march=x86_64-v4 -mprefer-vector-width=256 -msse2avx -mtune=skylake "
+export FFLAGS="$FFLAGS -O3 -Ofast -Wl,-z,x86-64-v4 -falign-functions=32 -fno-lto -fno-semantic-interposition -march=x86_64-v4 -mprefer-vector-width=256 -msse2avx -mtune=skylake "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -Wl,-z,x86-64-v4 -falign-functions=32 -fno-lto -fno-semantic-interposition -march=x86_64-v4 -mprefer-vector-width=256 -msse2avx -mtune=skylake "
 export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
@@ -327,29 +327,29 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1663375177
+export SOURCE_DATE_EPOCH=1664927851
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
-cp %{_builddir}/opencv-%{version}/3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/ec4468ecfe59c46406d4fc5aca1cee2a83c4d93e
-cp %{_builddir}/opencv-%{version}/3rdparty/ffmpeg/license.txt %{buildroot}/usr/share/package-licenses/opencv/0aacebb8a54d52a40db8d2d449eceb42f66e198b
-cp %{_builddir}/opencv-%{version}/3rdparty/include/opencl/LICENSE.txt %{buildroot}/usr/share/package-licenses/opencv/7235f6784b4eae4c40a259dcecc7a20e6c487263
-cp %{_builddir}/opencv-%{version}/3rdparty/ittnotify/src/ittnotify/LICENSE.BSD %{buildroot}/usr/share/package-licenses/opencv/4f83a9480069279bc79a7af6990b9a546a1d0c02
-cp %{_builddir}/opencv-%{version}/3rdparty/ittnotify/src/ittnotify/LICENSE.GPL %{buildroot}/usr/share/package-licenses/opencv/49709bd29acf27e87953e37e63bb68373347a805
-cp %{_builddir}/opencv-%{version}/3rdparty/libjasper/LICENSE %{buildroot}/usr/share/package-licenses/opencv/14b5d0210560128e1a5d5204698cf705011ef792
-cp %{_builddir}/opencv-%{version}/3rdparty/libjasper/copyright %{buildroot}/usr/share/package-licenses/opencv/a6c8c1690157753de298c1ea2a66a2400d1ab5a3
-cp %{_builddir}/opencv-%{version}/3rdparty/libjpeg-turbo/LICENSE.md %{buildroot}/usr/share/package-licenses/opencv/86ef6dd8ea5818778ae1a6a709eddc8e3c12614f
-cp %{_builddir}/opencv-%{version}/3rdparty/libpng/LICENSE %{buildroot}/usr/share/package-licenses/opencv/fc3951ba26fe1914759f605696a1d23e3b41766f
-cp %{_builddir}/opencv-%{version}/3rdparty/libtiff/COPYRIGHT %{buildroot}/usr/share/package-licenses/opencv/a2f64f2a85f5fd34bda8eb713c3aad008adbb589
-cp %{_builddir}/opencv-%{version}/3rdparty/libwebp/COPYING %{buildroot}/usr/share/package-licenses/opencv/59cd938fcbd6735b1ef91781280d6eb6c4b7c5d9
-cp %{_builddir}/opencv-%{version}/3rdparty/openexr/LICENSE %{buildroot}/usr/share/package-licenses/opencv/72f59fbac43fa1a7f0607d7fdba747832e626656
-cp %{_builddir}/opencv-%{version}/3rdparty/openjpeg/LICENSE %{buildroot}/usr/share/package-licenses/opencv/a1a529b822da257f69972ea711df38489e9d4251
-cp %{_builddir}/opencv-%{version}/3rdparty/protobuf/LICENSE %{buildroot}/usr/share/package-licenses/opencv/1b5a14d06dd784e88dadc5c68344be2dc13875b6
-cp %{_builddir}/opencv-%{version}/3rdparty/quirc/LICENSE %{buildroot}/usr/share/package-licenses/opencv/eaa22397809541edc6c7678716c4929f4977ee32
-cp %{_builddir}/opencv-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/opencv/2b8b815229aa8a61e483fb4ba0588b8b6c491890
-cp %{_builddir}/opencv-%{version}/doc/LICENSE_BSD.txt %{buildroot}/usr/share/package-licenses/opencv/13afd4683100a8df1656137a1957db39e9f6f3bf
-cp %{_builddir}/opencv-%{version}/doc/LICENSE_CHANGE_NOTICE.txt %{buildroot}/usr/share/package-licenses/opencv/18594b1d48529dc2c3d414eef7eb8da646f2369e
-cp %{_builddir}/opencv-%{version}/modules/core/3rdparty/SoftFloat/COPYING.txt %{buildroot}/usr/share/package-licenses/opencv/91a334a8403de4f677844cfcf4067720be0bb802
-cp %{_builddir}/opencv-%{version}/modules/dnn/src/torch/COPYRIGHT.txt %{buildroot}/usr/share/package-licenses/opencv/99d45ca0d503d7988a486e0d4f95058f89e14115
+cp %{_builddir}/opencv-%{version}/3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/ec4468ecfe59c46406d4fc5aca1cee2a83c4d93e || :
+cp %{_builddir}/opencv-%{version}/3rdparty/ffmpeg/license.txt %{buildroot}/usr/share/package-licenses/opencv/0aacebb8a54d52a40db8d2d449eceb42f66e198b || :
+cp %{_builddir}/opencv-%{version}/3rdparty/include/opencl/LICENSE.txt %{buildroot}/usr/share/package-licenses/opencv/7235f6784b4eae4c40a259dcecc7a20e6c487263 || :
+cp %{_builddir}/opencv-%{version}/3rdparty/ittnotify/src/ittnotify/LICENSE.BSD %{buildroot}/usr/share/package-licenses/opencv/4f83a9480069279bc79a7af6990b9a546a1d0c02 || :
+cp %{_builddir}/opencv-%{version}/3rdparty/ittnotify/src/ittnotify/LICENSE.GPL %{buildroot}/usr/share/package-licenses/opencv/49709bd29acf27e87953e37e63bb68373347a805 || :
+cp %{_builddir}/opencv-%{version}/3rdparty/libjasper/LICENSE %{buildroot}/usr/share/package-licenses/opencv/14b5d0210560128e1a5d5204698cf705011ef792 || :
+cp %{_builddir}/opencv-%{version}/3rdparty/libjasper/copyright %{buildroot}/usr/share/package-licenses/opencv/a6c8c1690157753de298c1ea2a66a2400d1ab5a3 || :
+cp %{_builddir}/opencv-%{version}/3rdparty/libjpeg-turbo/LICENSE.md %{buildroot}/usr/share/package-licenses/opencv/86ef6dd8ea5818778ae1a6a709eddc8e3c12614f || :
+cp %{_builddir}/opencv-%{version}/3rdparty/libpng/LICENSE %{buildroot}/usr/share/package-licenses/opencv/fc3951ba26fe1914759f605696a1d23e3b41766f || :
+cp %{_builddir}/opencv-%{version}/3rdparty/libtiff/COPYRIGHT %{buildroot}/usr/share/package-licenses/opencv/a2f64f2a85f5fd34bda8eb713c3aad008adbb589 || :
+cp %{_builddir}/opencv-%{version}/3rdparty/libwebp/COPYING %{buildroot}/usr/share/package-licenses/opencv/59cd938fcbd6735b1ef91781280d6eb6c4b7c5d9 || :
+cp %{_builddir}/opencv-%{version}/3rdparty/openexr/LICENSE %{buildroot}/usr/share/package-licenses/opencv/72f59fbac43fa1a7f0607d7fdba747832e626656 || :
+cp %{_builddir}/opencv-%{version}/3rdparty/openjpeg/LICENSE %{buildroot}/usr/share/package-licenses/opencv/a1a529b822da257f69972ea711df38489e9d4251 || :
+cp %{_builddir}/opencv-%{version}/3rdparty/protobuf/LICENSE %{buildroot}/usr/share/package-licenses/opencv/1b5a14d06dd784e88dadc5c68344be2dc13875b6 || :
+cp %{_builddir}/opencv-%{version}/3rdparty/quirc/LICENSE %{buildroot}/usr/share/package-licenses/opencv/eaa22397809541edc6c7678716c4929f4977ee32 || :
+cp %{_builddir}/opencv-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/opencv/2b8b815229aa8a61e483fb4ba0588b8b6c491890 || :
+cp %{_builddir}/opencv-%{version}/doc/LICENSE_BSD.txt %{buildroot}/usr/share/package-licenses/opencv/13afd4683100a8df1656137a1957db39e9f6f3bf || :
+cp %{_builddir}/opencv-%{version}/doc/LICENSE_CHANGE_NOTICE.txt %{buildroot}/usr/share/package-licenses/opencv/18594b1d48529dc2c3d414eef7eb8da646f2369e || :
+cp %{_builddir}/opencv-%{version}/modules/core/3rdparty/SoftFloat/COPYING.txt %{buildroot}/usr/share/package-licenses/opencv/91a334a8403de4f677844cfcf4067720be0bb802 || :
+cp %{_builddir}/opencv-%{version}/modules/dnn/src/torch/COPYRIGHT.txt %{buildroot}/usr/share/package-licenses/opencv/99d45ca0d503d7988a486e0d4f95058f89e14115 || :
 pushd clr-build-avx2
 %make_install_v3  || :
 popd
