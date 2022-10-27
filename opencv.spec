@@ -47,7 +47,6 @@ BuildRequires : ocl-icd-dev
 BuildRequires : oneVPL-dev
 BuildRequires : openblas
 BuildRequires : opencl-headers-dev
-BuildRequires : opencv-dev
 BuildRequires : openjdk
 BuildRequires : openjdk-dev
 BuildRequires : openjpeg
