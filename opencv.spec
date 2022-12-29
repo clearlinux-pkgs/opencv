@@ -62,9 +62,6 @@ BuildRequires : python3-dev
 BuildRequires : tbb-dev
 BuildRequires : v4l-utils-dev
 BuildRequires : zlib-dev
-# Suppress stripping binaries
-%define __strip /bin/true
-%define debug_package %{nil}
 
 %description
 A demo of the Java wrapper for OpenCV with two examples:
