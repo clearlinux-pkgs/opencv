@@ -6,7 +6,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.7.0
-Release  : 171
+Release  : 172
 URL      : https://github.com/opencv/opencv/archive/4.7.0/opencv-4.7.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.7.0/opencv-4.7.0.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -14,7 +14,6 @@ Group    : Development/Tools
 License  : Apache-2.0 BSD-2-Clause BSD-3-Clause GPL-2.0 HPND JasPer-2.0 LGPL-2.1 Libpng MIT libtiff
 Requires: opencv-bin = %{version}-%{release}
 Requires: opencv-data = %{version}-%{release}
-Requires: opencv-filemap = %{version}-%{release}
 Requires: opencv-lib = %{version}-%{release}
 Requires: opencv-license = %{version}-%{release}
 Requires: opencv-python = %{version}-%{release}
@@ -76,7 +75,6 @@ Summary: bin components for the opencv package.
 Group: Binaries
 Requires: opencv-data = %{version}-%{release}
 Requires: opencv-license = %{version}-%{release}
-Requires: opencv-filemap = %{version}-%{release}
 
 %description bin
 bin components for the opencv package.
@@ -111,20 +109,11 @@ Group: Default
 extras-testing components for the opencv package.
 
 
-%package filemap
-Summary: filemap components for the opencv package.
-Group: Default
-
-%description filemap
-filemap components for the opencv package.
-
-
 %package lib
 Summary: lib components for the opencv package.
 Group: Libraries
 Requires: opencv-data = %{version}-%{release}
 Requires: opencv-license = %{version}-%{release}
-Requires: opencv-filemap = %{version}-%{release}
 
 %description lib
 lib components for the opencv package.
@@ -150,7 +139,6 @@ python components for the opencv package.
 %package python3
 Summary: python3 components for the opencv package.
 Group: Default
-Requires: opencv-filemap = %{version}-%{release}
 Requires: python3-core
 Requires: pypi(numpy)
 
@@ -167,7 +155,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1680804258
+export SOURCE_DATE_EPOCH=1683068471
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -326,7 +314,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1680804258
+export SOURCE_DATE_EPOCH=1683068471
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
 cp %{_builddir}/opencv-%{version}/3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/ec4468ecfe59c46406d4fc5aca1cee2a83c4d93e || :
@@ -372,13 +360,22 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 
 %files bin
 %defattr(-,root,root,-)
+/V3/usr/bin/opencv_annotation
+/V3/usr/bin/opencv_interactive-calibration
+/V3/usr/bin/opencv_model_diagnostics
+/V3/usr/bin/opencv_version
+/V3/usr/bin/opencv_visualisation
+/V4/usr/bin/opencv_annotation
+/V4/usr/bin/opencv_interactive-calibration
+/V4/usr/bin/opencv_model_diagnostics
+/V4/usr/bin/opencv_version
+/V4/usr/bin/opencv_visualisation
 /usr/bin/opencv_annotation
 /usr/bin/opencv_interactive-calibration
 /usr/bin/opencv_model_diagnostics
 /usr/bin/opencv_version
 /usr/bin/opencv_visualisation
 /usr/bin/setup_vars_opencv4.sh
-/usr/share/clear/optimized-elf/bin*
 
 %files data
 %defattr(-,root,root,-)
@@ -679,6 +676,34 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 
 %files dev
 %defattr(-,root,root,-)
+/V3/usr/lib64/libopencv_calib3d.so
+/V3/usr/lib64/libopencv_core.so
+/V3/usr/lib64/libopencv_dnn.so
+/V3/usr/lib64/libopencv_features2d.so
+/V3/usr/lib64/libopencv_flann.so
+/V3/usr/lib64/libopencv_highgui.so
+/V3/usr/lib64/libopencv_imgcodecs.so
+/V3/usr/lib64/libopencv_imgproc.so
+/V3/usr/lib64/libopencv_ml.so
+/V3/usr/lib64/libopencv_objdetect.so
+/V3/usr/lib64/libopencv_photo.so
+/V3/usr/lib64/libopencv_stitching.so
+/V3/usr/lib64/libopencv_video.so
+/V3/usr/lib64/libopencv_videoio.so
+/V4/usr/lib64/libopencv_calib3d.so
+/V4/usr/lib64/libopencv_core.so
+/V4/usr/lib64/libopencv_dnn.so
+/V4/usr/lib64/libopencv_features2d.so
+/V4/usr/lib64/libopencv_flann.so
+/V4/usr/lib64/libopencv_highgui.so
+/V4/usr/lib64/libopencv_imgcodecs.so
+/V4/usr/lib64/libopencv_imgproc.so
+/V4/usr/lib64/libopencv_ml.so
+/V4/usr/lib64/libopencv_objdetect.so
+/V4/usr/lib64/libopencv_photo.so
+/V4/usr/lib64/libopencv_stitching.so
+/V4/usr/lib64/libopencv_video.so
+/V4/usr/lib64/libopencv_videoio.so
 /usr/include/opencv4/opencv2/calib3d.hpp
 /usr/include/opencv4/opencv2/calib3d/calib3d.hpp
 /usr/include/opencv4/opencv2/calib3d/calib3d_c.h
@@ -930,34 +955,6 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/lib64/cmake/opencv4/OpenCVConfig.cmake
 /usr/lib64/cmake/opencv4/OpenCVModules-releasewithdebinfo.cmake
 /usr/lib64/cmake/opencv4/OpenCVModules.cmake
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_calib3d.so
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_core.so
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_dnn.so
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_features2d.so
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_flann.so
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_highgui.so
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_imgcodecs.so
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_imgproc.so
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_ml.so
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_objdetect.so
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_photo.so
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_stitching.so
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_video.so
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_videoio.so
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_calib3d.so
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_core.so
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_dnn.so
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_features2d.so
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_flann.so
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_highgui.so
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_imgcodecs.so
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_imgproc.so
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_ml.so
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_objdetect.so
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_photo.so
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_stitching.so
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_video.so
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_videoio.so
 /usr/lib64/libopencv_calib3d.so
 /usr/lib64/libopencv_core.so
 /usr/lib64/libopencv_dnn.so
@@ -977,6 +974,56 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 
 %files extras-testing
 %defattr(-,root,root,-)
+/V3/usr/bin/opencv_perf_calib3d
+/V3/usr/bin/opencv_perf_core
+/V3/usr/bin/opencv_perf_dnn
+/V3/usr/bin/opencv_perf_features2d
+/V3/usr/bin/opencv_perf_imgcodecs
+/V3/usr/bin/opencv_perf_imgproc
+/V3/usr/bin/opencv_perf_objdetect
+/V3/usr/bin/opencv_perf_photo
+/V3/usr/bin/opencv_perf_stitching
+/V3/usr/bin/opencv_perf_video
+/V3/usr/bin/opencv_perf_videoio
+/V3/usr/bin/opencv_test_calib3d
+/V3/usr/bin/opencv_test_core
+/V3/usr/bin/opencv_test_dnn
+/V3/usr/bin/opencv_test_features2d
+/V3/usr/bin/opencv_test_flann
+/V3/usr/bin/opencv_test_highgui
+/V3/usr/bin/opencv_test_imgcodecs
+/V3/usr/bin/opencv_test_imgproc
+/V3/usr/bin/opencv_test_ml
+/V3/usr/bin/opencv_test_objdetect
+/V3/usr/bin/opencv_test_photo
+/V3/usr/bin/opencv_test_stitching
+/V3/usr/bin/opencv_test_video
+/V3/usr/bin/opencv_test_videoio
+/V4/usr/bin/opencv_perf_calib3d
+/V4/usr/bin/opencv_perf_core
+/V4/usr/bin/opencv_perf_dnn
+/V4/usr/bin/opencv_perf_features2d
+/V4/usr/bin/opencv_perf_imgcodecs
+/V4/usr/bin/opencv_perf_imgproc
+/V4/usr/bin/opencv_perf_objdetect
+/V4/usr/bin/opencv_perf_photo
+/V4/usr/bin/opencv_perf_stitching
+/V4/usr/bin/opencv_perf_video
+/V4/usr/bin/opencv_perf_videoio
+/V4/usr/bin/opencv_test_calib3d
+/V4/usr/bin/opencv_test_core
+/V4/usr/bin/opencv_test_dnn
+/V4/usr/bin/opencv_test_features2d
+/V4/usr/bin/opencv_test_flann
+/V4/usr/bin/opencv_test_highgui
+/V4/usr/bin/opencv_test_imgcodecs
+/V4/usr/bin/opencv_test_imgproc
+/V4/usr/bin/opencv_test_ml
+/V4/usr/bin/opencv_test_objdetect
+/V4/usr/bin/opencv_test_photo
+/V4/usr/bin/opencv_test_stitching
+/V4/usr/bin/opencv_test_video
+/V4/usr/bin/opencv_test_videoio
 /usr/bin/opencv_perf_calib3d
 /usr/bin/opencv_perf_core
 /usr/bin/opencv_perf_dnn
@@ -1003,68 +1050,64 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/bin/opencv_test_video
 /usr/bin/opencv_test_videoio
 
-%files filemap
-%defattr(-,root,root,-)
-/usr/share/clear/filemap/filemap-opencv
-
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_calib3d.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_calib3d.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_core.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_core.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_dnn.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_dnn.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_features2d.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_features2d.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_flann.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_flann.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_highgui.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_highgui.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_imgcodecs.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_imgcodecs.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_imgproc.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_imgproc.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_ml.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_ml.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_objdetect.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_objdetect.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_photo.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_photo.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_stitching.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_stitching.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_video.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_video.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_videoio.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v3/libopencv_videoio.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_calib3d.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_calib3d.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_core.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_core.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_dnn.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_dnn.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_features2d.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_features2d.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_flann.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_flann.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_highgui.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_highgui.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_imgcodecs.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_imgcodecs.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_imgproc.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_imgproc.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_ml.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_ml.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_objdetect.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_objdetect.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_photo.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_photo.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_stitching.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_stitching.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_video.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_video.so.407
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_videoio.so.4.7.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libopencv_videoio.so.407
+/V3/usr/lib64/libopencv_calib3d.so.4.7.0
+/V3/usr/lib64/libopencv_calib3d.so.407
+/V3/usr/lib64/libopencv_core.so.4.7.0
+/V3/usr/lib64/libopencv_core.so.407
+/V3/usr/lib64/libopencv_dnn.so.4.7.0
+/V3/usr/lib64/libopencv_dnn.so.407
+/V3/usr/lib64/libopencv_features2d.so.4.7.0
+/V3/usr/lib64/libopencv_features2d.so.407
+/V3/usr/lib64/libopencv_flann.so.4.7.0
+/V3/usr/lib64/libopencv_flann.so.407
+/V3/usr/lib64/libopencv_highgui.so.4.7.0
+/V3/usr/lib64/libopencv_highgui.so.407
+/V3/usr/lib64/libopencv_imgcodecs.so.4.7.0
+/V3/usr/lib64/libopencv_imgcodecs.so.407
+/V3/usr/lib64/libopencv_imgproc.so.4.7.0
+/V3/usr/lib64/libopencv_imgproc.so.407
+/V3/usr/lib64/libopencv_ml.so.4.7.0
+/V3/usr/lib64/libopencv_ml.so.407
+/V3/usr/lib64/libopencv_objdetect.so.4.7.0
+/V3/usr/lib64/libopencv_objdetect.so.407
+/V3/usr/lib64/libopencv_photo.so.4.7.0
+/V3/usr/lib64/libopencv_photo.so.407
+/V3/usr/lib64/libopencv_stitching.so.4.7.0
+/V3/usr/lib64/libopencv_stitching.so.407
+/V3/usr/lib64/libopencv_video.so.4.7.0
+/V3/usr/lib64/libopencv_video.so.407
+/V3/usr/lib64/libopencv_videoio.so.4.7.0
+/V3/usr/lib64/libopencv_videoio.so.407
+/V4/usr/lib64/libopencv_calib3d.so.4.7.0
+/V4/usr/lib64/libopencv_calib3d.so.407
+/V4/usr/lib64/libopencv_core.so.4.7.0
+/V4/usr/lib64/libopencv_core.so.407
+/V4/usr/lib64/libopencv_dnn.so.4.7.0
+/V4/usr/lib64/libopencv_dnn.so.407
+/V4/usr/lib64/libopencv_features2d.so.4.7.0
+/V4/usr/lib64/libopencv_features2d.so.407
+/V4/usr/lib64/libopencv_flann.so.4.7.0
+/V4/usr/lib64/libopencv_flann.so.407
+/V4/usr/lib64/libopencv_highgui.so.4.7.0
+/V4/usr/lib64/libopencv_highgui.so.407
+/V4/usr/lib64/libopencv_imgcodecs.so.4.7.0
+/V4/usr/lib64/libopencv_imgcodecs.so.407
+/V4/usr/lib64/libopencv_imgproc.so.4.7.0
+/V4/usr/lib64/libopencv_imgproc.so.407
+/V4/usr/lib64/libopencv_ml.so.4.7.0
+/V4/usr/lib64/libopencv_ml.so.407
+/V4/usr/lib64/libopencv_objdetect.so.4.7.0
+/V4/usr/lib64/libopencv_objdetect.so.407
+/V4/usr/lib64/libopencv_photo.so.4.7.0
+/V4/usr/lib64/libopencv_photo.so.407
+/V4/usr/lib64/libopencv_stitching.so.4.7.0
+/V4/usr/lib64/libopencv_stitching.so.407
+/V4/usr/lib64/libopencv_video.so.4.7.0
+/V4/usr/lib64/libopencv_video.so.407
+/V4/usr/lib64/libopencv_videoio.so.4.7.0
+/V4/usr/lib64/libopencv_videoio.so.407
 /usr/lib64/libopencv_calib3d.so.4.7.0
 /usr/lib64/libopencv_calib3d.so.407
 /usr/lib64/libopencv_core.so.4.7.0
@@ -1093,7 +1136,6 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/lib64/libopencv_video.so.407
 /usr/lib64/libopencv_videoio.so.4.7.0
 /usr/lib64/libopencv_videoio.so.407
-/usr/share/clear/optimized-elf/other*
 
 %files license
 %defattr(0644,root,root,0755)
@@ -1124,4 +1166,6 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 
 %files python3
 %defattr(-,root,root,-)
+/V3/usr/lib/python3*/*
+/V4/usr/lib/python3*/*
 /usr/lib/python3*/*
