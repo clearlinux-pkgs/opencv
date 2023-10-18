@@ -8,7 +8,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.8.1
-Release  : 174
+Release  : 175
 URL      : https://github.com/opencv/opencv/archive/4.8.1/opencv-4.8.1.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.8.1/opencv-4.8.1.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -209,7 +209,7 @@ LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
 -DINSTALL_C_EXAMPLES=ON \
 -DINSTALL_PYTHON_EXAMPLES=OFF \
 -DBUILD_JAVA=ON \
--DOPENCV_PYTHON_INSTALL_PATH=/usr/lib/python3.11/site-packages/ \
+-DOPENCV_PYTHON_INSTALL_PATH=/usr/lib/python3.12/site-packages/ \
 -DOPENCV_GENERATE_PKGCONFIG=ON \
 -DOPENCV_CONFIG_INSTALL_PATH=lib64/cmake/opencv4
 CFLAGS="${CFLAGS_GENERATE}" CXXFLAGS="${CXXFLAGS_GENERATE}" FFLAGS="${FFLAGS_GENERATE}" FCFLAGS="${FCFLAGS_GENERATE}" LDFLAGS="${LDFLAGS_GENERATE}"
@@ -279,7 +279,7 @@ FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
 -DINSTALL_C_EXAMPLES=ON \
 -DINSTALL_PYTHON_EXAMPLES=OFF \
 -DBUILD_JAVA=ON \
--DOPENCV_PYTHON_INSTALL_PATH=/usr/lib/python3.11/site-packages/ \
+-DOPENCV_PYTHON_INSTALL_PATH=/usr/lib/python3.12/site-packages/ \
 -DOPENCV_GENERATE_PKGCONFIG=ON \
 -DOPENCV_CONFIG_INSTALL_PATH=lib64/cmake/opencv4
 make  %{?_smp_mflags}
@@ -338,7 +338,7 @@ FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS -march=x86-64-v4 -m64 "
 -DINSTALL_C_EXAMPLES=ON \
 -DINSTALL_PYTHON_EXAMPLES=OFF \
 -DBUILD_JAVA=ON \
--DOPENCV_PYTHON_INSTALL_PATH=/usr/lib/python3.11/site-packages/ \
+-DOPENCV_PYTHON_INSTALL_PATH=/usr/lib/python3.12/site-packages/ \
 -DOPENCV_GENERATE_PKGCONFIG=ON \
 -DOPENCV_CONFIG_INSTALL_PATH=lib64/cmake/opencv4
 make  %{?_smp_mflags}
