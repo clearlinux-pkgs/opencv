@@ -8,7 +8,7 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.9.0
-Release  : 178
+Release  : 179
 URL      : https://github.com/opencv/opencv/archive/4.9.0/opencv-4.9.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.9.0/opencv-4.9.0.tar.gz
 Summary  : Open Source Computer Vision Library
@@ -161,7 +161,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1708641017
+export SOURCE_DATE_EPOCH=1708643583
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -193,7 +193,6 @@ export GOAMD64=v2
 -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo \
 -DCMAKE_INSTALL_LIBDIR:PATH=lib64 \
 -DCPU_DISPATCH=AVX,AVX2,AVX512_SKX \
--DENABLE_SSE42=ON \
 -DINSTALL_C_EXAMPLES=ON \
 -DINSTALL_PYTHON_EXAMPLES=OFF \
 -DINSTALL_TESTS=ON \
@@ -262,7 +261,6 @@ FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS -march=x86-64-v3 "
 -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo \
 -DCMAKE_INSTALL_LIBDIR:PATH=lib64 \
 -DCPU_DISPATCH=AVX,AVX2,AVX512_SKX \
--DENABLE_SSE42=ON \
 -DINSTALL_C_EXAMPLES=ON \
 -DINSTALL_PYTHON_EXAMPLES=OFF \
 -DINSTALL_TESTS=ON \
@@ -320,7 +318,6 @@ FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS -march=x86-64-v4 -mprefer-vector-width=512 
 -DCMAKE_BUILD_TYPE=ReleaseWithDebInfo \
 -DCMAKE_INSTALL_LIBDIR:PATH=lib64 \
 -DCPU_DISPATCH=AVX,AVX2,AVX512_SKX \
--DENABLE_SSE42=ON \
 -DINSTALL_C_EXAMPLES=ON \
 -DINSTALL_PYTHON_EXAMPLES=OFF \
 -DINSTALL_TESTS=ON \
@@ -366,7 +363,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1708641017
+export SOURCE_DATE_EPOCH=1708643583
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
 cp %{_builddir}/opencv-%{version}/3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/ec4468ecfe59c46406d4fc5aca1cee2a83c4d93e || :
