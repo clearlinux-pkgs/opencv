@@ -8,12 +8,12 @@
 %define keepstatic 1
 Name     : opencv
 Version  : 4.10.0
-Release  : 182
+Release  : 183
 URL      : https://github.com/opencv/opencv/archive/4.10.0/opencv-4.10.0.tar.gz
 Source0  : https://github.com/opencv/opencv/archive/4.10.0/opencv-4.10.0.tar.gz
 Summary  : Open Source Computer Vision Library
 Group    : Development/Tools
-License  : Apache-2.0 BSD-2-Clause BSD-3-Clause GPL-2.0 HPND JasPer-2.0 LGPL-2.1 MIT Zlib libtiff
+License  : Apache-2.0 BSD-2-Clause BSD-3-Clause GPL-2.0 HPND JasPer-2.0 LGPL-2.1 MIT Zlib libpng-2.0 libtiff
 Requires: opencv-bin = %{version}-%{release}
 Requires: opencv-data = %{version}-%{release}
 Requires: opencv-lib = %{version}-%{release}
@@ -168,7 +168,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1725997701
+export SOURCE_DATE_EPOCH=1726012654
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -374,7 +374,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1725997701
+export SOURCE_DATE_EPOCH=1726012654
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opencv
 cp %{_builddir}/opencv-%{version}/3rdparty/cpufeatures/LICENSE %{buildroot}/usr/share/package-licenses/opencv/ec4468ecfe59c46406d4fc5aca1cee2a83c4d93e || :
@@ -386,6 +386,7 @@ cp %{_builddir}/opencv-%{version}/3rdparty/ittnotify/src/ittnotify/LICENSE.GPL %
 cp %{_builddir}/opencv-%{version}/3rdparty/libjasper/LICENSE %{buildroot}/usr/share/package-licenses/opencv/14b5d0210560128e1a5d5204698cf705011ef792 || :
 cp %{_builddir}/opencv-%{version}/3rdparty/libjasper/copyright %{buildroot}/usr/share/package-licenses/opencv/a6c8c1690157753de298c1ea2a66a2400d1ab5a3 || :
 cp %{_builddir}/opencv-%{version}/3rdparty/libjpeg-turbo/LICENSE.md %{buildroot}/usr/share/package-licenses/opencv/aac9f4502a4eee59766f931d061b764e3f27dbc8 || :
+cp %{_builddir}/opencv-%{version}/3rdparty/libpng/LICENSE %{buildroot}/usr/share/package-licenses/opencv/570f5344ea5facacb5e0bbb3fe4e0674189a5f0e || :
 cp %{_builddir}/opencv-%{version}/3rdparty/libspng/LICENSE %{buildroot}/usr/share/package-licenses/opencv/12a5f1dd4c67d70bf086603734d54534c4cd7bc1 || :
 cp %{_builddir}/opencv-%{version}/3rdparty/libtiff/COPYRIGHT %{buildroot}/usr/share/package-licenses/opencv/a2f64f2a85f5fd34bda8eb713c3aad008adbb589 || :
 cp %{_builddir}/opencv-%{version}/3rdparty/libwebp/COPYING %{buildroot}/usr/share/package-licenses/opencv/59cd938fcbd6735b1ef91781280d6eb6c4b7c5d9 || :
@@ -400,6 +401,7 @@ cp %{_builddir}/opencv-%{version}/doc/LICENSE_BSD.txt %{buildroot}/usr/share/pac
 cp %{_builddir}/opencv-%{version}/doc/LICENSE_CHANGE_NOTICE.txt %{buildroot}/usr/share/package-licenses/opencv/5a2d6cc49c50a91c3021a3ce5318e7993cb4ba33 || :
 cp %{_builddir}/opencv-%{version}/modules/core/3rdparty/SoftFloat/COPYING.txt %{buildroot}/usr/share/package-licenses/opencv/91a334a8403de4f677844cfcf4067720be0bb802 || :
 cp %{_builddir}/opencv-%{version}/modules/dnn/src/torch/COPYRIGHT.txt %{buildroot}/usr/share/package-licenses/opencv/99d45ca0d503d7988a486e0d4f95058f89e14115 || :
+cp %{_builddir}/opencv-%{version}/modules/features2d/3rdparty/mscr/chi_table_LICENSE.txt %{buildroot}/usr/share/package-licenses/opencv/ca4bd841435efc22a3e791db431cec5c5ba6cf7c || :
 cp %{_builddir}/opencv-%{version}/modules/gapi/src/3rdparty/vasot/LICENSE.txt %{buildroot}/usr/share/package-licenses/opencv/df664adb85c4c1a1530af867e932c843d3a493c1 || :
 cp %{_builddir}/opencv-%{version}/modules/highgui/src/files_Qt/Material/LICENSE %{buildroot}/usr/share/package-licenses/opencv/7df059597099bb7dcf25d2a9aedfaf4465f72d8d || :
 export GOAMD64=v2
@@ -423,6 +425,9 @@ popd
 # A bad idea but this will allow things that use pkgconfig to use opencv4
 # Probably remove at some point once software updates build detection for new upstream release
 cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/opencv.pc
+
+# Install Python dist contents including egg-info
+python3 modules/python/package/setup.py install --root=%{buildroot}
 ## install_append end
 /usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 /usr/bin/elf-move.py avx512 %{buildroot}-v4 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
@@ -1181,6 +1186,7 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/share/package-licenses/opencv/2b8b815229aa8a61e483fb4ba0588b8b6c491890
 /usr/share/package-licenses/opencv/49709bd29acf27e87953e37e63bb68373347a805
 /usr/share/package-licenses/opencv/4f83a9480069279bc79a7af6990b9a546a1d0c02
+/usr/share/package-licenses/opencv/570f5344ea5facacb5e0bbb3fe4e0674189a5f0e
 /usr/share/package-licenses/opencv/59cd938fcbd6735b1ef91781280d6eb6c4b7c5d9
 /usr/share/package-licenses/opencv/5a2d6cc49c50a91c3021a3ce5318e7993cb4ba33
 /usr/share/package-licenses/opencv/7235f6784b4eae4c40a259dcecc7a20e6c487263
@@ -1192,6 +1198,7 @@ cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/
 /usr/share/package-licenses/opencv/a2f64f2a85f5fd34bda8eb713c3aad008adbb589
 /usr/share/package-licenses/opencv/a6c8c1690157753de298c1ea2a66a2400d1ab5a3
 /usr/share/package-licenses/opencv/aac9f4502a4eee59766f931d061b764e3f27dbc8
+/usr/share/package-licenses/opencv/ca4bd841435efc22a3e791db431cec5c5ba6cf7c
 /usr/share/package-licenses/opencv/df664adb85c4c1a1530af867e932c843d3a493c1
 /usr/share/package-licenses/opencv/eaa22397809541edc6c7678716c4929f4977ee32
 /usr/share/package-licenses/opencv/ec4468ecfe59c46406d4fc5aca1cee2a83c4d93e

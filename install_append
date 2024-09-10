@@ -1,3 +1,6 @@
 # A bad idea but this will allow things that use pkgconfig to use opencv4
 # Probably remove at some point once software updates build detection for new upstream release
 cp %{buildroot}/usr/lib64/pkgconfig/opencv4.pc %{buildroot}/usr/lib64/pkgconfig/opencv.pc
+
+# Install Python dist contents including egg-info
+python3 modules/python/package/setup.py install --root=%{buildroot}
